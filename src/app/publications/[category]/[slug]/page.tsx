@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getArticleBySlug, getRelatedArticles, getPageViewCount } from '../../../../lib/content';
 import TableOfContents from '../../../../components/TableOfContents';
 import ArticleCard from '../../../../components/ArticleCard';
+import HighlightMention from '../../../../components/HighlightMention';
 import Link from 'next/link';
 import { Calendar, Clock, User, Landmark, Quote, ArrowLeft, Eye, Share2, FileText } from 'lucide-react';
 import ViewTracker from './ViewTracker';
@@ -87,6 +88,10 @@ export default async function ArticlePage(props: PageProps) {
     <div className="space-y-10 py-4">
       {/* Client-side View Count Tracker */}
       <ViewTracker slug={article.slug} />
+      {/* Ctrl+F style highlight — activated by ?highlight= URL param from search */}
+      <Suspense fallback={null}>
+        <HighlightMention />
+      </Suspense>
 
       {/* Breadcrumb / Back button */}
       <div className="flex items-center text-xs text-slate-400 dark:text-slate-500">

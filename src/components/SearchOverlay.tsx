@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useEffect, useState, useRef } from 'react';
-import { Search, X, BookOpen, AlertCircle, FileText, Compass } from 'lucide-react';
+import { Search, X, BookOpen, AlertCircle, FileText, Compass, Pin } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useTheme } from './ThemeProvider';
 
 interface SearchResult {
   slug: string;
@@ -25,11 +24,10 @@ export default function SearchOverlay({
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  
+
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
-  // Handle key listeners for opening/closing & navigation
   useEffect(() => {
     if (isOpen) {
       inputRef.current?.focus();
@@ -44,21 +42,18 @@ export default function SearchOverlay({
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
+      if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
-  // Debounced API Search call
+  // Debounced search
   useEffect(() => {
     if (query.trim().length < 2) {
       setResults([]);
       return;
     }
-
     const delayDebounce = setTimeout(async () => {
       setIsLoading(true);
       try {
@@ -74,11 +69,9 @@ export default function SearchOverlay({
         setIsLoading(false);
       }
     }, 250);
-
     return () => clearTimeout(delayDebounce);
   }, [query]);
 
-  // Navigate on arrow keys
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -94,16 +87,27 @@ export default function SearchOverlay({
     }
   };
 
-  const handleSelect = (result: SearchResult) => {
+  const getArticleUrl = (result: SearchResult, withHighlight = false) => {
     const typeMapping: Record<string, string> = {
       judgment: 'judgments',
       policy: 'policies',
       research: 'research',
       opinion: 'opinions',
     };
-    
     const folder = typeMapping[result.type] || 'research';
-    router.push(`/publications/${folder}/${result.slug}`);
+    const base = `/publications/${folder}/${result.slug}`;
+    return withHighlight && query.trim() ? `${base}?highlight=${encodeURIComponent(query.trim())}` : base;
+  };
+
+  const handleSelect = (result: SearchResult) => {
+    router.push(getArticleUrl(result));
+    onClose();
+    setQuery('');
+  };
+
+  const handleJumpToMention = (e: React.MouseEvent, result: SearchResult) => {
+    e.stopPropagation();
+    router.push(getArticleUrl(result, true));
     onClose();
     setQuery('');
   };
@@ -112,11 +116,11 @@ export default function SearchOverlay({
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-slate-900/60 dark:bg-black/80 backdrop-blur-sm transition-opacity">
-      <div 
-        className="w-full max-w-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+      <div
+        className="w-full max-w-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl overflow-hidden"
         onKeyDown={handleKeyDown}
       >
-        {/* Search Input Box */}
+        {/* Search Input */}
         <div className="flex items-center px-4 py-3 border-b border-slate-100 dark:border-slate-800">
           <Search className="w-5 h-5 text-slate-400 mr-3 shrink-0" />
           <input
@@ -127,7 +131,7 @@ export default function SearchOverlay({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <button 
+          <button
             onClick={onClose}
             className="p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 transition"
           >
@@ -136,7 +140,7 @@ export default function SearchOverlay({
         </div>
 
         {/* Results Body */}
-        <div className="max-h-96 overflow-y-auto p-2">
+        <div className="max-h-[28rem] overflow-y-auto p-2">
           {isLoading && (
             <div className="flex items-center justify-center py-8 text-slate-400 space-x-2">
               <div className="w-5 h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
@@ -178,36 +182,61 @@ export default function SearchOverlay({
                 Publications found ({results.length})
               </div>
               {results.map((result, idx) => (
-                <button
+                <div
                   key={result.slug}
-                  onClick={() => handleSelect(result)}
-                  className={`w-full flex items-center justify-between p-3 rounded-lg text-left transition duration-150 ${
+                  className={`rounded-lg transition duration-150 ${
                     idx === selectedIndex
-                      ? 'bg-indigo-50 dark:bg-slate-800/80 border-l-4 border-indigo-600 pl-2 text-indigo-950 dark:text-white'
-                      : 'hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-800 dark:text-slate-200'
+                      ? 'bg-indigo-50 dark:bg-slate-800/80 border-l-4 border-indigo-600'
+                      : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'
                   }`}
                 >
-                  <div className="min-w-0 flex-1">
-                    <span className="text-xs uppercase tracking-wider font-semibold text-indigo-600 dark:text-indigo-400">
-                      {result.type} &bull; {result.category}
-                    </span>
-                    <h4 className="text-sm font-semibold truncate leading-snug mt-0.5">
-                      {result.title}
-                    </h4>
-                    <span className="text-xs text-slate-400 dark:text-slate-500">
-                      By {result.authorName} &bull; {new Date(result.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-                    </span>
-                  </div>
-                  <BookOpen className="w-4 h-4 text-slate-400 opacity-60 ml-3 shrink-0" />
-                </button>
+                  {/* Main article row */}
+                  <button
+                    onClick={() => handleSelect(result)}
+                    className="w-full flex items-center justify-between p-3 text-left"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <span className="text-xs uppercase tracking-wider font-semibold text-indigo-600 dark:text-indigo-400">
+                        {result.type} &bull; {result.category}
+                      </span>
+                      <h4 className={`text-sm font-semibold truncate leading-snug mt-0.5 ${
+                        idx === selectedIndex ? 'text-indigo-950 dark:text-white' : 'text-slate-800 dark:text-slate-200'
+                      }`}>
+                        {result.title}
+                      </h4>
+                      <span className="text-xs text-slate-400 dark:text-slate-500">
+                        By {result.authorName} &bull; {new Date(result.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                      </span>
+                    </div>
+                    <BookOpen className="w-4 h-4 text-slate-400 opacity-60 ml-3 shrink-0" />
+                  </button>
+
+                  {/* Jump to mention button — only shows when there's a search query */}
+                  {query.trim().length >= 2 && (
+                    <div className="px-3 pb-2.5">
+                      <button
+                        onClick={(e) => handleJumpToMention(e, result)}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold
+                          bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400
+                          border border-amber-200/60 dark:border-amber-700/30
+                          hover:bg-amber-100 dark:hover:bg-amber-900/40
+                          transition-all duration-150 group"
+                        title={`Jump to first mention of "${query}" in this article`}
+                      >
+                        <Pin className="w-3 h-3 group-hover:scale-110 transition-transform" />
+                        Jump to &ldquo;{query.trim().length > 20 ? query.trim().slice(0, 20) + '…' : query.trim()}&rdquo; in article →
+                      </button>
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           )}
         </div>
-        
-        {/* Footer info */}
+
+        {/* Footer */}
         <div className="px-4 py-2 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 flex justify-between text-xs text-slate-400">
-          <span>Use <kbd className="px-1 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded">↑↓</kbd> keys to navigate</span>
+          <span>Use <kbd className="px-1 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded">↑↓</kbd> to navigate</span>
           <span>Press <kbd className="px-1 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded">Esc</kbd> to close</span>
         </div>
       </div>
