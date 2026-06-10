@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Landmark, ArrowDown, CheckCircle2 } from 'lucide-react';
+import { Landmark, ArrowDown, CheckCircle2, FileText } from 'lucide-react';
 
 interface FoundersNoteOverlayProps {
   title: string;
@@ -92,7 +92,7 @@ export default function FoundersNoteOverlay({ title, htmlContent }: FoundersNote
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          className="p-6 overflow-y-auto max-h-[60vh] leading-relaxed font-sans text-xs sm:text-sm text-slate-600 dark:text-slate-350 bg-slate-50 dark:bg-slate-950/40"
+          className="p-6 overflow-y-auto max-h-[60vh] leading-relaxed font-sans text-xs sm:text-sm text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-950/40"
         >
           <div className="prose prose-sm dark:prose-invert max-w-none">
             <h3 className="font-serif text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-4">
@@ -123,18 +123,29 @@ export default function FoundersNoteOverlay({ title, htmlContent }: FoundersNote
             )}
           </div>
 
-          {/* Continue button */}
-          <button
-            onClick={handleContinue}
-            disabled={!hasRead}
-            className={`w-full sm:w-auto px-6 py-2.5 rounded-lg text-xs font-bold transition shadow-sm select-none cursor-pointer disabled:cursor-not-allowed disabled:opacity-40
-              /* Light Mode Button Styling: BLACK background */
-              bg-black hover:bg-slate-900 text-white disabled:bg-slate-200 disabled:text-slate-500 
-              /* Dark Mode Button Styling: LIGHT BLUE background */
-              dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-slate-950 dark:disabled:bg-slate-850 dark:disabled:text-slate-600`}
-          >
-            CONTINUE
-          </button>
+          {/* Actions panel */}
+          <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
+            <a
+              href="/NLO_Founding_Editorial.pdf"
+              download
+              className="w-full sm:w-auto px-4 py-2.5 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-350 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-indigo-600 dark:hover:text-indigo-400 transition font-semibold shrink-0"
+            >
+              <FileText className="w-4 h-4 mr-1.5 text-indigo-500" />
+              Download Note (PDF)
+            </a>
+            
+            <button
+              onClick={handleContinue}
+              disabled={!hasRead}
+              className={`w-full sm:w-auto px-6 py-2.5 rounded-lg text-xs font-bold transition shadow-sm select-none cursor-pointer disabled:cursor-not-allowed disabled:opacity-40
+                /* Light Mode Button Styling: BLACK background */
+                bg-black hover:bg-slate-900 text-white disabled:bg-slate-200 disabled:text-slate-500 
+                /* Dark Mode Button Styling: LIGHT BLUE background */
+                dark:bg-sky-400 dark:hover:bg-sky-300 dark:text-slate-950 dark:disabled:bg-slate-850 dark:disabled:text-slate-600`}
+            >
+              CONTINUE
+            </button>
+          </div>
         </div>
       </div>
     </div>

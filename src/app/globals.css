@@ -68,13 +68,20 @@ body {
   --tw-prose-code: var(--foreground);
   --tw-prose-pre-code: #f8fafc;
   --tw-prose-pre-bg: #293040;
-}
 
-.dark .prose {
-  --tw-prose-links: #d3ac2b;
-  --tw-prose-quote-borders: #3b475c;
-  --tw-prose-pre-bg: #1d222e;
-  --tw-prose-pre-code: #f1f5f9;
+  /* Invert values for dark mode / prose-invert */
+  --tw-prose-invert-body: #ffffff;
+  --tw-prose-invert-headings: #ffffff;
+  --tw-prose-invert-links: #d3ac2b;
+  --tw-prose-invert-bold: #ffffff;
+  --tw-prose-invert-counters: #ffffff;
+  --tw-prose-invert-bullets: #ffffff;
+  --tw-prose-invert-quotes: #ffffff;
+  --tw-prose-invert-quote-borders: #3b475c;
+  --tw-prose-invert-captions: #3b475c;
+  --tw-prose-invert-code: #ffffff;
+  --tw-prose-invert-pre-code: #f1f5f9;
+  --tw-prose-invert-pre-bg: #1d222e;
 }
 
 /* Custom Scrollbar */

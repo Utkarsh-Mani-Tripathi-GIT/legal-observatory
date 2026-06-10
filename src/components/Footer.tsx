@@ -53,7 +53,7 @@ export default function Footer() {
                 <Landmark className="w-5 h-5" />
               </div>
               <span className="font-serif text-lg font-bold tracking-tight text-slate-900 dark:text-white">
-                LEGAL OBSERVATORY
+                NATIONAL LEGAL OBSERVATORY
               </span>
             </Link>
             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-500">
@@ -131,6 +131,11 @@ export default function Footer() {
                   <HelpCircle className="w-3.5 h-3.5 mr-1" /> Help Desk
                 </a>
               </li>
+              <li>
+                <a href="https://utkarshmanitripathi.vercel.app/resume/OVERALL/full-resume.html" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-indigo-600 dark:hover:text-indigo-400 transition font-medium">
+                  <span className="inline-block w-2 h-2 rounded-full bg-[#C9A84C]"></span> The Tech Guy
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -183,14 +188,14 @@ export default function Footer() {
         </div>
 
         {/* Bottom copyright section */}
-        <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-900 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400">
-          <p>&copy; {new Date().getFullYear()} Legal Observatory Platform. All academic rights reserved.</p>
-          <div className="flex space-x-4 mt-4 sm:mt-0">
-            <a href="#" className="hover:underline">Privacy Policy</a>
-            <a href="#" className="hover:underline">Terms of Service</a>
-            <a href="#" className="hover:underline">Citation Permissions</a>
-          </div>
-        </div>
+<div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+  <p>&copy; {new Date().getFullYear()} National Legal Observatory Platform. All academic rights reserved.</p>
+  <div className="flex space-x-4">
+    <a href="#" className="hover:underline">Privacy Policy</a>
+    <a href="#" className="hover:underline">Terms of Service</a>
+    <a href="#" className="hover:underline">Citation Permissions</a>
+  </div>
+</div>
       </div>
     </footer>
   );

@@ -20,8 +20,8 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Legal Observatory',
-    default: 'The Legal Observatory - Independent Legal Research',
+    template: '%s | National Legal Observatory',
+    default: 'National Legal Observatory - Independent Legal Research',
   },
   description:
     'A professional academic legal journal and policy think tank focused on constitutional reviews, data surveillance analysis, and climate litigation frontiers.',
@@ -34,18 +34,18 @@ export const metadata: Metadata = {
     'Technology Regulation',
     'Human Rights Research',
   ],
-  authors: [{ name: 'Legal Observatory Editorial Board' }],
+  authors: [{ name: 'National Legal Observatory Editorial Board' }],
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://legal-observatory.org',
-    title: 'The Legal Observatory Platform',
+    title: 'National Legal Observatory Platform',
     description: 'Independent Legal Research.',
-    siteName: 'Legal Observatory',
+    siteName: 'National Legal Observatory',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'The Legal Observatory Platform',
+    title: 'National Legal Observatory Platform',
     description: 'Independent Legal Research.',
   },
 };

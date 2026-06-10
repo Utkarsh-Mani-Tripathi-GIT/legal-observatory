@@ -28,7 +28,7 @@ The National Legal Observatory is my attempt to address that gap.
 
 The scope is intentionally broad. Indian law is not one conversation. It is dozens of conversations happening simultaneously, across constitutional benches and district courts, inside parliamentary committees and regulatory bodies, through executive orders and judicial dissents. A platform that claims to observe the legal landscape of this country cannot afford to be narrow. NLO will not be.
 
-Constitutional law, civil litigation, criminal justice, commercial and contract law, environmental law, labour law, family law, technology and policy — these are all territories this platform intends to cover, with the same rigour and the same commitment to primary sources.
+Constitutional law, civil litigation, criminal justice, commercial and contract law, environmental law, labour law, family law, technology and policy; these are all territories this platform covers, with the same rigour and the same commitment to primary sources.
 
  I am a second-year law student. I want to be straightforward about that.
 

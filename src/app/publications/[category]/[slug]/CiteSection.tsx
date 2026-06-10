@@ -8,7 +8,7 @@ import CitationModal from '../../../../components/CitationModal';
 export default function CiteSection({ article }: { article: ArticleData }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const defaultCitation = article.citation || `${article.authorDetails?.name || 'Jenkins, Sarah'}, ${article.title}, 4 Legal Observatory Journal 112 (${new Date(article.date).getFullYear()}).`;
+  const defaultCitation = article.citation || `${article.authorDetails?.name || 'Jenkins, Sarah'}, ${article.title}, 4 National Legal Observatory Journal 112 (${new Date(article.date).getFullYear()}).`;
 
   return (
     <>

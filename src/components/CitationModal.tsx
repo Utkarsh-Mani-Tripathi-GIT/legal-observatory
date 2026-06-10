@@ -35,9 +35,9 @@ export default function CitationModal({ isOpen, onClose, article }: CitationModa
   });
 
   const citations = {
-    bluebook: article.citation || `${authorName}, ${article.title}, 4 Legal Observatory Journal 112 (${year}).`,
-    mla: `${lastName}, ${firstName}. "${article.title}." Legal Observatory Platform, ${formattedDate}.`,
-    apa: `${lastName}, ${firstName.charAt(0)}. (${year}, ${new Date(article.date).toLocaleString('en', { month: 'long' })}). ${article.title}. Legal Observatory Journal.`,
+    bluebook: article.citation || `${authorName}, ${article.title}, 4 National Legal Observatory Journal 112 (${year}).`,
+    mla: `${lastName}, ${firstName}. "${article.title}." National Legal Observatory Platform, ${formattedDate}.`,
+    apa: `${lastName}, ${firstName.charAt(0)}. (${year}, ${new Date(article.date).toLocaleString('en', { month: 'long' })}). ${article.title}. National Legal Observatory Journal.`,
   };
 
   useEffect(() => {

@@ -44,7 +44,7 @@ export default async function Homepage() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.06),transparent)] dark:bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.15),transparent)]" />
         <div className="relative max-w-3xl mx-auto space-y-6">
           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100/60 dark:bg-indigo-950/50 text-indigo-800 dark:text-indigo-300 uppercase tracking-widest">
-            Legal Observatory
+            National Legal Observatory
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-slate-900 dark:text-white">
             Independent Legal Research
@@ -174,42 +174,7 @@ export default async function Homepage() {
         </div>
       </section>
 
-      {/* 4. Content Categories Grid */}
-      <section className="space-y-8 bg-slate-50 dark:bg-slate-900/20 p-8 sm:p-12 rounded-2xl border border-slate-200/40 dark:border-slate-900/50">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-            Areas of Jurisprudence
-          </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 leading-normal">
-            Explore publications grouped by core legal sectors, featuring judgments commentaries, statutory revisions, and rights analyses.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
-          {categories.slice(0, 6).map((cat) => (
-            <Link
-              key={cat.slug}
-              href={`/publications?category=${cat.slug}`}
-              className="group p-5 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-xl hover:shadow-md hover:border-indigo-500 dark:hover:border-indigo-400 transition duration-300 text-left flex flex-col justify-between h-40"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <div className="p-2 bg-slate-50 dark:bg-slate-800 rounded-lg group-hover:bg-indigo-50 dark:group-hover:bg-slate-800 transition">
-                    {getCategoryIcon(cat.slug)}
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-slate-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition duration-300" />
-                </div>
-                <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                  {cat.name}
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mt-1 leading-normal">
-                  {cat.description}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>      {/* 5. Contributor Section */}
+      {/* 5. Contributor Section */}
       <section id="contributors" className="space-y-8 scroll-mt-20">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <div className="inline-flex p-2 bg-indigo-50 dark:bg-slate-900 rounded-full text-indigo-500 mb-2">

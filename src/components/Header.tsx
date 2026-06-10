@@ -69,7 +69,7 @@ export default function Header() {
               <Landmark className="w-5 h-5" />
             </div>
             <span className="font-serif text-lg sm:text-xl font-bold tracking-tight text-slate-900 dark:text-white transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
-              LEGAL OBSERVATORY
+              NATIONAL LEGAL OBSERVATORY
             </span>
           </Link>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Landmark, Award } from 'lucide-react';
+import { Mail, Landmark, Award, FileText } from 'lucide-react';
 import Link from 'next/link';
 
 export const metadata = {
@@ -30,24 +30,34 @@ export default function AboutPage() {
       </header>
 
       {/* Author Details Block */}
-      <div className="flex flex-col sm:flex-row items-center gap-4 py-6 border-b border-slate-100 dark:border-slate-900 text-xs">
-        <img
-          src="/bhoomija-avatar.png"
-          alt="Bhoomija Khanna"
-          className="w-12 h-12 rounded-full object-cover border border-slate-200 dark:border-slate-700"
-        />
-        <div className="text-center sm:text-left">
-          <p className="font-bold text-slate-900 dark:text-white text-sm">
-            Bhoomija Khanna
-          </p>
-          <p className="text-slate-500 dark:text-slate-450">
-            Founder & Research Director
-          </p>
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-6 border-b border-slate-100 dark:border-slate-900 text-xs">
+        <div className="flex items-center gap-4">
+          <img
+            src="/bhoomija-avatar.png"
+            alt="Bhoomija Khanna"
+            className="w-12 h-12 rounded-full object-cover border border-slate-200 dark:border-slate-700"
+          />
+          <div className="text-center sm:text-left">
+            <p className="font-bold text-slate-900 dark:text-white text-sm">
+              Bhoomija Khanna
+            </p>
+            <p className="text-slate-500 dark:text-slate-400">
+              Founder & Research Director
+            </p>
+          </div>
         </div>
+        <a
+          href="/NLO_Founding_Editorial.docx"
+          download
+          className="flex items-center px-4 py-2 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-indigo-600 dark:hover:text-indigo-400 transition font-semibold shrink-0"
+        >
+          <FileText className="w-4 h-4 mr-2 text-indigo-500" />
+          <span>Download Editorial (DOCX)</span>
+        </a>
       </div>
 
       {/* Main Editorial Body (Academic Serif Prose) */}
-      <article className="prose prose-slate dark:prose-invert max-w-none font-serif text-base sm:text-lg leading-relaxed text-slate-700 dark:text-slate-350 space-y-6 pt-8">
+      <article className="prose prose-slate dark:prose-invert max-w-none font-serif text-base sm:text-lg leading-relaxed text-slate-700 dark:text-slate-300 space-y-6 pt-8">
         
         <p>
           There is a particular kind of frustration that comes with studying law in India today.
@@ -78,7 +88,7 @@ export default function AboutPage() {
         </p>
         
         <p>
-          Constitutional law, civil litigation, criminal justice, commercial and contract law, environmental law, labour law, family law, technology and policy — these are all territories this platform intends to cover, with the same rigour and the same commitment to primary sources.
+          Constitutional law, civil litigation, criminal justice, commercial and contract law, environmental law, labour law, family law, technology and policy; these are all territories this platform covers, with the same rigour and the same commitment to primary sources.
         </p>
         
         <p>

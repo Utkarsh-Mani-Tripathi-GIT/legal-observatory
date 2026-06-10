@@ -5,7 +5,7 @@ import { getArticleBySlug, getRelatedArticles, getPageViewCount } from '../../..
 import TableOfContents from '../../../../components/TableOfContents';
 import ArticleCard from '../../../../components/ArticleCard';
 import Link from 'next/link';
-import { Calendar, Clock, User, Landmark, Quote, ArrowLeft, Eye, Share2 } from 'lucide-react';
+import { Calendar, Clock, User, Landmark, Quote, ArrowLeft, Eye, Share2, FileText } from 'lucide-react';
 import ViewTracker from './ViewTracker';
 import CiteSection from './CiteSection';
 
@@ -284,7 +284,7 @@ export default async function ArticlePage(props: PageProps) {
                 >
                   {article.authorDetails?.name || 'Observatory Editor'}
                 </Link>
-                <p className="text-[10px] text-slate-450 dark:text-slate-500 leading-snug">
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-snug">
                   {article.authorDetails?.role}
                 </p>
               </div>
@@ -293,6 +293,42 @@ export default async function ArticlePage(props: PageProps) {
               {article.authorDetails?.bio}
             </p>
           </div>
+
+          {/* Download Original Document Widget (If available) */}
+          {article.slug === 'propaganda-patriarchy-democracy' && (
+            <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl space-y-3">
+              <h4 className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">
+                Original Draft Document
+              </h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
+                Download the complete academic draft in DOCX format, including full annotations and citations.
+              </p>
+              <a
+                href="/Gender_Propaganda_Patriarchal_Power_Research_Paper.docx"
+                download
+                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-650 dark:text-indigo-400 transition"
+              >
+                <FileText className="w-4 h-4 mr-2" /> Download Draft (DOCX)
+              </a>
+            </div>
+          )}
+          {article.slug === 'founding-editorial' && (
+            <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl space-y-3">
+              <h4 className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">
+                Original Document
+              </h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
+                Download the complete founding editorial draft in DOCX format.
+              </p>
+              <a
+                href="/NLO_Founding_Editorial.docx"
+                download
+                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-650 dark:text-indigo-400 transition"
+              >
+                <FileText className="w-4 h-4 mr-2" /> Download Document (DOCX)
+              </a>
+            </div>
+          )}
 
           {/* B. Citation Clipboard Widget (Client-side interactive modal) */}
           <CiteSection article={article} />
