@@ -62,9 +62,9 @@ export default function Header() {
             : 'bg-white dark:bg-slate-950 border-b border-transparent py-4'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
           {/* Logo brand */}
-          <Link href="/" className="flex items-center space-x-2 group">
+          <Link href="/" className="flex items-center space-x-2 group shrink-0">
             <div className="p-1.5 bg-indigo-600 text-white rounded transition-transform group-hover:scale-105">
               <Landmark className="w-5 h-5" />
             </div>
@@ -74,7 +74,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation links */}
-          <nav className="hidden md:flex space-x-8 items-center">
+          <nav className="hidden md:flex space-x-8 items-center shrink-0">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -93,13 +93,26 @@ export default function Header() {
             ))}
           </nav>
 
+          {/* Expanded Search Bar — opens SearchOverlay on click */}
+          <button
+            onClick={() => setIsSearchOpen(true)}
+            className="hidden md:flex flex-1 max-w-sm items-center gap-3 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-white dark:hover:bg-slate-800 transition-all duration-200 text-sm group"
+            title="Search (Cmd+K)"
+          >
+            <Search className="w-4 h-4 shrink-0 group-hover:text-indigo-500 transition-colors" />
+            <span className="flex-1 text-left text-[13px]">Search the observatory archives...</span>
+            <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-[11px] font-mono text-slate-400 dark:text-slate-500 shrink-0">
+              <span className="text-[10px]">⌘</span>K
+            </kbd>
+          </button>
+
           {/* Utility buttons */}
-          <div className="flex items-center space-x-3">
-            {/* Search Trigger */}
+          <div className="flex items-center space-x-2 shrink-0">
+            {/* Mobile search icon (only visible on small screens) */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="p-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
-              title="Search (Cmd+K)"
+              className="md:hidden p-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
+              title="Search"
             >
               <Search className="w-5 h-5" />
             </button>
