@@ -30,7 +30,7 @@ export default async function Homepage() {
   };
 
   return (
-    <div className="space-y-16 py-4">
+    <div className="space-y-8 py-2">
       {foundingNote && (
         <React.Suspense fallback={null}>
           <FoundersNoteOverlay
@@ -40,9 +40,9 @@ export default async function Homepage() {
         </React.Suspense>
       )}
       {/* 1. Hero Section */}
-      <section className="relative text-center py-12 md:py-20 rounded-2xl bg-gradient-to-b from-indigo-50/40 via-white to-transparent dark:from-indigo-950/10 dark:via-slate-950 dark:to-transparent border border-slate-200/40 dark:border-slate-800/20 px-6 overflow-hidden">
+      <section className="relative text-center py-8 md:py-14 rounded-2xl bg-gradient-to-b from-indigo-50/40 via-white to-transparent dark:from-indigo-950/10 dark:via-slate-950 dark:to-transparent border border-slate-200/40 dark:border-slate-800/20 px-6 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.06),transparent)] dark:bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.15),transparent)]" />
-        <div className="relative max-w-3xl mx-auto space-y-6">
+        <div className="relative max-w-3xl mx-auto space-y-4">
         <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100/60 dark:bg-indigo-950/50 text-indigo-800 dark:text-indigo-300 uppercase tracking-widest animate-fade-in">
             National Legal Observatory
           </span>
@@ -52,20 +52,38 @@ export default async function Homepage() {
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 font-serif leading-relaxed italic max-w-2xl mx-auto">
             "The National Legal Observatory is an attempt to address an observation gap."
           </p>
-          
-          {/* Quick-Search Prompt Trigger Button */}
-          <div className="pt-4 max-w-md mx-auto">
+
+          {/* Quick Navigation Pills */}
+          <div className="pt-6 flex flex-wrap justify-center gap-3 animate-slide-up stagger-3">
             <Link
               href="/publications"
-              className="w-full flex items-center justify-between px-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 shadow-sm hover:shadow transition text-sm text-left cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 text-sm font-medium shadow-sm hover:shadow-md hover:border-indigo-400 dark:hover:border-indigo-500 hover:-translate-y-0.5 transition-all duration-200"
             >
-              <span className="flex items-center">
-                <Search className="w-4 h-4 mr-2.5 text-slate-400" />
-                Search the observatory archives...
-              </span>
-              <kbd className="px-1.5 py-0.5 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 rounded text-xs">
-                ⌘K
-              </kbd>
+              <span className="text-base">📚</span> Browse Papers
+            </Link>
+            <Link
+              href="/publications?category=constitutional-law"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 text-sm font-medium shadow-sm hover:shadow-md hover:border-indigo-400 dark:hover:border-indigo-500 hover:-translate-y-0.5 transition-all duration-200"
+            >
+              <span className="text-base">⚖️</span> Constitutional Law
+            </Link>
+            <Link
+              href="/publications?category=technology-law"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 text-sm font-medium shadow-sm hover:shadow-md hover:border-indigo-400 dark:hover:border-indigo-500 hover:-translate-y-0.5 transition-all duration-200"
+            >
+              <span className="text-base">💻</span> Tech & Policy
+            </Link>
+            <Link
+              href="/#contributors"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 text-sm font-medium shadow-sm hover:shadow-md hover:border-indigo-400 dark:hover:border-indigo-500 hover:-translate-y-0.5 transition-all duration-200"
+            >
+              <span className="text-base">👩‍⚖️</span> Authors
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 text-sm font-medium shadow-sm hover:shadow-md hover:border-indigo-400 dark:hover:border-indigo-500 hover:-translate-y-0.5 transition-all duration-200"
+            >
+              <span className="text-base">✉️</span> Submit Research
             </Link>
           </div>
         </div>
