@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArticleData } from '../lib/markdown';
-import { Calendar, Clock, User, ArrowUpRight } from 'lucide-react';
+import { Calendar, Clock, User, ArrowUpRight, Pin } from 'lucide-react';
 
-export default function ArticleCard({ article }: { article: ArticleData }) {
+export default function ArticleCard({ article, searchTerm }: { article: ArticleData; searchTerm?: string }) {
   // Map internal database folders to correct URL routes
   const typeMapping: Record<string, string> = {
     judgment: 'judgments',
@@ -61,31 +61,48 @@ export default function ArticleCard({ article }: { article: ArticleData }) {
         </div>
       </div>
 
-      {/* Footer Info Row */}
-      <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80">
-        <div className="flex items-center space-x-2 text-xs">
-          {article.authorDetails?.avatar ? (
-            <img
-              src={article.authorDetails.avatar}
-              alt={article.authorDetails.name}
-              className="w-6 h-6 rounded-full object-cover border border-slate-200 dark:border-slate-700"
-            />
-          ) : (
-            <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
-              <User className="w-3.5 h-3.5" />
-            </div>
-          )}
-          <span className="font-medium text-slate-700 dark:text-slate-300">
-            {article.authorDetails?.name || 'Observatory Editor'}
-          </span>
+        {/* Footer Info Row */}
+      <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-2">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2 text-xs">
+            {article.authorDetails?.avatar ? (
+              <img
+                src={article.authorDetails.avatar}
+                alt={article.authorDetails.name}
+                className="w-6 h-6 rounded-full object-cover border border-slate-200 dark:border-slate-700"
+              />
+            ) : (
+              <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
+                <User className="w-3.5 h-3.5" />
+              </div>
+            )}
+            <span className="font-medium text-slate-700 dark:text-slate-300">
+              {article.authorDetails?.name || 'Observatory Editor'}
+            </span>
+          </div>
+
+          <Link
+            href={articleUrl}
+            className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 flex items-center group-hover:underline"
+          >
+            Read Paper <ArrowUpRight className="w-3.5 h-3.5 ml-0.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
         </div>
 
-        <Link
-          href={articleUrl}
-          className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 flex items-center group-hover:underline"
-        >
-          Read Paper <ArrowUpRight className="w-3.5 h-3.5 ml-0.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </Link>
+        {/* Jump to mention button — only shows when search/tag filter is active */}
+        {searchTerm && searchTerm.trim().length >= 2 && (
+          <Link
+            href={`${articleUrl}?highlight=${encodeURIComponent(searchTerm.trim())}`}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold
+              bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400
+              border border-amber-200/60 dark:border-amber-700/30
+              hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all duration-150 group/jump"
+            title={`Jump to first mention of "${searchTerm}" in this article`}
+          >
+            <Pin className="w-3 h-3 group-hover/jump:scale-110 transition-transform" />
+            Jump to &ldquo;{searchTerm.trim().length > 22 ? searchTerm.trim().slice(0, 22) + '…' : searchTerm.trim()}&rdquo; →
+          </Link>
+        )}
       </div>
     </article>
   );

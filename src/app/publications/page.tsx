@@ -283,7 +283,7 @@ export default async function PublicationsPage(props: PageProps) {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {paginatedArticles.map((art) => (
-                <ArticleCard key={art.slug} article={art} />
+                <ArticleCard key={art.slug} article={art} searchTerm={query || activeTag || undefined} />
               ))}
             </div>
           )}
