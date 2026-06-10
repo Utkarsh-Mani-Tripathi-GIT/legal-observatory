@@ -19,42 +19,158 @@
   --color-indigo-900: #765a0e;
   --color-indigo-950: #493605;
   
-  /* Map slate utility classes to the custom navy (#293040) and slate grey (#3B475C) */
-  --color-slate-50: #f5f6f8;
+  /* Warm charcoal dark palette — no blue tint */
+  --color-slate-50:  #f5f6f8;
   --color-slate-100: #eaecf1;
   --color-slate-200: #d5d8e2;
   --color-slate-300: #b9becd;
   --color-slate-400: #98a0b5;
   --color-slate-500: #7a839d;
   --color-slate-600: #5d6781;
-  --color-slate-700: #3b475c; /* Secondary #3B475C */
-  --color-slate-800: #3b475c; /* Secondary #3B475C */
-  --color-slate-900: #293040; /* Navy #293040 */
-  --color-slate-950: #1d222d;
+  --color-slate-700: #3b475c;
+  --color-slate-800: #2a2a2a; /* warm charcoal surface */
+  --color-slate-900: #222222; /* warm charcoal elevated */
+  --color-slate-950: #1a1a1a; /* warm charcoal base */
 }
 
 :root {
-  --background: #f8fafc; /* Premium off-white slate-50 background */
-  --foreground: #293040; /* Navy foreground */
+  --background: #f8fafc;
+  --foreground: #293040;
 }
 
-/* Class-based Dark Mode selector */
 .dark {
-  --background: #1d222d; /* Slate-950 deep navy background */
-  --foreground: #ffffff; /* White foreground */
+  --background: #1a1a1a; /* warm charcoal — not deep blue */
+  --foreground: #f0ece4;  /* warm off-white, not cold white */
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), 
-              border-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
-              color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 350ms cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 350ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 350ms cubic-bezier(0.4, 0, 0.2, 1);
   min-height: 100vh;
 }
 
-/* Prose customizations to inherit variables in both light and dark mode */
+/* ─── Animation keyframes ─────────────────────────────────────── */
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-fast {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position:  200% center; }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.85); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes border-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(211,172,43,0); }
+  50%       { box-shadow: 0 0 0 3px rgba(211,172,43,0.2); }
+}
+
+/* ─── Animation utility classes ───────────────────────────────── */
+
+.animate-fade-in {
+  animation: fade-in 0.5s cubic-bezier(0.4,0,0.2,1) both;
+}
+
+.animate-fade-in-fast {
+  animation: fade-in-fast 0.3s ease both;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.55s cubic-bezier(0.4,0,0.2,1) both;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.45s cubic-bezier(0.4,0,0.2,1) both;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s cubic-bezier(0.4,0,0.2,1) both;
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.animate-border-glow {
+  animation: border-glow 2.5s ease-in-out infinite;
+}
+
+/* Stagger helpers */
+.stagger-1 { animation-delay: 60ms; }
+.stagger-2 { animation-delay: 120ms; }
+.stagger-3 { animation-delay: 180ms; }
+.stagger-4 { animation-delay: 240ms; }
+.stagger-5 { animation-delay: 300ms; }
+.stagger-6 { animation-delay: 360ms; }
+
+/* Gold shimmer text */
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    #d3ac2b 0%,
+    #f6e480 40%,
+    #d3ac2b 60%,
+    #b59021 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+/* Scroll-reveal: add .reveal to any element; JS-free via CSS @starting-style isn't widespread, so use Intersection Observer in client components or just pair with .animate-slide-up */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Prose ───────────────────────────────────────────────────── */
+
 .prose {
   --tw-prose-body: var(--foreground);
   --tw-prose-headings: var(--foreground);
@@ -69,55 +185,40 @@ body {
   --tw-prose-pre-code: #f8fafc;
   --tw-prose-pre-bg: #293040;
 
-  /* Invert values for dark mode / prose-invert */
-  --tw-prose-invert-body: #ffffff;
-  --tw-prose-invert-headings: #ffffff;
+  --tw-prose-invert-body: #f0ece4;
+  --tw-prose-invert-headings: #f0ece4;
   --tw-prose-invert-links: #d3ac2b;
-  --tw-prose-invert-bold: #ffffff;
-  --tw-prose-invert-counters: #ffffff;
-  --tw-prose-invert-bullets: #ffffff;
-  --tw-prose-invert-quotes: #ffffff;
-  --tw-prose-invert-quote-borders: #3b475c;
-  --tw-prose-invert-captions: #3b475c;
-  --tw-prose-invert-code: #ffffff;
+  --tw-prose-invert-bold: #f0ece4;
+  --tw-prose-invert-counters: #f0ece4;
+  --tw-prose-invert-bullets: #f0ece4;
+  --tw-prose-invert-quotes: #f0ece4;
+  --tw-prose-invert-quote-borders: #3b3b3b;
+  --tw-prose-invert-captions: #6b6b6b;
+  --tw-prose-invert-code: #f0ece4;
   --tw-prose-invert-pre-code: #f1f5f9;
-  --tw-prose-invert-pre-bg: #1d222e;
+  --tw-prose-invert-pre-bg: #222222;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
-}
-.dark ::-webkit-scrollbar-thumb {
-  background: #334155;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
+/* ─── Scrollbar ───────────────────────────────────────────────── */
 
-/* Selection highlight styling */
-::selection {
-  background-color: rgba(99, 102, 241, 0.15);
-  color: inherit;
-}
-.dark ::selection {
-  background-color: rgba(129, 140, 248, 0.25);
-}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+.dark ::-webkit-scrollbar-thumb { background: #3a3a3a; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-/* Glassmorphism custom classes */
+/* ─── Selection ───────────────────────────────────────────────── */
+
+::selection { background-color: rgba(211,172,43,0.18); color: inherit; }
+.dark ::selection { background-color: rgba(211,172,43,0.28); }
+
+/* ─── Glassmorphism ───────────────────────────────────────────── */
+
 .glass-panel {
   background-color: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(8px);
 }
 .dark .glass-panel {
-  background-color: rgba(15, 23, 42, 0.85);
+  background-color: rgba(26, 26, 26, 0.85);
   backdrop-filter: blur(8px);
 }

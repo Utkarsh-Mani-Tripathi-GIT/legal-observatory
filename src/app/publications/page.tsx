@@ -282,8 +282,10 @@ export default async function PublicationsPage(props: PageProps) {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {paginatedArticles.map((art) => (
-                <ArticleCard key={art.slug} article={art} searchTerm={query || activeTag || undefined} />
+              {paginatedArticles.map((art, idx) => (
+                <div key={art.slug} className={`animate-slide-up stagger-${Math.min(idx + 1, 6)}`}>
+                  <ArticleCard article={art} searchTerm={query || activeTag || undefined} />
+                </div>
               ))}
             </div>
           )}
