@@ -65,7 +65,7 @@ export default function ContactPage() {
               Submission Guidelines
             </h4>
             <p className="text-slate-500 dark:text-slate-400 leading-relaxed">
-              We accept judgment reviews (1,500-2,500 words), policy briefs (2,000-3,500 words), and full research articles (5,000-8,000 words). Ensure your citation structures conform to the Bluebook formatting guidelines.
+              We accept judgment reviews (1,500-3,000 words), policy briefs (2,000-3,500 words), and full research articles (5,000-12,000 words). Ensure your citation structures conform to the Bluebook formatting guidelines.
             </p>
           </div>
         </div>
