@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "constitutional-law",
+    "name": "Constitutional Law",
+    "description": "Reviews on constitutional interpretation, federalism, human rights protection, and governmental authority.",
+    "color": "from-blue-600 to-indigo-700"
+  },
+  {
+    "slug": "criminal-law",
+    "name": "Criminal Law",
+    "description": "Critical analysis of criminal jurisprudence, trial rights, police powers, and penal policies.",
+    "color": "from-red-600 to-rose-700"
+  },
+  {
+    "slug": "civil-law",
+    "name": "Civil Law",
+    "description": "Analyses of contracts, torts, property rights, and general private law principles.",
+    "color": "from-teal-600 to-emerald-700"
+  },
+  {
+    "slug": "corporate-law",
+    "name": "Corporate Law",
+    "description": "Assessments of commercial regulations, merger regimes, corporate governance, and securities.",
+    "color": "from-slate-700 to-slate-900"
+  },
+  {
+    "slug": "technology-law",
+    "name": "Technology Law",
+    "description": "Legal questions around artificial intelligence, data privacy, cyber-security, and internet governance.",
+    "color": "from-purple-600 to-violet-700"
+  },
+  {
+    "slug": "public-policy",
+    "name": "Public Policy",
+    "description": "Examinations of legislative objectives, administrative guidelines, and governance models.",
+    "color": "from-amber-600 to-orange-700"
+  },
+  {
+    "slug": "human-rights",
+    "name": "Human Rights",
+    "description": "Evaluations of international treaties, refugee law, discrimination, and domestic civil rights liberties.",
+    "color": "from-cyan-600 to-blue-700"
+  },
+  {
+    "slug": "international-law",
+    "name": "International Law",
+    "description": "Analyses of treaty systems, global arbitration, maritime zones, and inter-state treaties.",
+    "color": "from-sky-700 to-indigo-800"
+  },
+  {
+    "slug": "intellectual-property",
+    "name": "Intellectual Property",
+    "description": "Articles on patent prosecution, trademark disputes, copyright expansions, and open-source systems.",
+    "color": "from-fuchsia-600 to-pink-700"
+  },
+  {
+    "slug": "environmental-law",
+    "name": "Environmental Law",
+    "description": "Studies on climate policies, carbon credits, conservation laws, and sustainability protocols.",
+    "color": "from-green-600 to-emerald-700"
+  }
+]

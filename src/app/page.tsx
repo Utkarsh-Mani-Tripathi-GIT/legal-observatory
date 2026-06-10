@@ -1,65 +1,261 @@
-import Image from "next/image";
+import React from 'react';
+import Link from 'next/link';
+import { getArticles, getAuthors, getCategories, getArticleBySlug } from '../lib/content';
+import ArticleCard from '../components/ArticleCard';
+import { Landmark, Search, BookOpen, PenTool, Sparkles, Users, ArrowRight } from 'lucide-react';
+import FoundersNoteOverlay from '../components/FoundersNoteOverlay';
 
-export default function Home() {
+export default async function Homepage() {
+  const articles = await getArticles();
+  const authors = await getAuthors();
+  const categories = await getCategories();
+  const foundingNote = await getArticleBySlug('opinions', 'founding-editorial');
+
+  // Pick first article as featured, next 3 as recent
+  const featuredArticle = articles[0];
+  const recentArticles = articles.slice(1, 4);
+
+  // Map category slugs to icons for aesthetics
+  const getCategoryIcon = (slug: string) => {
+    switch (slug) {
+      case 'constitutional-law':
+        return <Landmark className="w-5 h-5 text-indigo-500" />;
+      case 'technology-law':
+        return <Sparkles className="w-5 h-5 text-purple-500" />;
+      case 'public-policy':
+        return <BookOpen className="w-5 h-5 text-amber-500" />;
+      default:
+        return <PenTool className="w-5 h-5 text-slate-500" />;
+    }
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="space-y-16 py-4">
+      {foundingNote && (
+        <React.Suspense fallback={null}>
+          <FoundersNoteOverlay
+            title={foundingNote.title}
+            htmlContent={foundingNote.content}
+          />
+        </React.Suspense>
+      )}
+      {/* 1. Hero Section */}
+      <section className="relative text-center py-12 md:py-20 rounded-2xl bg-gradient-to-b from-indigo-50/40 via-white to-transparent dark:from-indigo-950/10 dark:via-slate-950 dark:to-transparent border border-slate-200/40 dark:border-slate-800/20 px-6 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.06),transparent)] dark:bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.15),transparent)]" />
+        <div className="relative max-w-3xl mx-auto space-y-6">
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100/60 dark:bg-indigo-950/50 text-indigo-800 dark:text-indigo-300 uppercase tracking-widest">
+            Legal Observatory
+          </span>
+          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-slate-900 dark:text-white">
+            Independent Legal Research
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 font-serif leading-relaxed italic max-w-2xl mx-auto">
+            "The National Legal Observatory is an attempt to address an observation gap."
+          </p>
+          
+          {/* Quick-Search Prompt Trigger Button */}
+          <div className="pt-4 max-w-md mx-auto">
+            <Link
+              href="/publications"
+              className="w-full flex items-center justify-between px-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 shadow-sm hover:shadow transition text-sm text-left cursor-pointer"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+              <span className="flex items-center">
+                <Search className="w-4 h-4 mr-2.5 text-slate-400" />
+                Search the observatory archives...
+              </span>
+              <kbd className="px-1.5 py-0.5 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 rounded text-xs">
+                ⌘K
+              </kbd>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. Observatory Mission Statement */}
+      <section className="max-w-4xl mx-auto bg-indigo-50/20 dark:bg-slate-900/50 border border-indigo-100/70 dark:border-slate-800 p-8 sm:p-10 rounded-2xl shadow-sm dark:shadow-xl flex flex-col md:flex-row items-center gap-6">
+        <div className="p-3 bg-white dark:bg-slate-800 rounded-xl text-indigo-600 dark:text-indigo-400 shrink-0 shadow-sm dark:shadow-none border border-indigo-100/40 dark:border-transparent">
+          <Landmark className="w-8 h-8" />
+        </div>
+        <div className="space-y-2 text-center md:text-left">
+          <h3 className="font-serif text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+            Our Editorial Directive
+          </h3>
+          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Constitutional law, civil litigation, criminal justice, commercial and contract law, environmental law, labour law, family law, technology and policy; these are all territories this platform covers, with the same rigour and the same commitment to primary sources.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </section>
+
+      {/* 3. Featured & Recent Publications */}
+      <section className="space-y-8">
+        <div className="flex items-end justify-between border-b border-slate-200 dark:border-slate-900 pb-3">
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+            Current Publications
+          </h2>
+          <Link
+            href="/publications"
+            className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            All Papers <ArrowRight className="w-3.5 h-3.5 ml-1" />
+          </Link>
         </div>
-      </main>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left: Featured Paper (Span 2) */}
+          {featuredArticle && (
+            <div className="lg:col-span-2 flex">
+              <div className="flex flex-col justify-between p-8 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md transition duration-300 relative group flex-grow">
+                <div>
+                  <div className="flex items-center space-x-3 text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-widest font-bold mb-4">
+                    <span className="px-2.5 py-0.5 rounded bg-indigo-50 dark:bg-slate-800 text-[10px]">
+                      Featured {featuredArticle.type}
+                    </span>
+                    <span>&bull;</span>
+                    <span>{featuredArticle.readingTime}</span>
+                  </div>
+                  
+                  <h3 className="font-serif text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white leading-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                    <Link href={`/publications/${featuredArticle.type === 'judgment' ? 'judgments' : featuredArticle.type === 'policy' ? 'policies' : featuredArticle.type === 'research' ? 'research' : 'opinions'}/${featuredArticle.slug}`}>
+                      {featuredArticle.title}
+                    </Link>
+                  </h3>
+                  
+                  <p className="text-slate-500 dark:text-slate-400 mt-4 leading-relaxed text-sm sm:text-base line-clamp-4">
+                    {featuredArticle.abstract || featuredArticle.caseSummary || featuredArticle.policyOverview}
+                  </p>
+
+                  <div className="flex flex-wrap gap-1 mt-6">
+                    {featuredArticle.tags.map((tag) => (
+                      <span key={tag} className="text-[10px] uppercase font-semibold tracking-wider text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-800/80 px-2 py-0.5 rounded">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
+                  <div className="flex items-center space-x-3">
+                    {featuredArticle.authorDetails?.avatar && (
+                      <img
+                        src={featuredArticle.authorDetails.avatar}
+                        alt={featuredArticle.authorDetails.name}
+                        className="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-700"
+                      />
+                    )}
+                    <div>
+                      <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                        {featuredArticle.authorDetails?.name}
+                      </h4>
+                      <p className="text-xs text-slate-400 dark:text-slate-500">
+                        {featuredArticle.authorDetails?.role}
+                      </p>
+                    </div>
+                  </div>
+                  <Link
+                    href={`/publications/${featuredArticle.type === 'judgment' ? 'judgments' : featuredArticle.type === 'policy' ? 'policies' : featuredArticle.type === 'research' ? 'research' : 'opinions'}/${featuredArticle.slug}`}
+                    className="px-4 py-2 text-xs font-bold bg-indigo-600 hover:bg-indigo-750 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white dark:text-slate-950 rounded-lg shadow-sm transition"
+                  >
+                    Read Full Paper
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Right: Recent Papers List */}
+          <div className="flex flex-col gap-6">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block">
+              Recent Submissions
+            </span>
+            {recentArticles.map((art) => (
+              <ArticleCard key={art.slug} article={art} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Content Categories Grid */}
+      <section className="space-y-8 bg-slate-50 dark:bg-slate-900/20 p-8 sm:p-12 rounded-2xl border border-slate-200/40 dark:border-slate-900/50">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+            Areas of Jurisprudence
+          </h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 leading-normal">
+            Explore publications grouped by core legal sectors, featuring judgments commentaries, statutory revisions, and rights analyses.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+          {categories.slice(0, 6).map((cat) => (
+            <Link
+              key={cat.slug}
+              href={`/publications?category=${cat.slug}`}
+              className="group p-5 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-xl hover:shadow-md hover:border-indigo-500 dark:hover:border-indigo-400 transition duration-300 text-left flex flex-col justify-between h-40"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="p-2 bg-slate-50 dark:bg-slate-800 rounded-lg group-hover:bg-indigo-50 dark:group-hover:bg-slate-800 transition">
+                    {getCategoryIcon(cat.slug)}
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-slate-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition duration-300" />
+                </div>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  {cat.name}
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mt-1 leading-normal">
+                  {cat.description}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>      {/* 5. Contributor Section */}
+      <section id="contributors" className="space-y-8 scroll-mt-20">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <div className="inline-flex p-2 bg-indigo-50 dark:bg-slate-900 rounded-full text-indigo-500 mb-2">
+            <Users className="w-6 h-6" />
+          </div>
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+            Founder & Editor
+          </h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 leading-normal">
+            The platform is curated and led by its founder, Bhoomija Khanna.
+          </p>
+        </div>
+
+        <div className="max-w-2xl mx-auto pt-4">
+          {authors.map((author) => (
+            <div
+              key={author.slug}
+              className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 p-6 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-xl"
+            >
+              <img
+                src={author.avatar}
+                alt={author.name}
+                className="w-16 h-16 rounded-full object-cover border-2 border-slate-100 dark:border-slate-800 shrink-0"
+              />
+              <div className="space-y-2">
+                <div>
+                  <h4 className="text-base font-bold text-slate-900 dark:text-white">
+                    {author.name}
+                  </h4>
+                  <p className="text-xs text-indigo-650 dark:text-indigo-400 font-semibold">
+                    {author.role}
+                  </p>
+                </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-3">
+                  {author.bio}
+                </p>
+                <div className="pt-1 flex justify-center sm:justify-start gap-3 text-xs font-semibold text-indigo-650 dark:text-indigo-400 hover:underline">
+                  <Link href={author.slug === 'bhoomija-khanna' ? '/bhoomija' : `/authors/${author.slug}`}>
+                    View Profile & Publications &rarr;
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

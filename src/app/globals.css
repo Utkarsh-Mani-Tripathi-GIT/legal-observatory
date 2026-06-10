@@ -1,26 +1,116 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-serif), Georgia, Cambria, "Times New Roman", Times, serif;
+  
+  /* Map indigo utility classes to the custom gold color #D3AC2B */
+  --color-indigo-50: #fefdf6;
+  --color-indigo-100: #fcf6d6;
+  --color-indigo-200: #faf0b4;
+  --color-indigo-300: #f6e480;
+  --color-indigo-400: #f0d553;
+  --color-indigo-500: #d3ac2b;
+  --color-indigo-600: #d3ac2b;
+  --color-indigo-700: #b59021;
+  --color-indigo-800: #947416;
+  --color-indigo-900: #765a0e;
+  --color-indigo-950: #493605;
+  
+  /* Map slate utility classes to the custom navy (#293040) and slate grey (#3B475C) */
+  --color-slate-50: #f5f6f8;
+  --color-slate-100: #eaecf1;
+  --color-slate-200: #d5d8e2;
+  --color-slate-300: #b9becd;
+  --color-slate-400: #98a0b5;
+  --color-slate-500: #7a839d;
+  --color-slate-600: #5d6781;
+  --color-slate-700: #3b475c; /* Secondary #3B475C */
+  --color-slate-800: #3b475c; /* Secondary #3B475C */
+  --color-slate-900: #293040; /* Navy #293040 */
+  --color-slate-950: #1d222d;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc; /* Premium off-white slate-50 background */
+  --foreground: #293040; /* Navy foreground */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Class-based Dark Mode selector */
+.dark {
+  --background: #1d222d; /* Slate-950 deep navy background */
+  --foreground: #ffffff; /* White foreground */
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), 
+              border-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 100vh;
+}
+
+/* Prose customizations to inherit variables in both light and dark mode */
+.prose {
+  --tw-prose-body: var(--foreground);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-links: #d3ac2b;
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-counters: var(--foreground);
+  --tw-prose-bullets: var(--foreground);
+  --tw-prose-quotes: var(--foreground);
+  --tw-prose-quote-borders: #3b475c;
+  --tw-prose-captions: #3b475c;
+  --tw-prose-code: var(--foreground);
+  --tw-prose-pre-code: #f8fafc;
+  --tw-prose-pre-bg: #293040;
+}
+
+.dark .prose {
+  --tw-prose-links: #d3ac2b;
+  --tw-prose-quote-borders: #3b475c;
+  --tw-prose-pre-bg: #1d222e;
+  --tw-prose-pre-code: #f1f5f9;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Selection highlight styling */
+::selection {
+  background-color: rgba(99, 102, 241, 0.15);
+  color: inherit;
+}
+.dark ::selection {
+  background-color: rgba(129, 140, 248, 0.25);
+}
+
+/* Glassmorphism custom classes */
+.glass-panel {
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+}
+.dark .glass-panel {
+  background-color: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
 }
