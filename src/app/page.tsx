@@ -1,15 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
-import { getArticles, getAuthors, getCategories, getArticleBySlug } from '../lib/content';
+import { getArticles, getAuthors, getCategories } from '../lib/content';
 import ArticleCard from '../components/ArticleCard';
 import { Landmark, Search, BookOpen, PenTool, Sparkles, Users, ArrowRight } from 'lucide-react';
-import FoundersNoteOverlay from '../components/FoundersNoteOverlay';
 
 export default async function Homepage() {
   const articles = await getArticles();
   const authors = await getAuthors();
   const categories = await getCategories();
-  const foundingNote = await getArticleBySlug('opinions', 'founding-editorial');
 
   // Pick first article as featured, next 3 as recent
   const featuredArticle = articles[0];
@@ -31,14 +29,6 @@ export default async function Homepage() {
 
   return (
     <div className="space-y-8 py-2">
-      {foundingNote && (
-        <React.Suspense fallback={null}>
-          <FoundersNoteOverlay
-            title={foundingNote.title}
-            htmlContent={foundingNote.content}
-          />
-        </React.Suspense>
-      )}
       {/* 1. Hero Section */}
       <section className="relative text-center py-8 md:py-14 rounded-2xl bg-gradient-to-b from-indigo-50/40 via-white to-transparent dark:from-indigo-950/10 dark:via-slate-950 dark:to-transparent border border-slate-200/40 dark:border-slate-800/20 px-6 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.06),transparent)] dark:bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.15),transparent)]" />
