@@ -57,6 +57,7 @@ export interface CategoryData {
 export interface ArticleData {
   slug: string;
   type: 'judgment' | 'policy' | 'research' | 'opinion';
+  format?: 'monthly-report' | 'post' | 'blog'; // content format filter
   title: string;
   author: string; // author slug
   authorDetails?: AuthorData;
