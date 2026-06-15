@@ -60,13 +60,21 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="p-5 bg-slate-50 dark:bg-slate-900/30 border border-slate-200/50 dark:border-slate-800 rounded-xl text-xs space-y-2">
+          <div className="p-5 bg-slate-50 dark:bg-slate-900/30 border border-slate-200/50 dark:border-slate-800 rounded-xl text-xs space-y-3">
             <h4 className="font-bold text-slate-900 dark:text-white">
               Submission Guidelines
             </h4>
-            <p className="text-slate-500 dark:text-slate-400 leading-relaxed">
-              We accept judgment reviews (1,500-3,000 words), policy briefs (2,000-3,500 words), and full research articles (5,000-12,000 words). Ensure your citation structures conform to the Bluebook formatting guidelines.
-            </p>
+            <div className="text-slate-500 dark:text-slate-400 leading-relaxed space-y-2">
+              <p>We welcome original, unpublished work across the following formats:</p>
+              <ul className="list-disc pl-4 space-y-1">
+                <li><strong className="font-semibold text-slate-700 dark:text-slate-300">Judgment Reviews</strong> — 1,500–3,000 words</li>
+                <li><strong className="font-semibold text-slate-700 dark:text-slate-300">Policy Briefs</strong> — 2,000–3,500 words</li>
+                <li><strong className="font-semibold text-slate-700 dark:text-slate-300">Research Articles</strong> — 5,000–12,000 words</li>
+                <li><strong className="font-semibold text-slate-700 dark:text-slate-300">Essays</strong> — 1,000–3,000 words</li>
+                <li><strong className="font-semibold text-slate-700 dark:text-slate-300">Blog Posts</strong> — 500–1,200 words</li>
+              </ul>
+              <p>All submissions must be original work and not simultaneously under review elsewhere. Citations should conform to the Bluebook formatting guidelines. Essays and blog posts may adopt a more accessible tone but must maintain factual accuracy and, where applicable, cite authoritative sources.</p>
+            </div>
           </div>
         </div>
 
