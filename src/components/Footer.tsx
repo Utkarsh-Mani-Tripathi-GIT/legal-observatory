@@ -136,9 +136,9 @@ export default function Footer() {
                   href="https://utkarshmanitripathi.vercel.app/resume/OVERALL/full-resume.html"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+                  className="flex items-center gap-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
                 >
-                  The Tech Guy
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#C9A84C]"></span> The Tech Guy
                 </a>
               </li>
             </ul>
