@@ -131,9 +131,14 @@ export default function Footer() {
                   <HelpCircle className="w-3.5 h-3.5 mr-1" /> Help Desk
                 </a>
               </li>
-              <li>
-                <a href="https://utkarshmanitripathi.vercel.app/resume/OVERALL/full-resume.html" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-indigo-600 dark:hover:text-indigo-400 transition font-medium">
-                  <span className="inline-block w-2 h-2 rounded-full bg-[#C9A84C]"></span> The Tech Guy
+              <li className="pt-2">
+                <a
+                  href="https://utkarshmanitripathi.vercel.app/resume/OVERALL/full-resume.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-50/60 dark:bg-amber-950/20 border border-amber-300/40 dark:border-amber-700/30 text-amber-800/80 dark:text-amber-400/80 text-xs font-medium hover:bg-amber-100/80 dark:hover:bg-amber-900/30 transition-all duration-200"
+                >
+                  <span className="text-sm">⚡</span> The Tech Guy
                 </a>
               </li>
             </ul>

@@ -75,14 +75,7 @@ export default async function Homepage() {
             >
               <span className="text-base">✉️</span> Submit Research
             </Link>
-            <a
-              href="https://utkarshmanitripathi.vercel.app/resume/OVERALL/full-resume.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-700/50 text-amber-800 dark:text-amber-400 text-sm font-semibold shadow-sm hover:shadow-md hover:bg-amber-100 dark:hover:bg-amber-900/40 hover:-translate-y-0.5 transition-all duration-200"
-            >
-              <span className="text-base">⚡</span> The Tech Guy
-            </a>
+
           </div>
         </div>
       </section>
