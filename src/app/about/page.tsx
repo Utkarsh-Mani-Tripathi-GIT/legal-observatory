@@ -13,12 +13,12 @@ export default function AboutPage() {
       
       {/* Editorial Header */}
       <header className="border-b border-slate-200 dark:border-slate-800 pb-8 text-center sm:text-left">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">
-          <span>NATIONAL LEGAL OBSERVATORY</span>
-          <span className="hidden sm:inline">&bull;</span>
-          <span>Independent Legal Research | India</span>
-          <span className="hidden sm:inline">&bull;</span>
-          <span>Founding Editorial | June 2026</span>
+        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-3 sm:gap-x-4 gap-y-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-6">
+          <span className="whitespace-nowrap">NATIONAL LEGAL OBSERVATORY</span>
+          <span className="hidden sm:inline text-slate-300 dark:text-slate-700">&bull;</span>
+          <span className="whitespace-nowrap">Independent Legal Research | India</span>
+          <span className="hidden sm:inline text-slate-300 dark:text-slate-700">&bull;</span>
+          <span className="whitespace-nowrap">Founding Editorial | June 2026</span>
         </div>
         
         <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white leading-tight">
