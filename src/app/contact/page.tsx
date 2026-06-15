@@ -53,8 +53,8 @@ export default function ContactPage() {
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-4 h-4 text-indigo-500 shrink-0" />
-                <a href="mailto:bhoomija.k2810@gmail.com" className="hover:underline hover:text-indigo-600 dark:hover:text-indigo-400 transition">
-                  bhoomija.k2810@gmail.com
+                <a href="mailto:Nationallegalobservatory@gmail.com" className="hover:underline hover:text-indigo-600 dark:hover:text-indigo-400 transition">
+                  Nationallegalobservatory@gmail.com
                 </a>
               </div>
             </div>
