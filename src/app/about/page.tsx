@@ -13,7 +13,7 @@ export default function AboutPage() {
       
       {/* Editorial Header */}
       <header className="border-b border-slate-200 dark:border-slate-800 pb-8 text-center sm:text-left">
-        <div className="flex items-center justify-center sm:justify-start gap-x-0.5 sm:gap-x-2 text-[2.2vw] min-[400px]:text-[8px] sm:text-[10px] md:text-xs font-semibold uppercase tracking-tighter sm:tracking-wider text-slate-500 dark:text-slate-400 mb-6 whitespace-nowrap overflow-hidden w-full">
+        <div className="flex items-center justify-center sm:justify-start gap-x-0.5 sm:gap-x-2 text-[1.6vw] min-[400px]:text-[8px] sm:text-[10px] md:text-xs font-semibold uppercase tracking-tighter sm:tracking-wider text-slate-500 dark:text-slate-400 mb-6 whitespace-nowrap overflow-hidden w-full">
           <span>NATIONAL LEGAL OBSERVATORY</span>
           <span className="text-slate-300 dark:text-slate-700">&bull;</span>
           <span>Independent Legal Research | India</span>
