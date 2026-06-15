@@ -65,8 +65,8 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
           {/* Logo brand */}
           <Link href="/" className="flex items-center space-x-2.5 group shrink-0">
-            <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-slate-900 dark:bg-[#1a1a1a] border border-yellow-500/40 dark:border-yellow-500/30 shadow-sm transition-transform group-hover:scale-105 shrink-0">
-              <span className="font-serif font-black text-sm tracking-widest text-yellow-400" style={{letterSpacing: '0.12em'}}>NLO</span>
+            <div className="h-9 px-2.5 flex items-center justify-center rounded-lg bg-slate-900 dark:bg-[#1a1a1a] border border-yellow-500/40 dark:border-yellow-500/30 shadow-sm transition-transform group-hover:scale-105 shrink-0">
+              <span className="font-serif font-black text-sm tracking-widest text-yellow-400 ml-[0.1em]">NLO</span>
             </div>
             <span className="font-serif text-lg sm:text-xl font-bold tracking-tight text-slate-900 dark:text-white transition-colors group-hover:text-yellow-500 dark:group-hover:text-yellow-400">
               NATIONAL LEGAL OBSERVATORY
