@@ -2,11 +2,12 @@ import React from 'react';
 import { getArticles, getCategories, getPageViewCount } from '../../lib/content';
 import ArticleCard from '../../components/ArticleCard';
 import Link from 'next/link';
-import { Search, SlidersHorizontal, ArrowUpDown, Tag, Landmark, User, Clock, AlertCircle } from 'lucide-react';
+import { Search, SlidersHorizontal, ArrowUpDown, Tag, Landmark, User, Clock, AlertCircle, FileText } from 'lucide-react';
 
 interface SearchParams {
   q?: string;
   category?: string;
+  type?: string;
   tag?: string;
   author?: string;
   sort?: string;
@@ -27,6 +28,7 @@ export default async function PublicationsPage(props: PageProps) {
   const params = await props.searchParams;
   const query = params.q || '';
   const category = params.category || '';
+  const activeType = params.type || '';
   const activeTag = params.tag || '';
   const author = params.author || '';
   const sort = params.sort || 'date';
@@ -53,6 +55,10 @@ export default async function PublicationsPage(props: PageProps) {
 
   if (category) {
     filteredArticles = filteredArticles.filter((art) => art.categories.includes(category));
+  }
+
+  if (activeType) {
+    filteredArticles = filteredArticles.filter((art) => art.type === activeType || art.format === activeType);
   }
 
   if (activeTag) {
@@ -94,7 +100,7 @@ export default async function PublicationsPage(props: PageProps) {
 
   // Helper to compile search href parameters
   const getHref = (updates: Partial<SearchParams>, isReset: boolean = false) => {
-    const newParams = isReset ? {} : { q: query, category, tag: activeTag, author, sort, page: pageNum.toString() };
+    const newParams = isReset ? {} : { q: query, category, type: activeType, tag: activeTag, author, sort, page: pageNum.toString() };
     const merged = { ...newParams, ...updates };
     
     // Clear empty parameters
@@ -135,6 +141,7 @@ export default async function PublicationsPage(props: PageProps) {
             <form method="GET" action="/publications" className="relative">
               {/* Keep other filter values as hidden fields to preserve selections */}
               {category && <input type="hidden" name="category" value={category} />}
+              {activeType && <input type="hidden" name="type" value={activeType} />}
               {activeTag && <input type="hidden" name="tag" value={activeTag} />}
               {author && <input type="hidden" name="author" value={author} />}
               {sort && <input type="hidden" name="sort" value={sort} />}
@@ -184,7 +191,46 @@ export default async function PublicationsPage(props: PageProps) {
             </div>
           </div>
 
-          {/* C. Tags Pills */}
+          {/* C. Formats Multi-List */}
+          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm">
+            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
+              <FileText className="w-3.5 h-3.5 mr-1 text-indigo-500" /> Formats
+            </h3>
+            <div className="flex flex-col space-y-1 text-xs">
+              <Link
+                href={getHref({ type: undefined, page: '1' })}
+                className={`py-1.5 px-2.5 rounded-md transition ${
+                  !activeType
+                    ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
+                    : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                All Formats
+              </Link>
+              {[
+                { slug: 'judgment', name: 'Judgment Reviews' },
+                { slug: 'policy', name: 'Policy Briefs' },
+                { slug: 'research', name: 'Research Articles' },
+                { slug: 'opinion', name: 'Essays & Opinions' },
+                { slug: 'blog', name: 'Blog Posts' },
+              ].map((fmt) => (
+                <Link
+                  key={fmt.slug}
+                  href={getHref({ type: fmt.slug, page: '1' })}
+                  className={`py-1.5 px-2.5 rounded-md transition truncate ${
+                    activeType === fmt.slug
+                      ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
+                      : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                  title={fmt.name}
+                >
+                  {fmt.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* D. Tags Pills */}
           <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm">
             <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
               <Tag className="w-3.5 h-3.5 mr-1 text-indigo-500" /> Hot Tags
@@ -250,7 +296,7 @@ export default async function PublicationsPage(props: PageProps) {
               </div>
 
               {/* Reset filter button if active */}
-              {(query || category || activeTag || author) && (
+              {(query || category || activeType || activeTag || author) && (
                 <Link
                   href={getHref({}, true)}
                   className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline"
