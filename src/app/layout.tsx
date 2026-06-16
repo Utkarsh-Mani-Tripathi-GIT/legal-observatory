@@ -35,6 +35,11 @@ export const metadata: Metadata = {
     'Human Rights Research',
   ],
   authors: [{ name: 'National Legal Observatory Editorial Board' }],
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/icon.png',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
