@@ -7,7 +7,7 @@ export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', subject: 'general', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) {
       setStatus('error');
@@ -15,12 +15,28 @@ export default function ContactPage() {
     }
 
     setStatus('loading');
-    
-    // Simulate submission delay
-    setTimeout(() => {
-      setStatus('success');
-      setForm({ name: '', email: '', subject: 'general', message: '' });
-    }, 1000);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setStatus('success');
+        setForm({ name: '', email: '', subject: 'general', message: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      console.error('Submission failed:', error);
+      setStatus('error');
+    }
   };
 
   return (
