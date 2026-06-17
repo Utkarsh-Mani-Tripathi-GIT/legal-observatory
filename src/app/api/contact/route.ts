@@ -1,11 +1,20 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-// Initialize Resend with key from environment variable
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend lazily or with a fallback placeholder for build/compilation
+const apiKey = process.env.RESEND_API_KEY || 're_placeholder_for_build';
+const resend = new Resend(apiKey);
 
 export async function POST(request: Request) {
   try {
+    if (!process.env.RESEND_API_KEY) {
+      console.warn('RESEND_API_KEY environment variable is not configured.');
+      return NextResponse.json(
+        { success: false, message: 'Email service is not configured. Please set the RESEND_API_KEY env variable.' },
+        { status: 500 }
+      );
+    }
+
     const { name, email, subject, message } = await request.json();
 
     if (!name || !email || !message) {
