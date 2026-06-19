@@ -248,5 +248,4 @@ Law can be part of the solution: ensuring the independence of journalism, mandat
 
 ---
 
-*National Legal Observatory  |  legal-observatory.vercel.app  |  June 2026*
-*Independent Legal Research  |  India*
+*National Legal Observatory  |  legal-observatory.vercel.app  |  June 2026  |  Independent Legal Research  |  India*
