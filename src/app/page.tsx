@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { getArticles, getAuthors, getCategories } from '../lib/content';
 import ArticleCard from '../components/ArticleCard';
+import UpcomingResearchTeaser from '../components/UpcomingResearchTeaser';
 import { Landmark, Search, BookOpen, PenTool, Sparkles, Users, ArrowRight } from 'lucide-react';
 
 export default async function Homepage() {
@@ -181,6 +182,35 @@ export default async function Homepage() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* 4. Upcoming / Published Research */}
+      <section className="space-y-6">
+        <div className="flex items-end justify-between border-b border-slate-200 dark:border-slate-900 pb-3">
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+            Research Desk
+          </h2>
+          <Link
+            href="/publications?type=research"
+            className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center"
+          >
+            All Research <ArrowRight className="w-3.5 h-3.5 ml-1" />
+          </Link>
+        </div>
+
+        <UpcomingResearchTeaser
+          publishAt="2026-06-19T18:57:00+05:30"
+          article={{
+            title: "Manufacturing Consent: How Political Narratives Are Engineered in India",
+            slug: "manufacturing-consent",
+            category: "Research Article",
+            publisher: "National Legal Observatory Research Desk",
+            publication: "June 2026",
+            readingTime: "22 min read",
+            abstract: "This article examines the mechanisms through which political consent is manufactured in India, from historical propaganda techniques to modern algorithmic amplification. It analyses the constitutional tension between free speech and narrative manipulation, and proposes a framework for building democratic resilience.",
+            href: "/publications/research/manufacturing-consent",
+          }}
+        />
       </section>
 
       {/* 5. Contributor Section */}
