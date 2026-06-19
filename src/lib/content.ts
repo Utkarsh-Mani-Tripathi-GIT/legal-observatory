@@ -315,6 +315,17 @@ export async function getPageViewCount(slug: string): Promise<number> {
 
 // Newsletter subscription
 export async function subscribeToNewsletter(email: string): Promise<{ success: boolean; message: string }> {
+  // Append subscriber to local subscribers.txt file
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const filePath = path.join(process.cwd(), 'subscribers.txt');
+    const timestamp = new Date().toISOString();
+    fs.appendFileSync(filePath, `${email} - ${timestamp}\n`);
+  } catch (fsError) {
+    console.error('Failed to write to subscribers.txt:', fsError);
+  }
+
   if (isSupabaseConfigured()) {
     const supabase = getSupabaseClient() as any;
     if (supabase) {
@@ -337,3 +348,4 @@ export async function subscribeToNewsletter(email: string): Promise<{ success: b
     message: 'Subscription successful (Local Mode: Simulating newsletter subscription for ' + email + ')',
   };
 }
+
