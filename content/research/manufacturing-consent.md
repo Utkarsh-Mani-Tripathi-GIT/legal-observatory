@@ -69,6 +69,7 @@ A citizen has to be aware of these techniques. Otherwise, he or she is vulnerabl
 All political communication is not necessarily propaganda. In order for democracy to function properly, there has to be healthy debate among the populace, political figures appealing to their constituents through logical persuasion. The task is discerning the point at which this persuasive dialogue crosses the line into manipulative propaganda. Below is an analytical model designed to delineate the two:
 
 
+
 <div class="overflow-x-auto my-6">
   <table class="min-w-full border-collapse border border-slate-300 dark:border-slate-700 text-xs sm:text-sm">
     <thead>
@@ -81,19 +82,25 @@ All political communication is not necessarily propaganda. In order for democrac
     </thead>
     <tbody>
       <tr class="bg-[#E8F0FE] dark:bg-indigo-950/20 text-slate-900 dark:text-slate-100">
-        <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-semibold">Legitimate Persuasion</td>
+        <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-semibold">
+          <span class="underline decoration-dotted cursor-help" title="Persuasion attempts to enlighten the audience and win their assent. It entails the presentation of evidence and inviting investigation.">Legitimate Persuasion</span>
+        </td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3">To change minds through evidence and reasoned argument</td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3">Logic, evidence, public debate, transparent advocacy</td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-medium">High — foundational to democratic discourse</td>
       </tr>
       <tr class="bg-[#FFF8E1] dark:bg-amber-950/10 text-slate-900 dark:text-slate-100">
-        <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-semibold">Political Messaging</td>
+        <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-semibold">
+          <span class="underline decoration-dotted cursor-help" title="Political messaging aims to present a political position persuasively. It is acceptable within limits but risks manipulation.">Political Messaging</span>
+        </td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3">To present a political position persuasively</td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3">Framing, branding, simplified slogans, targeted outreach</td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-medium">Moderate — acceptable within limits, but risks manipulation</td>
       </tr>
       <tr class="bg-[#FFEBEE] dark:bg-rose-950/10 text-slate-900 dark:text-slate-100">
-        <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-semibold">Propaganda</td>
+        <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-semibold">
+          <span class="underline decoration-dotted cursor-help" title="Propaganda tries to sidestep the reasoning abilities of the citizenry, manipulating emotions to obviate investigation and bypass rational evaluation.">Propaganda</span>
+        </td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3">To engineer consent by bypassing rational evaluation</td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3">Emotional manipulation, dehumanisation, selective truth, repetition, fear</td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-medium">Low — fundamentally incompatible with informed democratic participation</td>
@@ -101,6 +108,7 @@ All political communication is not necessarily propaganda. In order for democrac
     </tbody>
   </table>
 </div>
+
 
 
 This is not a hard-and-fast demarcation, as there is significant overlap between these categories in actual practice. An advertisement can start out as persuasion and slowly become propaganda. The ethical issue here is not whether there has been an attempt to use propaganda tactics, as some kind of emotion is unavoidable and even necessary in political communication, but rather whether these tactics have been used to facilitate or inhibit citizen decision-making based on rational assessment.
