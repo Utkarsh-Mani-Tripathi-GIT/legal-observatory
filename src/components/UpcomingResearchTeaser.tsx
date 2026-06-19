@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, BookOpen, ArrowUpRight, Calendar, User } from 'lucide-react';
+import { Clock, BookOpen, ArrowUpRight, Calendar, User, Bell, CheckCircle2, Loader2 } from 'lucide-react';
 
 interface PublishedArticle {
   title: string;
@@ -71,8 +71,13 @@ export default function UpcomingResearchTeaser({ publishAt, article }: UpcomingR
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft);
   const [isPublished, setIsPublished] = useState(false);
 
+  // Reminder state
+  const [showReminderForm, setShowReminderForm] = useState(false);
+  const [reminderEmail, setReminderEmail] = useState('');
+  const [reminderStatus, setReminderStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [reminderMessage, setReminderMessage] = useState('');
+
   useEffect(() => {
-    // Check immediately
     const initial = calculateTimeLeft();
     setTimeLeft(initial);
     if (initial.total <= 0) {
@@ -91,6 +96,32 @@ export default function UpcomingResearchTeaser({ publishAt, article }: UpcomingR
 
     return () => clearInterval(timer);
   }, [calculateTimeLeft]);
+
+  const handleReminderSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!reminderEmail.trim() || !reminderEmail.includes('@')) return;
+
+    setReminderStatus('loading');
+    try {
+      const res = await fetch('/api/reminder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: reminderEmail.trim(), articleSlug: article.slug }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setReminderStatus('success');
+        setReminderMessage(data.message);
+      } else {
+        setReminderStatus('error');
+        setReminderMessage(data.message || 'Something went wrong.');
+      }
+    } catch {
+      setReminderStatus('error');
+      setReminderMessage('Network error. Please try again.');
+    }
+  };
 
   return (
     <AnimatePresence mode="wait">
@@ -112,7 +143,7 @@ export default function UpcomingResearchTeaser({ publishAt, article }: UpcomingR
             {/* Label */}
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400 border border-amber-200/60 dark:border-amber-700/30">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400 animate-pulse-dot" />
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400 animate-pulse" />
                 Upcoming Research
               </span>
             </div>
@@ -137,6 +168,86 @@ export default function UpcomingResearchTeaser({ publishAt, article }: UpcomingR
               <CountdownDigit value={timeLeft.minutes} label="Minutes" />
               <span className="text-xl font-bold text-slate-300 dark:text-slate-600 -mt-5">:</span>
               <CountdownDigit value={timeLeft.seconds} label="Seconds" />
+            </div>
+
+            {/* ── Set Reminder Section ────────────────────────── */}
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800/80">
+              <AnimatePresence mode="wait">
+                {reminderStatus === 'success' ? (
+                  <motion.div
+                    key="reminder-success"
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center gap-2 py-2"
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
+                      {reminderMessage}
+                    </p>
+                  </motion.div>
+                ) : !showReminderForm ? (
+                  <motion.button
+                    key="reminder-toggle"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => setShowReminderForm(true)}
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200/60 dark:border-indigo-800/40 text-indigo-700 dark:text-indigo-300 text-xs font-bold hover:bg-indigo-100 dark:hover:bg-indigo-950/50 transition-colors cursor-pointer"
+                  >
+                    <Bell className="w-3.5 h-3.5" />
+                    Set Reminder — Get notified when it&apos;s live
+                  </motion.button>
+                ) : (
+                  <motion.form
+                    key="reminder-form"
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    onSubmit={handleReminderSubmit}
+                    className="space-y-3"
+                  >
+                    <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300 font-medium">
+                      <Bell className="w-3.5 h-3.5 text-indigo-500" />
+                      We&apos;ll email you at 7:00 PM when the article goes live.
+                    </div>
+
+                    <div className="flex gap-2">
+                      <input
+                        type="email"
+                        value={reminderEmail}
+                        onChange={(e) => setReminderEmail(e.target.value)}
+                        placeholder="Enter your email address"
+                        required
+                        className="flex-1 px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition"
+                      />
+                      <button
+                        type="submit"
+                        disabled={reminderStatus === 'loading'}
+                        className="px-4 py-2 text-xs font-bold bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white rounded-lg shadow-sm transition disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-1.5 shrink-0"
+                      >
+                        {reminderStatus === 'loading' ? (
+                          <>
+                            <Loader2 className="w-3 h-3 animate-spin" />
+                            Saving…
+                          </>
+                        ) : (
+                          <>
+                            <Bell className="w-3 h-3" />
+                            Remind Me
+                          </>
+                        )}
+                      </button>
+                    </div>
+
+                    {reminderStatus === 'error' && (
+                      <p className="text-xs text-red-500 dark:text-red-400">
+                        {reminderMessage}
+                      </p>
+                    )}
+                  </motion.form>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* Meta footer */}
