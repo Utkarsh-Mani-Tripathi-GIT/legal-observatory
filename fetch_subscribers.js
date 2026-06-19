@@ -58,28 +58,23 @@ async function main() {
 
   // Header column widths
   const widths = {
-    email: 30,
-    subscribed_at: 25,
-    ip: 16,
-    device: 12,
-    country: 10,
-    city: 15,
-    timezone: 20
+    email: 40,
+    subscribed_at: 30
   };
 
   let content = '';
-  content += '='.repeat(135) + '\n';
+  content += '='.repeat(80) + '\n';
   content += ' NATIONAL LEGAL OBSERVATORY - NEWSLETTER SUBSCRIBERS LOG\n';
-  content += '='.repeat(135) + '\n';
+  content += '='.repeat(80) + '\n';
   
-  content += `| ${pad('EMAIL', widths.email)} | ${pad('SUBSCRIBED AT', widths.subscribed_at)} | ${pad('IP ADDRESS', widths.ip)} | ${pad('DEVICE/OS', widths.device)} | ${pad('COUNTRY', widths.country)} | ${pad('CITY', widths.city)} | ${pad('TIMEZONE', widths.timezone)} |\n`;
-  content += '-'.repeat(135) + '\n';
+  content += `| ${pad('EMAIL', widths.email)} | ${pad('SUBSCRIBED AT', widths.subscribed_at)} |\n`;
+  content += '-'.repeat(80) + '\n';
 
   subs.forEach(s => {
-    content += `| ${pad(s.email, widths.email)} | ${pad(s.subscribed_at, widths.subscribed_at)} | ${pad(s.ip, widths.ip)} | ${pad(s.device, widths.device)} | ${pad(s.country, widths.country)} | ${pad(s.city, widths.city)} | ${pad(s.timezone, widths.timezone)} |\n`;
+    content += `| ${pad(s.email, widths.email)} | ${pad(s.subscribed_at, widths.subscribed_at)} |\n`;
   });
   
-  content += '='.repeat(135) + '\n';
+  content += '='.repeat(80) + '\n';
   content += `Total Subscribers: ${subs.length}\n`;
   content += `Generated on: ${new Date().toLocaleString()}\n`;
 

@@ -314,24 +314,13 @@ export async function getPageViewCount(slug: string): Promise<number> {
 }
 
 // Newsletter subscription
-export async function subscribeToNewsletter(email: string, metadata: any = {}): Promise<{ success: boolean; message: string }> {
+export async function subscribeToNewsletter(email: string): Promise<{ success: boolean; message: string }> {
   if (isSupabaseConfigured()) {
     const supabase = getSupabaseClient() as any;
     if (supabase) {
       const { error } = await supabase
         .from('newsletter_subscribers')
-        .insert([{ 
-          email, 
-          subscribed_at: new Date().toISOString(),
-          ip: metadata.ip || null,
-          user_agent: metadata.userAgent || null,
-          device: metadata.device || null,
-          country: metadata.country || null,
-          region: metadata.region || null,
-          city: metadata.city || null,
-          timezone: metadata.timezone || null,
-          loc: metadata.loc || null
-        }]);
+        .insert([{ email, subscribed_at: new Date().toISOString() }]);
       
       if (error) {
         if (error.code === '23505') { // Postgres duplicate key error
@@ -348,4 +337,5 @@ export async function subscribeToNewsletter(email: string, metadata: any = {}): 
     message: 'Subscription successful (Local Mode: Simulating newsletter subscription for ' + email + ')',
   };
 }
+
 

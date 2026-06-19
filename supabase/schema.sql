@@ -69,16 +69,9 @@ CREATE POLICY "Allow admin write access to articles" ON articles FOR ALL USING (
 -- 4. Newsletter Subscribers Table
 CREATE TABLE IF NOT EXISTS newsletter_subscribers (
   email TEXT PRIMARY KEY,
-  subscribed_at TIMESTAMPTZ DEFAULT NOW(),
-  ip TEXT,
-  user_agent TEXT,
-  device TEXT,
-  country TEXT,
-  region TEXT,
-  city TEXT,
-  timezone TEXT,
-  loc TEXT
+  subscribed_at TIMESTAMPTZ DEFAULT NOW()
 );
+
 
 
 ALTER TABLE newsletter_subscribers ENABLE ROW LEVEL SECURITY;

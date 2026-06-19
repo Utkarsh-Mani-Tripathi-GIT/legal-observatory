@@ -16,31 +16,9 @@ export async function POST(request: Request) {
 
     const cleanEmail = email.trim().toLowerCase();
 
-    // Extract headers for metadata
-    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
-    const userAgent = request.headers.get('user-agent') || 'unknown';
-    const device = request.headers.get('sec-ch-ua-platform') || 'unknown';
-    const country = request.headers.get('x-vercel-ip-country') || 'unknown';
-    const region = request.headers.get('x-vercel-ip-country-region') || 'unknown';
-    const city = request.headers.get('x-vercel-ip-city') || 'unknown';
-    const timezone = request.headers.get('x-vercel-ip-timezone') || 'unknown';
-    const latitude = request.headers.get('x-vercel-ip-latitude');
-    const longitude = request.headers.get('x-vercel-ip-longitude');
-    const loc = latitude && longitude ? `${latitude},${longitude}` : 'unknown';
-
-    const metadata = {
-      ip,
-      userAgent,
-      device,
-      country,
-      region,
-      city,
-      timezone,
-      loc
-    };
-
     // Dispatch to DAL subscription logic (Supabase or local simulation)
-    const result = await subscribeToNewsletter(cleanEmail, metadata);
+    const result = await subscribeToNewsletter(cleanEmail);
+
 
 
     if (result.success) {
