@@ -65,7 +65,13 @@ export default function Header() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
           {/* Logo brand */}
-          <Link href="/" className="flex items-center space-x-2.5 group shrink-0">
+          <Link
+            href="/"
+            onClick={() => {
+              alert("This button takes you to the HOME PAGE");
+            }}
+            className="flex items-center space-x-2.5 group shrink-0"
+          >
             <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-900 dark:bg-[#1a1a1a] border border-yellow-500/40 dark:border-yellow-500/30 shadow-sm transition-transform group-hover:scale-105 shrink-0">
               <span className="font-serif font-black text-sm tracking-widest text-yellow-400 ml-[0.1em]">NLO</span>
             </div>
@@ -73,6 +79,7 @@ export default function Header() {
               NATIONAL LEGAL OBSERVATORY
             </span>
           </Link>
+
 
           {/* Desktop Navigation links */}
           <nav className="hidden md:flex space-x-8 items-center shrink-0">
