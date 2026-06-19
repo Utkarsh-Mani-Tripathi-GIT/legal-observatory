@@ -314,24 +314,24 @@ export async function getPageViewCount(slug: string): Promise<number> {
 }
 
 // Newsletter subscription
-export async function subscribeToNewsletter(email: string): Promise<{ success: boolean; message: string }> {
-  // Append subscriber to local subscribers.txt file
-  try {
-    const fs = require('fs');
-    const path = require('path');
-    const filePath = path.join(process.cwd(), 'subscribers.txt');
-    const timestamp = new Date().toISOString();
-    fs.appendFileSync(filePath, `${email} - ${timestamp}\n`);
-  } catch (fsError) {
-    console.error('Failed to write to subscribers.txt:', fsError);
-  }
-
+export async function subscribeToNewsletter(email: string, metadata: any = {}): Promise<{ success: boolean; message: string }> {
   if (isSupabaseConfigured()) {
     const supabase = getSupabaseClient() as any;
     if (supabase) {
       const { error } = await supabase
         .from('newsletter_subscribers')
-        .insert([{ email, subscribed_at: new Date().toISOString() }]);
+        .insert([{ 
+          email, 
+          subscribed_at: new Date().toISOString(),
+          ip: metadata.ip || null,
+          user_agent: metadata.userAgent || null,
+          device: metadata.device || null,
+          country: metadata.country || null,
+          region: metadata.region || null,
+          city: metadata.city || null,
+          timezone: metadata.timezone || null,
+          loc: metadata.loc || null
+        }]);
       
       if (error) {
         if (error.code === '23505') { // Postgres duplicate key error
