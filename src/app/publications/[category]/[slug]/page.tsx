@@ -281,10 +281,14 @@ export default async function ArticlePage(props: PageProps) {
           </div>
 
           {/* B. Author Details Widget */}
-          <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl space-y-4 text-center sm:text-left">
-            <h4 className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">
-              Publication Author
-            </h4>
+          <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl space-y-4">
+            <div className="flex items-center space-x-2 text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-850 pb-2">
+              <User className="w-4 h-4 text-indigo-500" />
+              <h4 className="text-xs font-bold uppercase tracking-wider">
+                Publication Author
+              </h4>
+            </div>
+
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3">
               {article.authorDetails?.avatar && (
                 <img
