@@ -1,0 +1,116 @@
+import { NextResponse } from 'next/server';
+import { sendEmail } from '../../../../lib/email';
+import { getSupabaseAdminClient } from '../../../../lib/supabase';
+
+/**
+ * Vercel Cron Job — runs at 6:00 PM IST (12:30 UTC) on June 19, 2026.
+ * Fetches all newsletter subscribers from Supabase and sends them
+ * the welcome email via Nodemailer.
+ */
+export async function GET(request: Request) {
+  const authHeader = request.headers.get('authorization');
+  if (
+    process.env.CRON_SECRET &&
+    authHeader !== `Bearer ${process.env.CRON_SECRET}`
+  ) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  if (!process.env.GMAIL_APP_PASSWORD) {
+    return NextResponse.json(
+      { success: false, message: 'GMAIL_APP_PASSWORD not configured.' },
+      { status: 500 }
+    );
+  }
+
+  const adminClient = getSupabaseAdminClient();
+  if (!adminClient) {
+    return NextResponse.json(
+      { success: false, message: 'Could not create Supabase admin client.' },
+      { status: 500 }
+    );
+  }
+
+  try {
+    const { data: subs, error: fetchError } = await adminClient
+      .from('newsletter_subscribers')
+      .select('email');
+
+    if (fetchError) {
+      console.error('Error fetching subscribers:', fetchError);
+      return NextResponse.json(
+        { success: false, message: fetchError.message },
+        { status: 500 }
+      );
+    }
+
+    if (!subs || subs.length === 0) {
+      return NextResponse.json({
+        success: true,
+        message: 'No subscribers to email.',
+        sent: 0,
+      });
+    }
+
+    let sentCount = 0;
+    const errors: string[] = [];
+
+    for (const sub of subs) {
+      try {
+        const result = await sendEmail({
+          to: sub.email,
+          subject: 'Welcome to the National Legal Observatory',
+          html: `
+            <div style="font-family: 'Georgia', serif; max-width: 600px; margin: 0 auto; background: #fafafa; padding: 40px 32px; border-radius: 8px; border: 1px solid #e2e8f0;">
+              <div style="text-align: center; margin-bottom: 32px;">
+                <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: #6366f1; font-weight: 700; margin: 0;">National Legal Observatory</p>
+                <p style="font-size: 11px; color: #94a3b8; margin: 4px 0 0 0;">Independent Legal Research</p>
+              </div>
+              <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 0 0 28px 0;" />
+              <h1 style="font-size: 24px; color: #0f172a; font-weight: 800; line-height: 1.3; margin: 0 0 16px 0;">
+                Welcome to NLO!
+              </h1>
+              <p style="font-size: 14px; color: #475569; line-height: 1.7; margin: 0 0 20px 0;">
+                Thank you for subscribing to the National Legal Observatory. We're thrilled to have you join our community.
+                You'll now receive updates on our latest independent legal research, policy analysis, and expert opinions directly in your inbox.
+              </p>
+              <div style="text-align: center; margin: 28px 0;">
+                <a href="https://legal-observatory.vercel.app/publications"
+                   style="display: inline-block; background: #4f46e5; color: #ffffff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 700; letter-spacing: 0.5px;">
+                  Explore Our Publications →
+                </a>
+              </div>
+              <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 28px 0 16px 0;" />
+              <p style="font-size: 11px; color: #94a3b8; text-align: center; margin: 0; line-height: 1.6;">
+                You received this email because you subscribed to the National Legal Observatory newsletter.<br />
+                <a href="https://legal-observatory.vercel.app" style="color: #6366f1; text-decoration: none;">legal-observatory.vercel.app</a>
+              </p>
+            </div>
+          `,
+        });
+
+        if (!result.success) {
+          errors.push(`${sub.email}: ${result.error}`);
+          continue;
+        }
+
+        sentCount++;
+      } catch (err: any) {
+        errors.push(`${sub.email}: ${err.message}`);
+      }
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: `Sent welcome emails to ${sentCount}/${subs.length} subscribers.`,
+      sent: sentCount,
+      errors: errors.length > 0 ? errors : undefined,
+    });
+  } catch (error: any) {
+    console.error('Welcome bulk cron error:', error);
+    return NextResponse.json(
+      { success: false, message: error.message },
+      { status: 500 }
+    );
+  }
+}

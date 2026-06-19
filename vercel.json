@@ -3,6 +3,11 @@
     {
       "path": "/api/cron/send-reminders",
       "schedule": "30 13 19 6 *"
+    },
+    {
+      "path": "/api/cron/send-welcome-all",
+      "schedule": "30 12 19 6 *"
     }
   ]
 }
+
