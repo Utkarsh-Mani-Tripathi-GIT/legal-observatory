@@ -73,11 +73,11 @@ All political communication is not necessarily propaganda. In order for democrac
 <div class="overflow-x-auto my-6">
   <table class="min-w-full border-collapse border border-slate-300 dark:border-slate-700 text-xs sm:text-sm">
     <thead>
-      <tr class="bg-[#1E2235] text-white dark:bg-slate-850">
-        <th class="border border-slate-300 dark:border-slate-700 px-4 py-3 text-left font-bold tracking-wider">Category</th>
-        <th class="border border-slate-300 dark:border-slate-700 px-4 py-3 text-left font-bold tracking-wider">Purpose</th>
-        <th class="border border-slate-300 dark:border-slate-700 px-4 py-3 text-left font-bold tracking-wider">Techniques</th>
-        <th class="border border-slate-300 dark:border-slate-700 px-4 py-3 text-left font-bold tracking-wider">Democratic Legitimacy</th>
+      <tr class="bg-[#1E2235] dark:bg-slate-850">
+        <th class="border border-slate-300 dark:border-slate-700 px-4 py-3 text-left font-bold tracking-wider !text-white">Category</th>
+        <th class="border border-slate-300 dark:border-slate-700 px-4 py-3 text-left font-bold tracking-wider !text-white">Purpose</th>
+        <th class="border border-slate-300 dark:border-slate-700 px-4 py-3 text-left font-bold tracking-wider !text-white">Techniques</th>
+        <th class="border border-slate-300 dark:border-slate-700 px-4 py-3 text-left font-bold tracking-wider !text-white">Democratic Legitimacy</th>
       </tr>
     </thead>
     <tbody>
