@@ -81,7 +81,7 @@ All political communication is not necessarily propaganda. In order for democrac
       </tr>
     </thead>
     <tbody>
-      <tr class="bg-[#E8F0FE] dark:bg-indigo-950/20 text-slate-900 dark:text-slate-100">
+      <tr class="bg-[#E8F0FE] dark:bg-blue-950/30 text-slate-900 dark:text-slate-100">
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-semibold">
           <span class="underline decoration-dotted cursor-help" title="Persuasion attempts to enlighten the audience and win their assent. It entails the presentation of evidence and inviting investigation.">Legitimate Persuasion</span>
         </td>
