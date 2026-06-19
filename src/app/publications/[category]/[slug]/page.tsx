@@ -275,7 +275,12 @@ export default async function ArticlePage(props: PageProps) {
         {/* Right Column: Floating Sidebar */}
         <aside className="lg:col-span-1 space-y-8 lg:sticky lg:top-24">
           
-          {/* A. Author Details Widget */}
+          {/* A. Dynamic Table of Contents Widget */}
+          <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl">
+            <TableOfContents />
+          </div>
+
+          {/* B. Author Details Widget */}
           <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl space-y-4 text-center sm:text-left">
             <h4 className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">
               Publication Author
@@ -341,13 +346,9 @@ export default async function ArticlePage(props: PageProps) {
             </div>
           )}
 
-          {/* B. Citation Clipboard Widget (Client-side interactive modal) */}
+          {/* C. Citation Clipboard Widget (Client-side interactive modal) */}
           <CiteSection article={article} />
 
-          {/* C. Dynamic Table of Contents Widget */}
-          <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl">
-            <TableOfContents />
-          </div>
 
         </aside>
       </div>
