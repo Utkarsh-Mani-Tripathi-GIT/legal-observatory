@@ -66,7 +66,13 @@ A citizen has to be aware of these techniques. Otherwise, he or she is vulnerabl
 
 ## Persuasion, Political Messaging, and Propaganda
 
-All political communication is not necessarily propaganda. In order for democracy to function properly, there has to be healthy debate among the populace, political figures appealing to their constituents through logical persuasion. The task is discerning the point at which this persuasive dialogue crosses the line into manipulative propaganda.
+All political communication is not necessarily propaganda. In order for democracy to function properly, there has to be healthy debate among the populace, political figures appealing to their constituents through logical persuasion. The task is discerning the point at which this persuasive dialogue crosses the line into manipulative propaganda. Below is an analytical model designed to delineate the two:
+
+| Category | Purpose | Techniques | Democratic Legitimacy |
+| :--- | :--- | :--- | :--- |
+| **Legitimate Persuasion** | To change minds through evidence and reasoned argument | Logic, evidence, public debate, transparent advocacy | High — foundational to democratic discourse |
+| **Political Messaging** | To present a political position persuasively | Framing, branding, simplified slogans, targeted outreach | Moderate — acceptable within limits, but risks manipulation |
+| **Propaganda** | To engineer consent by bypassing rational evaluation | Emotional manipulation, dehumanisation, selective truth, repetition, fear | Low — fundamentally incompatible with informed democratic participation |
 
 This is not a hard-and-fast demarcation, as there is significant overlap between these categories in actual practice. An advertisement can start out as persuasion and slowly become propaganda. The ethical issue here is not whether there has been an attempt to use propaganda tactics, as some kind of emotion is unavoidable and even necessary in political communication, but rather whether these tactics have been used to facilitate or inhibit citizen decision-making based on rational assessment.
 
@@ -120,9 +126,11 @@ It should be emphasized in relation to the period of the Emergency that besides 
 
 The move towards economic liberalization in 1991 demanded a complete restructuring of the nation's economic story line from the Nehruvian model of economic development through state intervention to one which would include market integration and private entrepreneurship. This was not just a shift in policy, but also a narrative revolution that had to contend with long-held public perceptions about economic equity, sovereignty, and the state.
 
+Economic liberalization was achieved through many channels including media reports on economic crisis to show how the old narrative had been failing, the creation of a new entrepreneurial narrative, the process of normalizing consumerism and aspirations as democratic ideals, and redefining economic growth as the key measure of national prosperity.
+
 ### Digital-Age Political Communication
 
-Political communication in India today has been completely transformed by the digital revolution. The tools, methods, and scale are entirely different from those that came before them.
+Political communication in India today has been completely transformed by the digital revolution. The tools, methods, and scale are entirely different from those that came before them. The next part looks at how this transformation has taken place.
 
 ## The Social Media Revolution
 
@@ -144,7 +152,7 @@ Another aspect that should be discussed in regards to filter bubbles is the soci
 
 The meme is an emerging power tool for political narrative construction in the age of digital communications. Combining visuals and texts in a highly shareable form, memes compress politically complex messages into easily understandable bits that can be digested instantly and shared instantly. The seemingly spontaneous nature of memes, combined with their humor, also renders them more resistant to the kind of critical evaluation that may be applied to more formal forms of political communication.
 
-Deepfakes and other kinds of AI-generated content constitute yet another frontier, and a qualitatively different one. The ability to produce credible audiovisual content with the representation of actual persons engaged in actions they have never undertaken or utterances they have never made is bound to subvert the evidential basis of rational political judgment.
+Deepfakes and other kinds of AI-generated content constitute yet another frontier, and a qualitatively different one. The ability to produce credible audiovisual content with the representation of actual persons engaged in actions they have never undertaken or utterances they have never made is bound to subvert the evidential basis of rational political judgment. Inability to verify video evidence is bound to make the information space highly conducive to narrative construction.
 
 And perhaps above all else, the digital revolution has decentralized propaganda operations. The ability to create and disseminate political narratives at will has ceased to be the monopoly of states, political parties, and media organizations. This ability is now accessible to anybody with even a marginal level of technological skills and a social media account.
 
@@ -156,7 +164,7 @@ The Indian Constitution can be considered to have both the best justification fo
 
 Right to freedom of speech and expression is provided to every citizen under Article 19(1)(a) of the Constitution. The Supreme Court of India has read this right broadly enough to classify political speech as belonging to the highest level in the hierarchy of forms of expression that enjoy the right. According to the Indian Supreme Court, there is a necessary flow of political ideas, however controversial they may be, for democratic governance.
 
-This broad reading of the right poses an important constitutional obstacle to any regulation of propaganda. A legal framework that tried to bar political expression on the ground of its being misleading, manipulative, and propagandistic would pose a problem of constitutional law.
+This broad reading of the right poses an important constitutional obstacle to any regulation of propaganda. A legal framework that tried to bar political expression on the ground of its being misleading, manipulative, and propagandistic would pose a problem of constitutional law. The very difficulty of determining what qualifies as propaganda and the risk that the determination will reflect political advantage makes this point clear.
 
 ### Reasonable Restrictions Under Article 19(2)
 
@@ -168,11 +176,13 @@ These reasons give a limited scope of regulating some extreme cases of political
 
 A number of important cases concerning the balance between freedom of speech, political communication, and democratic integrity have been decided by the Supreme Court. These cases include those involving restrictions on electoral speech, duties of the press, the rights of the citizens to information, and the extent of governmental intervention into public discourse. All of these cases have contributed to the development of a judicial doctrine which is generally very supportive of political expression, although acknowledging that certain limitations on it are constitutional.
 
+The Court's consideration of the issues related to the integrity of the elections, including such issues as political financing, campaign conduct, and religious appeal during the elections, testifies to its understanding of the fact that some regulation of the information environment where citizens make their political decisions should be considered necessary for the functioning of a healthy democracy.
+
 However, the Court has always rejected approaches giving governments discretion regarding what kinds of political expression are acceptable and what are not, as they are too likely to result in the restriction of legitimate dissent under the pretext of manipulation.
 
 ## When Does Propaganda Become Dangerous?
 
-Not all forms of propaganda pose an equal danger to democracy. It has been a common practice for political leaders to portray events in a favourable light. However, the problem arises when propaganda shifts from persuasion to manipulation to such an extent that it renders the citizens incapable of making independent and informed political choices.
+Not all forms of propaganda pose an equal danger to democracy. It has been a common practice for political leaders to portray events in a favourable light. However, the problem arises when propaganda shifts from persuasion to manipulation to such an extent that it renders the citizens incapable of making independent and informed political choices. Another danger lies in the creation of social conditions that pose a threat to the very existence of democracy.
 
 The following analytical model highlights these dangers in order to detect the signs of dangerous propaganda.
 
@@ -190,11 +200,11 @@ A well-functioning democracy needs exposure to different views and an ability to
 
 ### Emotional Polarisation
 
-Propaganda that fosters an extreme antagonistic relationship between communities within a polity, where politics is not seen as competition but as an existential confrontation of irreconcilable enemies, poses a threat to the ability of democracies to compromise and coexist in order to be self-governing.
+Propaganda that fosters an extreme antagonistic relationship between communities within a polity, where politics is not seen as competition but as an existential confrontation of irreconcilable enemies, poses a threat to the ability of democracies to compromise and coexist in order to be self-governing. It is when citizens see their political opponents as enemies who should be destroyed that democracy becomes strained.
 
 ### Fear-Based Governance
 
-If propaganda is not merely utilized for winning elections, but for creating states of permanent emergency that provide justification for the suspension of the democratic process of accountability, then this form of propaganda has entered the realm of authoritarian governance and no longer functions in a democratic context.
+If propaganda is not merely utilized for winning elections, but for creating states of permanent emergency that provide justification for the suspension of the democratic process of accountability, then this form of propaganda has entered the realm of authoritarian governance and no longer functions in a democratic context. The idea that exceptional times require exceptional measures, constantly invoked and never solved, is one of the surest indications of such propaganda.
 
 ## Building Democratic Resilience
 
