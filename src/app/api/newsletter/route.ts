@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server';
 import { subscribeToNewsletter } from '../../../lib/content';
-import { Resend } from 'resend';
-
-const apiKey = process.env.RESEND_API_KEY || 're_placeholder_for_build';
-const resend = new Resend(apiKey);
+import { sendEmail } from '../../../lib/email';
 
 export async function POST(request: Request) {
   try {
@@ -19,14 +16,11 @@ export async function POST(request: Request) {
     // Dispatch to DAL subscription logic (Supabase or local simulation)
     const result = await subscribeToNewsletter(cleanEmail);
 
-
-
     if (result.success) {
       // Send welcome email
-      if (process.env.RESEND_API_KEY && result.message !== 'You have already subscribed to our newsletter.') {
+      if (process.env.GMAIL_APP_PASSWORD && result.message !== 'You have already subscribed to our newsletter.') {
         try {
-          await resend.emails.send({
-            from: 'National Legal Observatory <onboarding@resend.dev>',
+          await sendEmail({
             to: cleanEmail,
             subject: 'Welcome to the National Legal Observatory',
             html: `
@@ -72,3 +66,4 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, message: 'Internal server error.' }, { status: 500 });
   }
 }
+

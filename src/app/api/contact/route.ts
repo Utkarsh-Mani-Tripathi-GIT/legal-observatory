@@ -1,16 +1,12 @@
 import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
-
-// Initialize Resend lazily or with a fallback placeholder for build/compilation
-const apiKey = process.env.RESEND_API_KEY || 're_placeholder_for_build';
-const resend = new Resend(apiKey);
+import { sendEmail } from '../../../lib/email';
 
 export async function POST(request: Request) {
   try {
-    if (!process.env.RESEND_API_KEY) {
-      console.warn('RESEND_API_KEY environment variable is not configured.');
+    if (!process.env.GMAIL_APP_PASSWORD) {
+      console.warn('GMAIL_APP_PASSWORD environment variable is not configured.');
       return NextResponse.json(
-        { success: false, message: 'Email service is not configured. Please set the RESEND_API_KEY env variable.' },
+        { success: false, message: 'Email service is not configured. Please set the GMAIL_APP_PASSWORD env variable.' },
         { status: 500 }
       );
     }
@@ -24,10 +20,10 @@ export async function POST(request: Request) {
       );
     }
 
-    // Send email via Resend
-    const { data, error } = await resend.emails.send({
-      from: 'NLO Portal <onboarding@resend.dev>',
+    // Send email via Nodemailer
+    const result = await sendEmail({
       to: 'nationallegalobservatory@gmail.com',
+      replyTo: email,
       subject: `NLO Query: ${subject.toUpperCase()} - ${name}`,
       html: `
         <h3>New Inquiry from National Legal Observatory Portal</h3>
@@ -41,14 +37,14 @@ export async function POST(request: Request) {
       `,
     });
 
-    if (error) {
-      console.error('Resend email error:', error);
-      return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    if (!result.success) {
+      return NextResponse.json({ success: false, message: result.error }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true, data });
+    return NextResponse.json({ success: true, message: 'Inquiry sent successfully.' });
   } catch (error: any) {
     console.error('Contact API error:', error);
     return NextResponse.json({ success: false, message: error.message || 'Internal server error.' }, { status: 500 });
   }
 }
+

@@ -1,14 +1,11 @@
 import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import { sendEmail } from '../../../../lib/email';
 import { getSupabaseClient, isSupabaseConfigured } from '../../../../lib/supabase';
-
-const apiKey = process.env.RESEND_API_KEY || 're_placeholder_for_build';
-const resend = new Resend(apiKey);
 
 /**
  * Vercel Cron Job — runs at 7:00 PM IST (13:30 UTC) on June 19, 2026.
  * Fetches all unsent article reminders from Supabase, sends each a
- * notification email via Resend, and marks them as sent.
+ * notification email via Nodemailer, and marks them as sent.
  */
 export async function GET(request: Request) {
   // Verify the request is from Vercel Cron (in production)
@@ -20,9 +17,9 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  if (!process.env.RESEND_API_KEY) {
+  if (!process.env.GMAIL_APP_PASSWORD) {
     return NextResponse.json(
-      { success: false, message: 'RESEND_API_KEY not configured.' },
+      { success: false, message: 'GMAIL_APP_PASSWORD not configured.' },
       { status: 500 }
     );
   }
@@ -70,8 +67,7 @@ export async function GET(request: Request) {
 
     for (const reminder of reminders) {
       try {
-        const { error: emailError } = await resend.emails.send({
-          from: 'National Legal Observatory <onboarding@resend.dev>',
+        const result = await sendEmail({
           to: reminder.email,
           subject: '🔬 New Research Article Now Live — National Legal Observatory',
           html: `
@@ -114,8 +110,8 @@ export async function GET(request: Request) {
           `,
         });
 
-        if (emailError) {
-          errors.push(`${reminder.email}: ${emailError.message}`);
+        if (!result.success) {
+          errors.push(`${reminder.email}: ${result.error}`);
           continue;
         }
 
@@ -145,3 +141,4 @@ export async function GET(request: Request) {
     );
   }
 }
+
