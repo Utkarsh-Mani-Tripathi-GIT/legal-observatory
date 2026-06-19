@@ -82,24 +82,36 @@ All political communication is not necessarily propaganda. In order for democrac
     </thead>
     <tbody>
       <tr class="bg-[#E8F0FE] dark:bg-blue-950/30 text-slate-900 dark:text-slate-100">
-        <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-semibold">
-          <span class="underline decoration-dotted cursor-help" title="Persuasion attempts to enlighten the audience and win their assent. It entails the presentation of evidence and inviting investigation.">Legitimate Persuasion</span>
+        <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-semibold relative group cursor-help select-none">
+          <span class="underline decoration-dotted">Legitimate Persuasion</span>
+          <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 bg-slate-950 dark:bg-slate-900 text-white dark:text-slate-100 text-xs rounded-lg shadow-xl border border-slate-800 dark:border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity duration-75 z-50 leading-normal font-normal">
+            Persuasion attempts to enlighten the audience and win their assent. It entails the presentation of evidence and inviting investigation.
+            <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-950 dark:border-t-slate-900"></div>
+          </div>
         </td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3">To change minds through evidence and reasoned argument</td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3">Logic, evidence, public debate, transparent advocacy</td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-medium">High — foundational to democratic discourse</td>
       </tr>
       <tr class="bg-[#FFF8E1] dark:bg-amber-950/10 text-slate-900 dark:text-slate-100">
-        <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-semibold">
-          <span class="underline decoration-dotted cursor-help" title="Political messaging aims to present a political position persuasively. It is acceptable within limits but risks manipulation.">Political Messaging</span>
+        <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-semibold relative group cursor-help select-none">
+          <span class="underline decoration-dotted">Political Messaging</span>
+          <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 bg-slate-950 dark:bg-slate-900 text-white dark:text-slate-100 text-xs rounded-lg shadow-xl border border-slate-800 dark:border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity duration-75 z-50 leading-normal font-normal">
+            Political messaging aims to present a political position persuasively. It is acceptable within limits but risks manipulation.
+            <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-950 dark:border-t-slate-900"></div>
+          </div>
         </td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3">To present a political position persuasively</td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3">Framing, branding, simplified slogans, targeted outreach</td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-medium">Moderate — acceptable within limits, but risks manipulation</td>
       </tr>
       <tr class="bg-[#FFEBEE] dark:bg-rose-950/10 text-slate-900 dark:text-slate-100">
-        <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-semibold">
-          <span class="underline decoration-dotted cursor-help" title="Propaganda tries to sidestep the reasoning abilities of the citizenry, manipulating emotions to obviate investigation and bypass rational evaluation.">Propaganda</span>
+        <td class="border border-slate-300 dark:border-slate-700 px-4 py-3 font-semibold relative group cursor-help select-none">
+          <span class="underline decoration-dotted">Propaganda</span>
+          <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 bg-slate-950 dark:bg-slate-900 text-white dark:text-slate-100 text-xs rounded-lg shadow-xl border border-slate-800 dark:border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity duration-75 z-50 leading-normal font-normal">
+            Propaganda tries to sidestep the reasoning abilities of the citizenry, manipulating emotions to obviate investigation and bypass rational evaluation.
+            <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-950 dark:border-t-slate-900"></div>
+          </div>
         </td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3">To engineer consent by bypassing rational evaluation</td>
         <td class="border border-slate-300 dark:border-slate-700 px-4 py-3">Emotional manipulation, dehumanisation, selective truth, repetition, fear</td>
