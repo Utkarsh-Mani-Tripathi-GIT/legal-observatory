@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { List } from 'lucide-react';
 
 interface HeadingItem {
@@ -12,6 +12,7 @@ interface HeadingItem {
 export default function TableOfContents() {
   const [headings, setHeadings] = useState<HeadingItem[]>([]);
   const [activeId, setActiveId] = useState<string>('');
+  const containerRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     // Select all H2 and H3 elements inside the article body
@@ -65,6 +66,18 @@ export default function TableOfContents() {
     };
   }, []);
 
+  // Sync scroll of the Table of Contents container to keep active item visible
+  useEffect(() => {
+    if (!activeId || !containerRef.current) return;
+    const activeLink = containerRef.current.querySelector(`a[href="#${activeId}"]`);
+    if (activeLink) {
+      activeLink.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+      });
+    }
+  }, [activeId]);
+
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     const target = document.getElementById(id);
@@ -96,7 +109,7 @@ export default function TableOfContents() {
           Table of Contents
         </h4>
       </div>
-      <ul className="space-y-2 text-xs max-h-[350px] overflow-y-auto pr-2">
+      <ul ref={containerRef} className="space-y-2 text-xs max-h-[350px] overflow-y-auto pr-2">
         {headings.map((heading) => (
           <li
             key={heading.id}
