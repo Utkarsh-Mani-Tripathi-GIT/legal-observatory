@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { subscribeToNewsletter } from '../../../lib/content';
 import { sendEmail } from '../../../lib/email';
+import { getSupabaseAdminClient } from '../../../lib/supabase';
 
 export async function POST(request: Request) {
   try {
@@ -17,7 +18,7 @@ export async function POST(request: Request) {
     const result = await subscribeToNewsletter(cleanEmail);
 
     if (result.success) {
-      // Send welcome email
+      // Send welcome email to subscriber
       if (process.env.GMAIL_APP_PASSWORD && result.message !== 'You have already subscribed to our newsletter.') {
         try {
           await sendEmail({
@@ -53,7 +54,60 @@ export async function POST(request: Request) {
           });
         } catch (emailError) {
           console.error('Failed to send welcome email:', emailError);
-          // We still return success since the subscription itself was successful
+        }
+
+        // Send signup notification + updated subscriber list to NLO itself
+        try {
+          const adminClient = getSupabaseAdminClient();
+          let subscribersHtml = '';
+
+          if (adminClient) {
+            const { data: subs } = await adminClient
+              .from('newsletter_subscribers')
+              .select('email, subscribed_at')
+              .order('subscribed_at', { ascending: false });
+
+            if (subs && subs.length > 0) {
+              subscribersHtml = `
+                <table style="width: 100%; border-collapse: collapse; margin-top: 16px; font-family: sans-serif; font-size: 13px;">
+                  <thead>
+                    <tr style="background: #f1f5f9; text-align: left;">
+                      <th style="padding: 8px; border: 1px solid #e2e8f0;">Email</th>
+                      <th style="padding: 8px; border: 1px solid #e2e8f0;">Subscribed At</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${subs.map(s => `
+                      <tr>
+                        <td style="padding: 8px; border: 1px solid #e2e8f0;"><strong>${s.email}</strong></td>
+                        <td style="padding: 8px; border: 1px solid #e2e8f0; color: #64748b;">${new Date(s.subscribed_at).toLocaleString()}</td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              `;
+            }
+          }
+
+          await sendEmail({
+            to: 'nationallegalobservatory@gmail.com',
+            subject: `🔔 New Subscriber Signup: ${cleanEmail}`,
+            html: `
+              <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 8px; background: #ffffff;">
+                <h2 style="color: #0f172a; margin-top: 0;">New Newsletter Subscription</h2>
+                <p style="font-size: 14px; color: #334155;">
+                  <strong>${cleanEmail}</strong> has just signed up for the National Legal Observatory newsletter.
+                </p>
+                
+                <h3 style="margin-top: 24px; color: #0f172a; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+                  Updated Subscribers List
+                </h3>
+                ${subscribersHtml || `<p style="color: #64748b; font-size: 14px;">Total subscribers: 1 (dynamic list unavailable)</p>`}
+              </div>
+            `,
+          });
+        } catch (adminEmailError) {
+          console.error('Failed to send admin notification email:', adminEmailError);
         }
       }
 
@@ -66,4 +120,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, message: 'Internal server error.' }, { status: 500 });
   }
 }
+
 
