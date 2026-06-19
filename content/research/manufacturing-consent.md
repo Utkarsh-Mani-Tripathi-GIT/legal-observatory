@@ -20,7 +20,7 @@ references:
 
 **National Legal Observatory Research Desk — June 2026**
 
-## Introduction
+## SECTION I: INTRODUCTION
 
 Democratic systems are not limited merely to constitution-making, courts, and legislatures. Democratic systems are also founded on stories. Stories told by a nation about its collective identity, its past, its opponents, and its destination have an impact on politics as significant as law and judicial decisions. Legislation is enacted through parliaments; consent, however, is fabricated between the individual and the stories they consume.
 
@@ -36,7 +36,7 @@ In this context, this article explores this competition. It does not take sides 
 
 This quote from 1928 resonates even more today than it did when it was written. The methods may have changed. The scale of influence may be much higher. But its central principle—that public opinion is engineered and not just discovered—has not lost its relevance.
 
-## What Is Propaganda?
+## SECTION II: WHAT IS PROPAGANDA?
 
 The term propaganda is one which is associated with much of history. There are visions of war-time posters, dictators shouting over loudspeakers, and all that which comes with the manipulations of propaganda. However, it is a misconception to think of propaganda solely in terms of its past. In truth, modern propaganda is far more sophisticated and harder to spot than any propaganda from the last century.
 
@@ -64,7 +64,7 @@ The techniques used in the creation of propaganda include such methods as:
 
 A citizen has to be aware of these techniques. Otherwise, he or she is vulnerable to narrative manipulations.
 
-## Persuasion, Political Messaging, and Propaganda
+## SECTION III: PERSUASION, POLITICAL MESSAGING, AND PROPAGANDA
 
 All political communication is not necessarily propaganda. In order for democracy to function properly, there has to be healthy debate among the populace, political figures appealing to their constituents through logical persuasion. The task is discerning the point at which this persuasive dialogue crosses the line into manipulative propaganda. Below is an analytical model designed to delineate the two:
 
@@ -78,7 +78,7 @@ This is not a hard-and-fast demarcation, as there is significant overlap between
 
 The key is the role played by rational agency. Persuasion attempts to enlighten the audience and win their assent. Propaganda tries to sidestep the reasoning abilities of the citizenry. The former entails the presentation of evidence and inviting investigation; the latter involves the manipulation of emotions to obviate such investigation.
 
-## The Architecture of Political Narratives
+## SECTION IV: THE ARCHITECTURE OF POLITICAL NARRATIVES
 
 Political stories are not just thrown together haphazardly. Instead, they are constructed with a certain set of principles that make use of certain predictably human tendencies. Knowing this process is the key to creating resistance to it.
 
@@ -106,7 +106,7 @@ The more intricate case of narrative engineering comes into play when it comes t
 
 > *Writing in Public Opinion in 1922, Walter Lippmann argued that the citizens of any polity must inevitably construct an interpretation of reality that is a simplification of the real state of affairs; a constructed version of reality that he called the "pseudo-environment." Those who are able to construct such a pseudo-environment will have great influence on democratic processes.*
 
-## Manufacturing Consent in Independent India
+## SECTION V: MANUFACTURING CONSENT IN INDEPENDENT INDIA
 
 Narrative construction has been part and parcel of Indian history post-Independence and has been used by different governments at different times, based on their ideologies and different historical periods. It should not be considered that the examples mentioned below are meant for any kind of political criticism; rather, they have been given only to understand how narrative construction takes place in India's democracy.
 
@@ -132,7 +132,7 @@ Economic liberalization was achieved through many channels including media repor
 
 Political communication in India today has been completely transformed by the digital revolution. The tools, methods, and scale are entirely different from those that came before them. The next part looks at how this transformation has taken place.
 
-## The Social Media Revolution
+## SECTION VI: THE SOCIAL MEDIA REVOLUTION
 
 Modern political propaganda operates in a fundamentally different environment from its predecessors. The shift from broadcast media to networked digital communication has transformed propaganda from a top-down, centrally controlled enterprise into a distributed, participatory, and algorithmically amplified phenomenon.
 
@@ -156,7 +156,7 @@ Deepfakes and other kinds of AI-generated content constitute yet another frontie
 
 And perhaps above all else, the digital revolution has decentralized propaganda operations. The ability to create and disseminate political narratives at will has ceased to be the monopoly of states, political parties, and media organizations. This ability is now accessible to anybody with even a marginal level of technological skills and a social media account.
 
-## The Constitutional Challenge
+## SECTION VII: THE CONSTITUTIONAL CHALLENGE
 
 The Indian Constitution can be considered to have both the best justification for not regulating the propaganda as well as the greatest restriction on any regulation that may come up. The difficulty lies in trying to balance the freedom of political speech with the safety of the electoral process.
 
@@ -180,7 +180,7 @@ The Court's consideration of the issues related to the integrity of the election
 
 However, the Court has always rejected approaches giving governments discretion regarding what kinds of political expression are acceptable and what are not, as they are too likely to result in the restriction of legitimate dissent under the pretext of manipulation.
 
-## When Does Propaganda Become Dangerous?
+## SECTION VIII: WHEN DOES PROPAGANDA BECOME DANGEROUS?
 
 Not all forms of propaganda pose an equal danger to democracy. It has been a common practice for political leaders to portray events in a favourable light. However, the problem arises when propaganda shifts from persuasion to manipulation to such an extent that it renders the citizens incapable of making independent and informed political choices. Another danger lies in the creation of social conditions that pose a threat to the very existence of democracy.
 
@@ -206,7 +206,7 @@ Propaganda that fosters an extreme antagonistic relationship between communities
 
 If propaganda is not merely utilized for winning elections, but for creating states of permanent emergency that provide justification for the suspension of the democratic process of accountability, then this form of propaganda has entered the realm of authoritarian governance and no longer functions in a democratic context. The idea that exceptional times require exceptional measures, constantly invoked and never solved, is one of the surest indications of such propaganda.
 
-## Building Democratic Resilience
+## SECTION IX: BUILDING DEMOCRATIC RESILIENCE
 
 Given that the fundamental issue lies in the vulnerability of citizens to manipulative narratives and taking into account the restrictions imposed by the constitution on how far the regulatory framework can control propaganda, then the key responses would be those that aim at enhancing the resilience of both citizens and institutions to manipulation.
 
@@ -232,7 +232,7 @@ Providing protection to such institutions via legal safeguards of press freedom,
 
 Propaganda works in secrecy. Systems that make political figures reveal where they have sourced their money from, the roots of their message, and how far their message reaches will minimize the possibility of manipulating narratives secretly. Financial disclosure, transparency in political advertisements, and an effective Freedom of Information system all help to create such a system.
 
-## Conclusion
+## SECTION X: CONCLUSION
 
 Manufacturing consent is not an ailment of democracy failure; rather, it is a continuous process of politics in any polity where the political elites are responsive to public opinion. Rather than questioning the inevitability of the political narratives being engineered by the powers that be, the issue is whether the citizenry, the institutions, and the law can see through and resist such processes of narrative manipulation.
 

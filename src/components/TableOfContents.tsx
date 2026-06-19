@@ -96,7 +96,7 @@ export default function TableOfContents() {
           Table of Contents
         </h4>
       </div>
-      <ul className="space-y-2 text-xs">
+      <ul className="space-y-2 text-xs max-h-[350px] overflow-y-auto pr-2">
         {headings.map((heading) => (
           <li
             key={heading.id}
