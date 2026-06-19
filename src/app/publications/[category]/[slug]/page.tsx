@@ -5,6 +5,7 @@ import { getArticleBySlug, getRelatedArticles, getPageViewCount } from '../../..
 import TableOfContents from '../../../../components/TableOfContents';
 import ArticleCard from '../../../../components/ArticleCard';
 import HighlightMention from '../../../../components/HighlightMention';
+import ReadingProgressBar from '../../../../components/ReadingProgressBar';
 import Link from 'next/link';
 import { Calendar, Clock, User, Landmark, Quote, ArrowLeft, Eye, Share2, FileText } from 'lucide-react';
 import ViewTracker from './ViewTracker';
@@ -88,6 +89,8 @@ export default async function ArticlePage(props: PageProps) {
     <div className="space-y-10 py-4">
       {/* Client-side View Count Tracker */}
       <ViewTracker slug={article.slug} />
+      {/* Reading Progress Indicator */}
+      <ReadingProgressBar />
       {/* Ctrl+F style highlight — activated by ?highlight= URL param from search */}
       <Suspense fallback={null}>
         <HighlightMention />
@@ -123,7 +126,10 @@ export default async function ArticlePage(props: PageProps) {
           ))}
         </div>
 
-        <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight text-slate-900 dark:text-white">
+        <h1 
+          className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight text-slate-900 dark:text-white"
+          style={{ viewTransitionName: `article-title-${article.slug}` } as React.CSSProperties}
+        >
           {article.title}
         </h1>
 

@@ -123,23 +123,22 @@ export default async function PublicationsPage(props: PageProps) {
           Publications Archive
         </h1>
         <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-normal">
-          Explore peer-reviewed independent legal research publications and papers.
+          Explore independent legal research publications and papers.
         </p>
       </div>
 
-      {/* Main Grid: Filters Sidebar + Content Grid */}
+      {/* Main Grid: Filters Sidebar + Content Grid + Categories Sidebar */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         
-        {/* Left Side: Filter Options Sidebar */}
+        {/* Left Side: Formats & Tags Sidebar */}
         <aside className="space-y-6 lg:col-span-1">
           
           {/* A. Inline Search Input Bar */}
-          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm">
+          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm glass-card">
             <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
               <Search className="w-3.5 h-3.5 mr-1 text-indigo-500" /> Search Filter
             </h3>
             <form method="GET" action="/publications" className="relative">
-              {/* Keep other filter values as hidden fields to preserve selections */}
               {category && <input type="hidden" name="category" value={category} />}
               {activeType && <input type="hidden" name="type" value={activeType} />}
               {activeTag && <input type="hidden" name="tag" value={activeTag} />}
@@ -158,41 +157,8 @@ export default async function PublicationsPage(props: PageProps) {
             </form>
           </div>
 
-          {/* B. Categories Multi-List */}
-          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm">
-            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
-              <Landmark className="w-3.5 h-3.5 mr-1 text-indigo-500" /> Categories
-            </h3>
-            <div className="flex flex-col space-y-1 text-xs">
-              <Link
-                href={getHref({ category: undefined, page: '1' })}
-                className={`py-1.5 px-2.5 rounded-md transition ${
-                  !category
-                    ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
-                    : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                All Categories
-              </Link>
-              {categories.map((cat) => (
-                <Link
-                  key={cat.slug}
-                  href={getHref({ category: cat.slug, page: '1' })}
-                  className={`py-1.5 px-2.5 rounded-md transition truncate ${
-                    category === cat.slug
-                      ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
-                      : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
-                  }`}
-                  title={cat.name}
-                >
-                  {cat.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* C. Formats Multi-List */}
-          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm">
+          {/* B. Formats Multi-List (Moved to top of left column) */}
+          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm glass-card">
             <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
               <FileText className="w-3.5 h-3.5 mr-1 text-indigo-500" /> Formats
             </h3>
@@ -230,8 +196,8 @@ export default async function PublicationsPage(props: PageProps) {
             </div>
           </div>
 
-          {/* D. Tags Pills */}
-          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm">
+          {/* C. Tags Pills */}
+          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm glass-card">
             <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
               <Tag className="w-3.5 h-3.5 mr-1 text-indigo-500" /> Hot Tags
             </h3>
@@ -257,11 +223,11 @@ export default async function PublicationsPage(props: PageProps) {
 
         </aside>
 
-        {/* Right Side: Catalogue grid + Toolbar */}
-        <section className="lg:col-span-3 space-y-6">
+        {/* Center Section: Catalogue grid + Toolbar (col-span-2) */}
+        <section className="lg:col-span-2 space-y-6">
           
           {/* Header toolbar */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-xl shadow-sm text-xs gap-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-xl shadow-sm text-xs gap-3 glass-card">
             <div className="text-slate-400">
               Showing <span className="font-semibold text-slate-700 dark:text-slate-300">{filteredArticles.length}</span> publications found
             </div>
@@ -309,13 +275,27 @@ export default async function PublicationsPage(props: PageProps) {
 
           {/* Catalog grid list */}
           {paginatedArticles.length === 0 ? (
-            <div className="text-center py-16 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-2xl">
+            <div className="text-center py-16 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-2xl glass-card">
               <AlertCircle className="w-12 h-12 mx-auto text-slate-300 dark:text-slate-700 mb-3" />
               <h3 className="font-serif text-lg font-bold text-slate-800 dark:text-slate-200">
-                No publications found
+                {query ? (
+                  <React.Fragment>No results for &ldquo;<span className="text-indigo-650 dark:text-indigo-400 font-bold">{query}</span>&rdquo;</React.Fragment>
+                ) : (
+                  "No publications found"
+                )}
               </h3>
               <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 max-w-sm mx-auto">
-                No articles matches your current active filters. Try adjusting your keywords or clearing the category selection.
+                {query ? (
+                  <React.Fragment>
+                    No articles match your search for <strong className="font-bold text-slate-700 dark:text-slate-300">&ldquo;{query}&rdquo;</strong>. Try adjusting your keywords or clearing the active filters.
+                  </React.Fragment>
+                ) : activeTag ? (
+                  <React.Fragment>
+                    No articles match the tag <strong className="font-bold text-slate-700 dark:text-slate-300">#{activeTag}</strong>. Try clearing the filter.
+                  </React.Fragment>
+                ) : (
+                  "No articles match your current active filters. Try adjusting your keywords or clearing the category selection."
+                )}
               </p>
               <div className="mt-4">
                 <Link
@@ -327,7 +307,7 @@ export default async function PublicationsPage(props: PageProps) {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6">
               {paginatedArticles.map((art, idx) => (
                 <div key={art.slug} className={`animate-slide-up stagger-${Math.min(idx + 1, 6)}`}>
                   <ArticleCard article={art} searchTerm={query || activeTag || undefined} />
@@ -339,21 +319,19 @@ export default async function PublicationsPage(props: PageProps) {
           {/* Pagination controls */}
           {totalPages > 1 && (
             <div className="flex justify-center items-center space-x-1.5 pt-4 text-xs">
-              {/* Prev */}
               {pageNum > 1 ? (
                 <Link
                   href={getHref({ page: (pageNum - 1).toString() })}
-                  className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 transition font-bold"
+                  className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 transition font-bold glass-card"
                 >
                   Previous
                 </Link>
               ) : (
-                <span className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800 text-slate-300 dark:text-slate-700 cursor-not-allowed">
+                <span className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800 text-slate-300 dark:text-slate-700 cursor-not-allowed glass-card">
                   Previous
                 </span>
               )}
 
-              {/* Pages */}
               {Array.from({ length: totalPages }).map((_, i) => {
                 const p = i + 1;
                 const isCurrent = p === pageNum;
@@ -364,7 +342,7 @@ export default async function PublicationsPage(props: PageProps) {
                     className={`px-3 py-1.5 rounded border font-semibold ${
                       isCurrent
                         ? 'bg-indigo-600 border-indigo-600 text-white'
-                        : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50'
+                        : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 glass-card'
                     }`}
                   >
                     {p}
@@ -372,16 +350,15 @@ export default async function PublicationsPage(props: PageProps) {
                 );
               })}
 
-              {/* Next */}
               {pageNum < totalPages ? (
                 <Link
                   href={getHref({ page: (pageNum + 1).toString() })}
-                  className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 transition font-bold"
+                  className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 transition font-bold glass-card"
                 >
                   Next
                 </Link>
               ) : (
-                <span className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800 text-slate-300 dark:text-slate-700 cursor-not-allowed">
+                <span className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800 text-slate-300 dark:text-slate-700 cursor-not-allowed glass-card">
                   Next
                 </span>
               )}
@@ -389,6 +366,42 @@ export default async function PublicationsPage(props: PageProps) {
           )}
 
         </section>
+
+        {/* Right Side: Categories Sidebar (col-span-1) */}
+        <aside className="space-y-6 lg:col-span-1">
+          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm glass-card">
+            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
+              <Landmark className="w-3.5 h-3.5 mr-1 text-indigo-500" /> Categories
+            </h3>
+            <div className="flex flex-col space-y-1 text-xs">
+              <Link
+                href={getHref({ category: undefined, page: '1' })}
+                className={`py-1.5 px-2.5 rounded-md transition ${
+                  !category
+                    ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
+                    : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                All Categories
+              </Link>
+              {categories.map((cat) => (
+                <Link
+                  key={cat.slug}
+                  href={getHref({ category: cat.slug, page: '1' })}
+                  className={`py-1.5 px-2.5 rounded-md transition truncate ${
+                    category === cat.slug
+                      ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
+                      : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                  title={cat.name}
+                >
+                  {cat.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </aside>
+
       </div>
     </div>
   );

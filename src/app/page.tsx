@@ -30,14 +30,14 @@ export default async function Homepage() {
   return (
     <div className="space-y-8 py-2">
       {/* 1. Hero Section */}
-      <section className="relative text-center py-8 md:py-14 rounded-2xl bg-gradient-to-b from-indigo-50/40 via-white to-transparent dark:from-indigo-950/10 dark:via-slate-950 dark:to-transparent border border-slate-200/40 dark:border-slate-800/20 px-6 overflow-hidden">
+      <section className="relative text-center py-8 md:py-14 rounded-2xl bg-gradient-to-b from-indigo-50/40 via-white to-transparent dark:from-indigo-950/10 dark:via-slate-950 dark:to-transparent border-2 border-slate-200 dark:border-slate-800/30 px-6 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.06),transparent)] dark:bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.15),transparent)]" />
         <div className="relative max-w-3xl mx-auto space-y-4">
         <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100/60 dark:bg-indigo-950/50 text-indigo-800 dark:text-indigo-300 uppercase tracking-widest animate-fade-in">
-            National Legal Observatory
+            Independent Legal Research
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-slate-900 dark:text-white animate-slide-up stagger-1">
-            Independent Legal Research
+            National Legal Observatory
           </h1>
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 font-serif leading-relaxed italic max-w-2xl mx-auto">
             "The National Legal Observatory is an attempt to address an observation gap."
@@ -81,7 +81,7 @@ export default async function Homepage() {
       </section>
 
       {/* 2. Observatory Mission Statement */}
-      <section className="max-w-4xl mx-auto bg-indigo-50/20 dark:bg-slate-900/50 border border-indigo-100/70 dark:border-slate-800 p-8 sm:p-10 rounded-2xl shadow-sm dark:shadow-xl flex flex-col md:flex-row items-center gap-6">
+      <section className="max-w-4xl mx-auto bg-indigo-50/20 dark:bg-slate-900/50 border-[1.5px] border-indigo-100 dark:border-slate-800 p-8 sm:p-10 rounded-2xl shadow-sm dark:shadow-xl flex flex-col md:flex-row items-center gap-6">
         <div className="p-3 bg-white dark:bg-slate-800 rounded-xl text-indigo-600 dark:text-indigo-400 shrink-0 shadow-sm dark:shadow-none border border-indigo-100/40 dark:border-transparent">
           <Landmark className="w-8 h-8" />
         </div>
@@ -113,7 +113,7 @@ export default async function Homepage() {
           {/* Left: Featured Paper (Span 2) */}
           {featuredArticle && (
             <div className="lg:col-span-2 flex">
-              <div className="flex flex-col justify-between p-8 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md transition duration-300 relative group flex-grow">
+              <div className="flex flex-col justify-between p-8 bg-white dark:bg-slate-900 border-[1.5px] border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md transition duration-300 relative group flex-grow">
                 <div>
                   <div className="flex items-center space-x-3 text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-widest font-bold mb-4">
                     <span className="px-2.5 py-0.5 rounded bg-indigo-50 dark:bg-slate-800 text-[10px]">
@@ -201,7 +201,7 @@ export default async function Homepage() {
           {authors.map((author) => (
             <div
               key={author.slug}
-              className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 p-6 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-xl"
+              className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 p-6 bg-white dark:bg-slate-900 border-[1.5px] border-slate-200 dark:border-slate-800 rounded-xl"
             >
               <img
                 src={author.avatar}

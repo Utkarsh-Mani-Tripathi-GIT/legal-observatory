@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { Search, Sun, Moon, Menu, X } from 'lucide-react';
 import { useTheme } from './ThemeProvider';
 import SearchOverlay from './SearchOverlay';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -137,30 +138,42 @@ export default function Header() {
         </div>
 
         {/* Mobile Navigation Drawer */}
-        {isOpen && (
-          <div className="md:hidden border-t border-slate-100 dark:border-slate-950 bg-white dark:bg-slate-950 animate-in slide-in-from-top duration-200">
-            <div className="px-4 pt-2 pb-4 space-y-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                    isActive(link.href)
-                      ? 'bg-slate-100 text-indigo-600 dark:bg-slate-900 dark:text-indigo-400'
-                      : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-900/40'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="md:hidden border-t border-slate-100 dark:border-slate-950 bg-white dark:bg-slate-950 overflow-hidden"
+            >
+              <div className="px-4 pt-2 pb-4 space-y-1">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                      isActive(link.href)
+                        ? 'bg-slate-100 text-indigo-600 dark:bg-slate-900 dark:text-indigo-400'
+                        : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-900/40'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* Global Search Component */}
-      <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      <AnimatePresence>
+        {isSearchOpen && (
+          <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+        )}
+      </AnimatePresence>
     </>
   );
 }

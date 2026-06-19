@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Quote, Copy } from 'lucide-react';
 import { ArticleData } from '../../../../lib/markdown';
 import CitationModal from '../../../../components/CitationModal';
+import { AnimatePresence } from 'framer-motion';
 
 export default function CiteSection({ article }: { article: ArticleData }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -12,7 +13,7 @@ export default function CiteSection({ article }: { article: ArticleData }) {
 
   return (
     <>
-      <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl space-y-3">
+      <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl space-y-3 glass-card">
         <h4 className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500 flex items-center">
           <Quote className="w-3.5 h-3.5 mr-1 text-indigo-500" /> Citation Index
         </h4>
@@ -29,11 +30,15 @@ export default function CiteSection({ article }: { article: ArticleData }) {
       </div>
 
       {/* Citation Generator Dialog */}
-      <CitationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        article={article}
-      />
+      <AnimatePresence>
+        {isModalOpen && (
+          <CitationModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            article={article}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }

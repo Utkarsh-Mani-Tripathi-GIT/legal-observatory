@@ -100,7 +100,42 @@ body {
   50%       { box-shadow: 0 0 0 3px rgba(211,172,43,0.2); }
 }
 
+@keyframes spotlight-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.995); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 0.6; }
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 /* ─── Animation utility classes ───────────────────────────────── */
+
+.animate-spotlight-in {
+  animation: spotlight-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-backdrop-in {
+  animation: backdrop-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-skeleton {
+  background: linear-gradient(90deg, var(--color-slate-100) 25%, var(--color-slate-200) 37%, var(--color-slate-100) 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.8s ease-in-out infinite;
+}
+
+.dark .animate-skeleton {
+  background: linear-gradient(90deg, #2a2a2a 25%, #333333 37%, #2a2a2a 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.8s ease-in-out infinite;
+}
 
 .animate-fade-in {
   animation: fade-in 0.5s cubic-bezier(0.4,0,0.2,1) both;
@@ -221,4 +256,19 @@ body {
 .dark .glass-panel {
   background-color: rgba(26, 26, 26, 0.85);
   backdrop-filter: blur(8px);
+}
+
+.glass-card {
+  background-color: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(213, 216, 226, 0.85) !important;
+  box-shadow: 0 4px 12px -1px rgba(213, 216, 226, 0.3), 0 2px 4px -1px rgba(213, 216, 226, 0.15) !important;
+}
+.dark .glass-card {
+  background-color: rgba(34, 34, 34, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
 }

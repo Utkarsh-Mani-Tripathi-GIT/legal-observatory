@@ -57,7 +57,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-500">
-              A peer-reviewed repository for legal scholars, policymakers, and practitioners focusing on structural constitutionalism, judicial review analysis, and technological rights frameworks.
+              An independent repository for legal scholars, policymakers, and practitioners focusing on structural constitutionalism, judicial review analysis, and technological rights frameworks.
             </p>
             <div className="flex space-x-3 text-slate-400 dark:text-slate-600">
               <a href="https://www.instagram.com/national.legal.observatory" target="_blank" rel="noopener noreferrer" className="relative group hover:text-indigo-600 dark:hover:text-indigo-400 transition" aria-label="Instagram">

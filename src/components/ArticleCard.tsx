@@ -26,7 +26,7 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
   });
 
   return (
-    <article className="group relative flex flex-col justify-between p-6 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+    <article className="group relative flex flex-col justify-between p-6 glass-card border border-slate-200/60 dark:border-slate-800/80 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
       <div>
         {/* Top Header Row */}
         <div className="flex items-center justify-between text-xs mb-3 text-slate-400 dark:text-slate-500">
@@ -40,7 +40,10 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
         </div>
 
         {/* Title */}
-        <h3 className="font-serif text-lg sm:text-xl font-bold leading-snug text-slate-900 dark:text-white mt-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+        <h3 
+          className="font-serif text-lg sm:text-xl font-bold leading-snug text-slate-900 dark:text-white mt-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors"
+          style={{ viewTransitionName: `article-title-${article.slug}` } as React.CSSProperties}
+        >
           <Link href={articleUrl} className="focus:outline-none">
             {article.title}
           </Link>

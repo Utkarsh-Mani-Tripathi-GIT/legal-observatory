@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Copy, Check, Quote } from 'lucide-react';
 import { ArticleData } from '../lib/markdown';
+import { motion } from 'framer-motion';
 
 interface CitationModalProps {
   isOpen: boolean;
@@ -43,7 +44,6 @@ export default function CitationModal({ isOpen, onClose, article }: CitationModa
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      // Focus modal container
       modalRef.current?.focus();
     } else {
       document.body.style.overflow = 'unset';
@@ -71,14 +71,47 @@ export default function CitationModal({ isOpen, onClose, article }: CitationModa
     }
   };
 
-  if (!isOpen) return null;
+  const backdropVariants = {
+    hidden: { opacity: 0, backdropFilter: 'blur(0px)' },
+    visible: { opacity: 1, backdropFilter: 'blur(2px)' },
+    exit: { opacity: 0, backdropFilter: 'blur(0px)' },
+  };
+
+  const modalVariants = {
+    hidden: { opacity: 0, scale: 0.96, y: 12 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        type: 'spring' as const,
+        stiffness: 400,
+        damping: 28,
+        mass: 0.85,
+        delay: 0.08,
+      },
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.97,
+      y: 8,
+      transition: { duration: 0.18, ease: 'easeInOut' as const },
+    },
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-black/80 backdrop-blur-sm">
-      <div
+    <motion.div
+      variants={backdropVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-black/80"
+    >
+      <motion.div
         ref={modalRef}
         tabIndex={-1}
-        className="w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl overflow-hidden focus:outline-none animate-in fade-in zoom-in-95 duration-200"
+        variants={modalVariants}
+        className="w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl overflow-hidden focus:outline-none glass-panel"
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800">
@@ -98,22 +131,32 @@ export default function CitationModal({ isOpen, onClose, article }: CitationModa
 
         {/* Tab switcher */}
         <div className="flex border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 px-6">
-          {(['bluebook', 'mla', 'apa'] as const).map((tab) => (
-            <button
-              key={tab}
-              onClick={() => {
-                setActiveTab(tab);
-                setCopied(false);
-              }}
-              className={`py-3 px-4 text-xs font-bold uppercase tracking-wider border-b-2 transition-colors -mb-px ${
-                activeTab === tab
-                  ? 'border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400'
-                  : 'border-transparent text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
-              }`}
-            >
-              {tab === 'bluebook' ? 'Bluebook Style' : tab.toUpperCase()}
-            </button>
-          ))}
+          {(['bluebook', 'mla', 'apa'] as const).map((tab) => {
+            const isActive = activeTab === tab;
+            return (
+              <button
+                key={tab}
+                onClick={() => {
+                  setActiveTab(tab);
+                  setCopied(false);
+                }}
+                className={`relative py-3 px-4 text-xs font-bold uppercase tracking-wider transition-colors -mb-px outline-none ${
+                  isActive
+                    ? 'text-indigo-600 dark:text-indigo-400 font-extrabold'
+                    : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                }`}
+              >
+                {tab === 'bluebook' ? 'Bluebook Style' : tab.toUpperCase()}
+                {isActive && (
+                  <motion.div
+                    layoutId="activeCitationTab"
+                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-indigo-600 dark:bg-indigo-400"
+                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
 
         {/* Citation text box */}
@@ -148,7 +191,7 @@ export default function CitationModal({ isOpen, onClose, article }: CitationModa
             Close
           </button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Search, X, BookOpen, AlertCircle, FileText, Compass, Pin } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface SearchResult {
   slug: string;
@@ -112,12 +113,63 @@ export default function SearchOverlay({
     setQuery('');
   };
 
-  if (!isOpen) return null;
+  const backdropVariants = {
+    hidden: { opacity: 0, backdropFilter: 'blur(0px)' },
+    visible: { opacity: 1, backdropFilter: 'blur(2px)' },
+    exit: { opacity: 0, backdropFilter: 'blur(0px)' },
+  };
+
+  const modalVariants = {
+    hidden: { opacity: 0, y: -20, scale: 0.985 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: 'spring' as const,
+        stiffness: 380,
+        damping: 30,
+        mass: 0.8,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -12,
+      scale: 0.99,
+      transition: { duration: 0.18, ease: 'easeInOut' as const },
+    },
+  };
+
+  const listVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.03,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 8 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: 'spring' as const, stiffness: 350, damping: 25 },
+    },
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-slate-900/60 dark:bg-black/80 backdrop-blur-sm transition-opacity">
-      <div
-        className="w-full max-w-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl overflow-hidden"
+    <motion.div
+      variants={backdropVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-slate-900/60 dark:bg-black/80"
+    >
+      <motion.div
+        variants={modalVariants}
+        className="w-full max-w-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl overflow-hidden glass-panel"
         onKeyDown={handleKeyDown}
       >
         {/* Search Input */}
@@ -142,48 +194,66 @@ export default function SearchOverlay({
         {/* Results Body */}
         <div className="max-h-[28rem] overflow-y-auto p-2">
           {isLoading && (
-            <div className="flex items-center justify-center py-8 text-slate-400 space-x-2">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex items-center justify-center py-8 text-slate-400 space-x-2"
+            >
               <div className="w-5 h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-              <span className="text-sm">Searching the observatory archive...</span>
-            </div>
+              <span className="text-sm font-medium">Searching the observatory archive...</span>
+            </motion.div>
           )}
 
           {!isLoading && query.trim().length > 0 && results.length === 0 && (
-            <div className="text-center py-8 text-slate-400">
+            <motion.div
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center py-8 text-slate-400"
+            >
               <AlertCircle className="w-8 h-8 mx-auto mb-2 opacity-50" />
               <p className="text-sm font-medium">No publications match your query.</p>
               <p className="text-xs mt-1">Try searching constitutional law, privacy, or climate change.</p>
-            </div>
+            </motion.div>
           )}
 
           {!isLoading && query.trim().length === 0 && (
-            <div className="py-4 px-3 text-slate-400">
+            <motion.div
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="py-4 px-3 text-slate-400"
+            >
               <span className="text-xs font-semibold uppercase tracking-wider block mb-2 text-slate-500">Quick Searches</span>
               <div className="grid grid-cols-2 gap-2 text-sm">
-                <button onClick={() => setQuery('Constitutional')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition">
+                <button onClick={() => setQuery('Constitutional')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
                   <Compass className="w-4 h-4 text-indigo-500 mr-2" /> Constitutional Law
                 </button>
-                <button onClick={() => setQuery('Surveillance')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition">
+                <button onClick={() => setQuery('Surveillance')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
                   <FileText className="w-4 h-4 text-indigo-500 mr-2" /> Surveillance
                 </button>
-                <button onClick={() => setQuery('Climate')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition">
+                <button onClick={() => setQuery('Climate')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
                   <BookOpen className="w-4 h-4 text-indigo-500 mr-2" /> Climate Litigation
                 </button>
-                <button onClick={() => setQuery('Digital Services')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition">
+                <button onClick={() => setQuery('Digital Services')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
                   <FileText className="w-4 h-4 text-indigo-500 mr-2" /> Platform Regulations
                 </button>
               </div>
-            </div>
+            </motion.div>
           )}
 
           {!isLoading && results.length > 0 && (
-            <div className="space-y-1">
+            <motion.div
+              variants={listVariants}
+              initial="hidden"
+              animate="visible"
+              className="space-y-1"
+            >
               <div className="px-2 py-1 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                 Publications found ({results.length})
               </div>
               {results.map((result, idx) => (
-                <div
+                <motion.div
                   key={result.slug}
+                  variants={itemVariants}
                   className={`rounded-lg transition duration-150 ${
                     idx === selectedIndex
                       ? 'bg-indigo-50 dark:bg-slate-800/80 border-l-4 border-indigo-600'
@@ -228,9 +298,9 @@ export default function SearchOverlay({
                       </button>
                     </div>
                   )}
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           )}
         </div>
 
@@ -239,7 +309,7 @@ export default function SearchOverlay({
           <span>Use <kbd className="px-1 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded">↑↓</kbd> to navigate</span>
           <span>Press <kbd className="px-1 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded">Esc</kbd> to close</span>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
