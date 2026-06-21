@@ -157,11 +157,55 @@ export default async function FounderPortfolioPage() {
             <ul className="space-y-3 text-xs text-slate-650 dark:text-slate-400">
               <li className="flex items-start">
                 <CheckCircle2 className="w-4 h-4 mr-2 text-indigo-500 shrink-0 mt-0.5" />
-                <span><strong>Corporate &amp; Commercial Law I: Contracts &amp; Employment Law</strong> – Univ. of Illinois Urbana-Champaign</span>
+                <span>
+                  <a 
+                    href="https://coursera.org/verify/FEYGCQQ1X8GU" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="hover:text-indigo-650 dark:hover:text-indigo-400 hover:underline transition-colors"
+                  >
+                    <strong>Corporate &amp; Commercial Law I: Contracts &amp; Employment Law</strong> – Univ. of Illinois Urbana-Champaign
+                  </a>
+                </span>
               </li>
               <li className="flex items-start">
                 <CheckCircle2 className="w-4 h-4 mr-2 text-indigo-500 shrink-0 mt-0.5" />
-                <span><strong>Moral Foundations of Politics</strong> – Yale University</span>
+                <span>
+                  <a 
+                    href="https://coursera.org/verify/E7JM2H1E1FNE" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="hover:text-indigo-650 dark:hover:text-indigo-400 hover:underline transition-colors"
+                  >
+                    <strong>Moral Foundations of Politics</strong> – Yale University
+                  </a>
+                </span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle2 className="w-4 h-4 mr-2 text-indigo-500 shrink-0 mt-0.5" />
+                <span>
+                  <a 
+                    href="https://coursera.org/verify/XF5SAYV381SD" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="hover:text-indigo-650 dark:hover:text-indigo-400 hover:underline transition-colors"
+                  >
+                    <strong>Design Thinking: Ideas to Action</strong> – University of Virginia
+                  </a>
+                </span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle2 className="w-4 h-4 mr-2 text-indigo-500 shrink-0 mt-0.5" />
+                <span>
+                  <a 
+                    href="https://coursera.org/verify/J5Y9NL6AD87T" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="hover:text-indigo-650 dark:hover:text-indigo-400 hover:underline transition-colors"
+                  >
+                    <strong>Ethics and Governance in the Age of Generative AI</strong> – Northeastern University
+                  </a>
+                </span>
               </li>
               <li className="flex items-start">
                 <CheckCircle2 className="w-4 h-4 mr-2 text-indigo-500 shrink-0 mt-0.5" />
