@@ -159,7 +159,7 @@ export default async function FounderPortfolioPage() {
                 <CheckCircle2 className="w-4 h-4 mr-2 text-indigo-500 shrink-0 mt-0.5" />
                 <span>
                   <a 
-                    href="https://coursera.org/verify/FEYGCQQ1X8GU" 
+                    href="/certificates/illinois.png" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="hover:text-indigo-650 dark:hover:text-indigo-400 hover:underline transition-colors"
@@ -172,7 +172,7 @@ export default async function FounderPortfolioPage() {
                 <CheckCircle2 className="w-4 h-4 mr-2 text-indigo-500 shrink-0 mt-0.5" />
                 <span>
                   <a 
-                    href="https://coursera.org/verify/E7JM2H1E1FNE" 
+                    href="/certificates/yale.png" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="hover:text-indigo-650 dark:hover:text-indigo-400 hover:underline transition-colors"
@@ -185,7 +185,7 @@ export default async function FounderPortfolioPage() {
                 <CheckCircle2 className="w-4 h-4 mr-2 text-indigo-500 shrink-0 mt-0.5" />
                 <span>
                   <a 
-                    href="https://coursera.org/verify/XF5SAYV381SD" 
+                    href="/certificates/uva.png" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="hover:text-indigo-650 dark:hover:text-indigo-400 hover:underline transition-colors"
@@ -198,7 +198,7 @@ export default async function FounderPortfolioPage() {
                 <CheckCircle2 className="w-4 h-4 mr-2 text-indigo-500 shrink-0 mt-0.5" />
                 <span>
                   <a 
-                    href="https://coursera.org/verify/J5Y9NL6AD87T" 
+                    href="/certificates/northeastern.png" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="hover:text-indigo-650 dark:hover:text-indigo-400 hover:underline transition-colors"
