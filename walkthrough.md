@@ -101,4 +101,13 @@ Any changes pushed to your master branch or re-seeded in Supabase will immediate
 - The default Vercel favicon has been replaced with the official **National Legal Observatory** logo (placed at `src/app/icon.png`).
 - Next.js App Router automatically compiles this into the browser's tab icon route.
 
+---
+
+## ⚡ Recent Enhancements & Fixes (June 2026)
+- **Instant Category Descriptions**: Removed transition-opacity duration classes from comparison table tooltips inside `content/research/manufacturing-consent.md`, making the definition cards display instantly on hover without delay.
+- **Scroll Sync Table of Contents**: Added auto-scroll sync mechanism in `TableOfContents.tsx` which automatically center-scrolls the sidebar container as readers navigate down the document.
+- **Home Navigation Alert Alert**: Hooked up click actions on the header logo branding to display an alert popup with the message `"This button takes you to the HOME PAGE"` prior to executing the redirection.
+- **Sidebar Ordering**: Standardized layout ordering: Table of Contents is positioned at the top, followed by Bhoomija Khanna's author biography, and the Citation Index details are placed at the bottom.
+
+
 

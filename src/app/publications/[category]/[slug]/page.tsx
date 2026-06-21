@@ -1,14 +1,13 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getArticleBySlug, getRelatedArticles, getPageViewCount } from '../../../../lib/content';
+import { getArticleBySlug, getRelatedArticles } from '../../../../lib/content';
 import TableOfContents from '../../../../components/TableOfContents';
 import ArticleCard from '../../../../components/ArticleCard';
 import HighlightMention from '../../../../components/HighlightMention';
 import ReadingProgressBar from '../../../../components/ReadingProgressBar';
 import Link from 'next/link';
-import { Calendar, Clock, User, Landmark, Quote, ArrowLeft, Eye, Share2, FileText } from 'lucide-react';
-import ViewTracker from './ViewTracker';
+import { Calendar, Clock, User, Landmark, Quote, ArrowLeft, Share2, FileText } from 'lucide-react';
 import CiteSection from './CiteSection';
 
 interface RouteParams {
@@ -77,7 +76,6 @@ export default async function ArticlePage(props: PageProps) {
   }
 
   const related = await getRelatedArticles(article, 3);
-  const initialViews = await getPageViewCount(article.slug);
 
   const formattedDate = new Date(article.date).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -87,8 +85,6 @@ export default async function ArticlePage(props: PageProps) {
 
   return (
     <div className="space-y-10 py-4">
-      {/* Client-side View Count Tracker */}
-      <ViewTracker slug={article.slug} />
       {/* Reading Progress Indicator */}
       <ReadingProgressBar />
       {/* Ctrl+F style highlight — activated by ?highlight= URL param from search */}
@@ -142,10 +138,6 @@ export default async function ArticlePage(props: PageProps) {
           <div className="flex items-center space-x-1.5">
             <Clock className="w-4 h-4 text-indigo-500" />
             <span>{article.readingTime}</span>
-          </div>
-          <div className="flex items-center space-x-1.5" id="view-count-display">
-            <Eye className="w-4 h-4 text-indigo-500" />
-            <span>{initialViews} views</span>
           </div>
         </div>
       </header>
@@ -270,11 +262,62 @@ export default async function ArticlePage(props: PageProps) {
             </section>
           )}
 
-        </div>
-
-        {/* Right Column: Floating Sidebar */}
+        </div>        {/* Right Column: Floating Sidebar */}
         <aside className="lg:col-span-1 space-y-8 lg:sticky lg:top-24">
           
+          {/* Download Original Document Widget (If available) - NOW AT THE TOP */}
+          {article.slug === 'manufacturing-consent' && (
+            <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl space-y-3">
+              <h4 className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">
+                Original Document
+              </h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
+                Download the complete academic draft in DOCX format, including full annotations and citations.
+              </p>
+              <a
+                href="/NLO_Manufacturing_Consent.docx"
+                download
+                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-650 dark:text-indigo-400 transition"
+              >
+                <FileText className="w-4 h-4 mr-2" /> Download Draft (DOCX)
+              </a>
+            </div>
+          )}
+          {article.slug === 'propaganda-patriarchy-democracy' && (
+            <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl space-y-3">
+              <h4 className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">
+                Original Draft Document
+              </h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
+                Download the complete academic draft in DOCX format, including full annotations and citations.
+              </p>
+              <a
+                href="/Gender_Propaganda_Patriarchal_Power_Research_Paper.docx"
+                download
+                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-650 dark:text-indigo-400 transition"
+              >
+                <FileText className="w-4 h-4 mr-2" /> Download Draft (DOCX)
+              </a>
+            </div>
+          )}
+          {article.slug === 'founding-editorial' && (
+            <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl space-y-3">
+              <h4 className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">
+                Original Document
+              </h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
+                Download the complete founding editorial draft in DOCX format.
+              </p>
+              <a
+                href="/NLO_Founding_Editorial.docx"
+                download
+                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-650 dark:text-indigo-400 transition"
+              >
+                <FileText className="w-4 h-4 mr-2" /> Download Document (DOCX)
+              </a>
+            </div>
+          )}
+
           {/* A. Dynamic Table of Contents Widget */}
           <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl">
             <TableOfContents />
@@ -314,45 +357,8 @@ export default async function ArticlePage(props: PageProps) {
             </p>
           </div>
 
-          {/* Download Original Document Widget (If available) */}
-          {article.slug === 'propaganda-patriarchy-democracy' && (
-            <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl space-y-3">
-              <h4 className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">
-                Original Draft Document
-              </h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
-                Download the complete academic draft in DOCX format, including full annotations and citations.
-              </p>
-              <a
-                href="/Gender_Propaganda_Patriarchal_Power_Research_Paper.docx"
-                download
-                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-650 dark:text-indigo-400 transition"
-              >
-                <FileText className="w-4 h-4 mr-2" /> Download Draft (DOCX)
-              </a>
-            </div>
-          )}
-          {article.slug === 'founding-editorial' && (
-            <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl space-y-3">
-              <h4 className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">
-                Original Document
-              </h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
-                Download the complete founding editorial draft in DOCX format.
-              </p>
-              <a
-                href="/NLO_Founding_Editorial.docx"
-                download
-                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-650 dark:text-indigo-400 transition"
-              >
-                <FileText className="w-4 h-4 mr-2" /> Download Document (DOCX)
-              </a>
-            </div>
-          )}
-
           {/* C. Citation Clipboard Widget (Client-side interactive modal) */}
           <CiteSection article={article} />
-
 
         </aside>
       </div>

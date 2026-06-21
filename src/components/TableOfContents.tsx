@@ -61,8 +61,18 @@ export default function TableOfContents() {
 
     headingElements.forEach((el) => observer.observe(el));
 
+    // Fallback: window scroll listener to detect bottom of the page
+    const handleScroll = () => {
+      const isBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80;
+      if (isBottom && headingList.length > 0) {
+        setActiveId(headingList[headingList.length - 1].id);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+
     return () => {
       headingElements.forEach((el) => observer.unobserve(el));
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
