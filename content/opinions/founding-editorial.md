@@ -6,6 +6,7 @@ author: "bhoomija-khanna"
 date: "2026-06-10"
 categories: ["public-policy", "constitutional-law"]
 tags: ["Founding Editorial", "Legal Research", "Observatory Directive"]
+excludeFromArchive: true
 citation: "Bhoomija Khanna, 'Why India Needs Independent Legal Observation: A Founding Note', National Legal Observatory (June 2026)."
 ---
 

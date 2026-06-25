@@ -81,6 +81,7 @@ export interface ArticleData {
   
   abstract?: string;
   references?: string[];
+  excludeFromArchive?: boolean;
 }
 
 // Helper to calculate reading time
@@ -199,6 +200,7 @@ export async function getArticleBySlug(
       // Research
       abstract: data.abstract,
       references: data.references,
+      excludeFromArchive: data.excludeFromArchive ?? false,
     };
   } catch (error) {
     console.error(`Error reading article ${typeFolder}/${slug}:`, error);
