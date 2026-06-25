@@ -272,3 +272,370 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   box-shadow: none !important;
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   BHOOMIJA MODE — site-wide palette shift
+   Applied to <html> via useEffect in BhoomijaCVClient.tsx
+   Transforms the formal NLO slate/gold → maroon + cream reference scheme
+══════════════════════════════════════════════════════════════════════ */
+
+/* ── Timing: all transitions inherit this when entering/leaving mode ── */
+.bhoomija-mode,
+.bhoomija-mode * {
+  transition-property: background-color, color, border-color, box-shadow;
+  transition-duration: 400ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── CSS variable overrides ───────────────────────────────────────── */
+.bhoomija-mode {
+  --background: #f5f0eb;
+  --foreground: #7d1919;
+  --bk-maroon:       #7d1919;
+  --bk-maroon-dark:  #5c1212;
+  --bk-maroon-deep:  #2c0a0a;
+  --bk-cream:        #f5f0eb;
+  --bk-cream-card:   #faf8f6;
+  --bk-border:       rgba(125, 25, 25, 0.16);
+  --bk-border-light: rgba(125, 25, 25, 0.09);
+  --bk-accent-soft:  rgba(125, 25, 25, 0.06);
+}
+
+/* ── Body ─────────────────────────────────────────────────────────── */
+.bhoomija-mode body {
+  background-color: #efebe8 !important;
+  color: #7d1919 !important;
+}
+
+/* ── Main content area ────────────────────────────────────────────── */
+.bhoomija-mode main {
+  color: #7d1919;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════════════════════════════════ */
+.bhoomija-mode header {
+  background-color: #efebe8 !important;
+  border-bottom-color: rgba(125, 25, 25, 0.16) !important;
+  box-shadow: none !important;
+}
+/* scrolled state — also cream */
+.bhoomija-mode header[class*="shadow"] {
+  background-color: rgba(239, 235, 232, 0.92) !important;
+}
+
+/* NLO badge square */
+.bhoomija-mode header .bg-slate-900,
+.bhoomija-mode header [class*="bg-slate-9"] {
+  background-color: #7d1919 !important;
+  border-color: rgba(239, 235, 232, 0.3) !important;
+}
+/* "NLO" lettering inside badge */
+.bhoomija-mode header .text-yellow-400 {
+  color: #efebe8 !important;
+  font-family: 'Gloria Hallelujah', cursive !important;
+  font-size: 9px !important;
+  letter-spacing: 0.18em !important;
+}
+/* "NATIONAL LEGAL OBSERVATORY" brand text */
+.bhoomija-mode header .font-serif {
+  color: #7d1919 !important;
+  font-family: 'Gloria Hallelujah', cursive !important;
+  font-size: 13px !important;
+  letter-spacing: 0.02em !important;
+}
+.bhoomija-mode header .group:hover .font-serif,
+.bhoomija-mode header .text-yellow-500 {
+  color: #5c1212 !important;
+}
+
+/* Nav links — desktop */
+.bhoomija-mode header nav a {
+  color: rgba(125, 25, 25, 0.65) !important;
+}
+.bhoomija-mode header nav a:hover {
+  color: #7d1919 !important;
+}
+/* Active nav link */
+.bhoomija-mode header nav a[class*="text-indigo-6"],
+.bhoomija-mode header nav a[class*="text-indigo-4"] {
+  color: #7d1919 !important;
+  font-weight: 700 !important;
+}
+/* Active underline bar */
+.bhoomija-mode header nav span[class*="bg-indigo-6"],
+.bhoomija-mode header nav span[class*="bg-indigo-4"] {
+  background-color: #7d1919 !important;
+}
+
+/* Search bar */
+.bhoomija-mode header button[title="Search (Cmd+K)"],
+.bhoomija-mode header button[title="Search"] {
+  background-color: rgba(125, 25, 25, 0.05) !important;
+  border-color: rgba(125, 25, 25, 0.18) !important;
+  color: rgba(125, 25, 25, 0.5) !important;
+}
+.bhoomija-mode header button[title="Search (Cmd+K)"] kbd,
+.bhoomija-mode header button[title="Search (Cmd+K)"] span {
+  color: rgba(125, 25, 25, 0.4) !important;
+  border-color: rgba(125, 25, 25, 0.14) !important;
+  background-color: rgba(125, 25, 25, 0.04) !important;
+}
+.bhoomija-mode header button[title="Search (Cmd+K)"]:hover {
+  border-color: rgba(125, 25, 25, 0.4) !important;
+  background-color: rgba(125, 25, 25, 0.08) !important;
+}
+
+/* Theme toggle + hamburger icon buttons */
+.bhoomija-mode header button[title*="Mode"],
+.bhoomija-mode header button[aria-label*="menu"],
+.bhoomija-mode header button:not([title="Search (Cmd+K)"]):not([title="Search"]):not([type="submit"]) {
+  color: rgba(125, 25, 25, 0.55) !important;
+}
+.bhoomija-mode header button:hover {
+  background-color: rgba(125, 25, 25, 0.07) !important;
+  color: #7d1919 !important;
+}
+
+/* Mobile nav drawer */
+.bhoomija-mode header div[class*="bg-white"],
+.bhoomija-mode header div[class*="bg-slate-950"] {
+  background-color: #efebe8 !important;
+  border-color: rgba(125, 25, 25, 0.14) !important;
+}
+.bhoomija-mode header div[class*="bg-white"] a,
+.bhoomija-mode header div[class*="bg-slate-950"] a {
+  color: rgba(125, 25, 25, 0.7) !important;
+}
+.bhoomija-mode header div[class*="bg-white"] a:hover,
+.bhoomija-mode header div[class*="bg-slate-950"] a:hover {
+  background-color: rgba(125, 25, 25, 0.07) !important;
+  color: #7d1919 !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════════════════════════════ */
+.bhoomija-mode footer {
+  background-color: #2c0a0a !important;
+  border-top-color: rgba(125, 25, 25, 0.5) !important;
+  color: rgba(239, 235, 232, 0.7) !important;
+}
+.bhoomija-mode footer p,
+.bhoomija-mode footer span,
+.bhoomija-mode footer li,
+.bhoomija-mode footer a {
+  color: rgba(239, 235, 232, 0.65) !important;
+}
+.bhoomija-mode footer h3 {
+  color: #efebe8 !important;
+}
+.bhoomija-mode footer a:hover {
+  color: #efebe8 !important;
+}
+/* Footer logo badge */
+.bhoomija-mode footer .bg-indigo-600 {
+  background-color: rgba(125, 25, 25, 0.6) !important;
+  border: 1px solid rgba(239, 235, 232, 0.2);
+}
+/* Footer social icon hover */
+.bhoomija-mode footer .hover\:text-indigo-600:hover,
+.bhoomija-mode footer .dark\:hover\:text-indigo-400:hover {
+  color: rgba(239, 235, 232, 1) !important;
+}
+/* Footer subscribe button */
+.bhoomija-mode footer .bg-indigo-600,
+.bhoomija-mode footer button[type="submit"] {
+  background-color: #7d1919 !important;
+  color: #efebe8 !important;
+}
+.bhoomija-mode footer button[type="submit"]:hover {
+  background-color: #5c1212 !important;
+}
+/* Footer newsletter input */
+.bhoomija-mode footer input[type="email"] {
+  background-color: rgba(239, 235, 232, 0.08) !important;
+  color: #efebe8 !important;
+  border-color: rgba(239, 235, 232, 0.12) !important;
+}
+.bhoomija-mode footer input[type="email"]::placeholder {
+  color: rgba(239, 235, 232, 0.3) !important;
+}
+/* Footer divider */
+.bhoomija-mode footer .border-t {
+  border-top-color: rgba(239, 235, 232, 0.1) !important;
+}
+/* Footer border in newsletter row */
+.bhoomija-mode footer .border {
+  border-color: rgba(239, 235, 232, 0.14) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   PAGE CONTENT — card & text overrides
+══════════════════════════════════════════════════════════════════════ */
+
+/* White cards */
+.bhoomija-mode main [class*="bg-white"] {
+  background-color: #faf8f6 !important;
+}
+
+/* Slate-50/100 background fills → cream */
+.bhoomija-mode main [class*="bg-slate-50"],
+.bhoomija-mode main [class*="bg-slate-100"] {
+  background-color: rgba(125, 25, 25, 0.04) !important;
+}
+
+/* Indigo-50 fills → maroon-tinted */
+.bhoomija-mode main [class*="bg-indigo-50"],
+.bhoomija-mode main [class*="from-indigo-50"] {
+  background-color: rgba(125, 25, 25, 0.06) !important;
+}
+
+/* Slate-900 backgrounds (dark card) → maroon card */
+.bhoomija-mode main [class*="bg-slate-9"] {
+  background-color: rgba(125, 25, 25, 0.08) !important;
+}
+
+/* All borders */
+.bhoomija-mode main [class*="border-slate-2"],
+.bhoomija-mode main [class*="border-slate-8"] {
+  border-color: rgba(125, 25, 25, 0.15) !important;
+}
+.bhoomija-mode main [class*="border-indigo-1"],
+.bhoomija-mode main [class*="border-indigo-4"] {
+  border-color: rgba(125, 25, 25, 0.25) !important;
+}
+
+/* Headings */
+.bhoomija-mode main h1,
+.bhoomija-mode main h2,
+.bhoomija-mode main h3,
+.bhoomija-mode main h4,
+.bhoomija-mode main h5 {
+  color: #7d1919 !important;
+}
+
+/* Body text */
+.bhoomija-mode main p,
+.bhoomija-mode main span,
+.bhoomija-mode main li {
+  color: rgba(125, 25, 25, 0.82) !important;
+}
+
+/* Muted text (slate-400/500/600) → maroon-muted */
+.bhoomija-mode main [class*="text-slate-4"],
+.bhoomija-mode main [class*="text-slate-5"],
+.bhoomija-mode main [class*="text-slate-6"] {
+  color: rgba(125, 25, 25, 0.55) !important;
+}
+
+/* Accent text (indigo-*) → maroon */
+.bhoomija-mode main [class*="text-indigo-4"],
+.bhoomija-mode main [class*="text-indigo-5"],
+.bhoomija-mode main [class*="text-indigo-6"],
+.bhoomija-mode main [class*="text-indigo-7"] {
+  color: #7d1919 !important;
+}
+
+/* Accent bg (indigo pill badges) → maroon */
+.bhoomija-mode main [class*="bg-indigo-5"],
+.bhoomija-mode main [class*="bg-indigo-6"] {
+  background-color: #7d1919 !important;
+  color: #efebe8 !important;
+}
+
+/* Filled primary button (Download CV) */
+.bhoomija-mode main a[class*="bg-slate-9"],
+.bhoomija-mode main button[class*="bg-slate-9"] {
+  background-color: #7d1919 !important;
+  border-color: #7d1919 !important;
+  color: #efebe8 !important;
+}
+
+/* Ghost buttons */
+.bhoomija-mode main a[class*="bg-white"],
+.bhoomija-mode main button[class*="bg-white"],
+.bhoomija-mode main a[class*="bg-slate-8"],
+.bhoomija-mode main button[class*="bg-slate-8"] {
+  background-color: rgba(125, 25, 25, 0.05) !important;
+  border-color: rgba(125, 25, 25, 0.22) !important;
+  color: #7d1919 !important;
+}
+.bhoomija-mode main a[class*="bg-white"]:hover,
+.bhoomija-mode main a[class*="bg-slate-8"]:hover {
+  background-color: rgba(125, 25, 25, 0.1) !important;
+  border-color: rgba(125, 25, 25, 0.4) !important;
+}
+
+/* Gold shimmer text → maroon shimmer */
+.bhoomija-mode .shimmer-text {
+  background: linear-gradient(90deg, #7d1919 0%, #c97a7a 40%, #7d1919 60%, #5c1212 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Gradient hero/section bands */
+.bhoomija-mode main [class*="from-indigo-50"],
+.bhoomija-mode main [class*="via-indigo-950"] {
+  --tw-gradient-from: rgba(125, 25, 25, 0.06) !important;
+  --tw-gradient-via: rgba(125, 25, 25, 0.03) !important;
+}
+
+/* Emerald active badge — keep green (it's a status indicator) */
+.bhoomija-mode main [class*="bg-emerald"] {
+  /* intentionally not overridden */
+}
+
+/* Certificate marquee strip bg */
+.bhoomija-mode main [class*="from-indigo-50"][class*="to-slate-100"] {
+  background: linear-gradient(135deg, rgba(125,25,25,0.08), rgba(239,235,232,0.5)) !important;
+}
+
+/* Scrollbar */
+.bhoomija-mode ::-webkit-scrollbar-thumb {
+  background: rgba(125, 25, 25, 0.25) !important;
+}
+.bhoomija-mode ::-webkit-scrollbar-thumb:hover {
+  background: rgba(125, 25, 25, 0.45) !important;
+}
+
+/* Prevent global bhoomija-mode overrides from washing out profile text */
+.bhoomija-mode main .bk-page,
+.bhoomija-mode main .bk-page p,
+.bhoomija-mode main .bk-page span,
+.bhoomija-mode main .bk-page li,
+.bhoomija-mode main .bk-page a,
+.bhoomija-mode main .bk-page h1,
+.bhoomija-mode main .bk-page h2,
+.bhoomija-mode main .bk-page h3 {
+  color: inherit;
+}
+
+/* Lock button hover colors — must beat bhoomija-mode overrides */
+.bhoomija-mode main .bk-page .bk-btn:hover,
+.bk-btn:hover {
+  color: #ffffff !important;
+  background: #7d1919 !important;
+  border-color: #7d1919 !important;
+}
+
+.bhoomija-mode main .bk-page .bk-btn-fill,
+.bk-btn-fill {
+  color: #ffffff !important;
+}
+
+.bhoomija-mode main .bk-page .bk-btn-fill:hover,
+.bk-btn-fill:hover {
+  color: #ffffff !important;
+  background: #5c1212 !important;
+}
+
+/* Selection */
+.bhoomija-mode ::selection {
+  background-color: rgba(125, 25, 25, 0.18);
+  color: #7d1919;
+}
+

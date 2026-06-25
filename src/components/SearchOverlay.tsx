@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { Search, X, BookOpen, AlertCircle, FileText, Compass, Pin } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface SearchResult {
@@ -28,6 +28,16 @@ export default function SearchOverlay({
 
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const pathname = usePathname();
+  const isBhoomijaPage = pathname === '/bhoomija';
+  
+  // Theme styling overrides
+  const iconColor = isBhoomijaPage ? 'text-[#7d1919] dark:text-[#c97a7a]' : 'text-indigo-500';
+  const categoryTextColor = isBhoomijaPage ? 'text-[#7d1919] dark:text-[#c97a7a]' : 'text-indigo-600 dark:text-indigo-400';
+  const highlightBorder = isBhoomijaPage ? 'border-[#7d1919]' : 'border-indigo-600';
+  const activeBg = isBhoomijaPage ? 'bg-red-50/50 dark:bg-red-950/20' : 'bg-indigo-50 dark:bg-slate-800/80';
+  const highlightText = isBhoomijaPage ? 'text-red-950 dark:text-white' : 'text-indigo-950 dark:text-white';
+  const spinnerBorder = isBhoomijaPage ? 'border-[#7d1919]' : 'border-indigo-600';
 
   useEffect(() => {
     if (isOpen) {
@@ -179,7 +189,7 @@ export default function SearchOverlay({
             ref={inputRef}
             type="text"
             className="w-full bg-transparent text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none text-base"
-            placeholder="Search judgments, policies, research, tags, authors..."
+            placeholder={isBhoomijaPage ? "Search Bhoomija's publications, drafts, and research..." : "Search judgments, policies, research, tags, authors..."}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -199,7 +209,7 @@ export default function SearchOverlay({
               animate={{ opacity: 1 }}
               className="flex items-center justify-center py-8 text-slate-400 space-x-2"
             >
-              <div className="w-5 h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+              <div className={`w-5 h-5 border-2 ${spinnerBorder} border-t-transparent rounded-full animate-spin`}></div>
               <span className="text-sm font-medium">Searching the observatory archive...</span>
             </motion.div>
           )}
@@ -224,18 +234,37 @@ export default function SearchOverlay({
             >
               <span className="text-xs font-semibold uppercase tracking-wider block mb-2 text-slate-500">Quick Searches</span>
               <div className="grid grid-cols-2 gap-2 text-sm">
-                <button onClick={() => setQuery('Constitutional')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
-                  <Compass className="w-4 h-4 text-indigo-500 mr-2" /> Constitutional Law
-                </button>
-                <button onClick={() => setQuery('Surveillance')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
-                  <FileText className="w-4 h-4 text-indigo-500 mr-2" /> Surveillance
-                </button>
-                <button onClick={() => setQuery('Climate')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
-                  <BookOpen className="w-4 h-4 text-indigo-500 mr-2" /> Climate Litigation
-                </button>
-                <button onClick={() => setQuery('Digital Services')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
-                  <FileText className="w-4 h-4 text-indigo-500 mr-2" /> Platform Regulations
-                </button>
+                {isBhoomijaPage ? (
+                  <>
+                    <button onClick={() => setQuery('Founding')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
+                      <Compass className={`w-4 h-4 ${iconColor} mr-2`} /> Founding Note
+                    </button>
+                    <button onClick={() => setQuery('Consent')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
+                      <FileText className={`w-4 h-4 ${iconColor} mr-2`} /> Manufacturing Consent
+                    </button>
+                    <button onClick={() => setQuery('Drafting')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
+                      <BookOpen className={`w-4 h-4 ${iconColor} mr-2`} /> Drafting Portfolio
+                    </button>
+                    <button onClick={() => setQuery('Constitutional')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
+                      <FileText className={`w-4 h-4 ${iconColor} mr-2`} /> Constitutional Law
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => setQuery('Constitutional')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
+                      <Compass className="w-4 h-4 text-indigo-500 mr-2" /> Constitutional Law
+                    </button>
+                    <button onClick={() => setQuery('Surveillance')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
+                      <FileText className="w-4 h-4 text-indigo-500 mr-2" /> Surveillance
+                    </button>
+                    <button onClick={() => setQuery('Climate')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
+                      <BookOpen className="w-4 h-4 text-indigo-500 mr-2" /> Climate Litigation
+                    </button>
+                    <button onClick={() => setQuery('Digital Services')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
+                      <FileText className="w-4 h-4 text-indigo-500 mr-2" /> Platform Regulations
+                    </button>
+                  </>
+                )}
               </div>
             </motion.div>
           )}
@@ -248,15 +277,15 @@ export default function SearchOverlay({
               className="space-y-1"
             >
               <div className="px-2 py-1 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                Publications found ({results.length})
+                Publications found ({isBhoomijaPage ? results.filter(r => r.authorName.toLowerCase().includes('bhoomija')).length : results.length})
               </div>
-              {results.map((result, idx) => (
+              {(isBhoomijaPage ? results.filter(r => r.authorName.toLowerCase().includes('bhoomija')) : results).map((result, idx) => (
                 <motion.div
                   key={result.slug}
                   variants={itemVariants}
                   className={`rounded-lg transition duration-150 ${
                     idx === selectedIndex
-                      ? 'bg-indigo-50 dark:bg-slate-800/80 border-l-4 border-indigo-600'
+                      ? `${activeBg} border-l-4 ${highlightBorder}`
                       : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'
                   }`}
                 >
@@ -266,11 +295,11 @@ export default function SearchOverlay({
                     className="w-full flex items-center justify-between p-3 text-left"
                   >
                     <div className="min-w-0 flex-1">
-                      <span className="text-xs uppercase tracking-wider font-semibold text-indigo-600 dark:text-indigo-400">
+                      <span className={`text-xs uppercase tracking-wider font-semibold ${categoryTextColor}`}>
                         {result.type} &bull; {result.category}
                       </span>
                       <h4 className={`text-sm font-semibold truncate leading-snug mt-0.5 ${
-                        idx === selectedIndex ? 'text-indigo-950 dark:text-white' : 'text-slate-800 dark:text-slate-200'
+                        idx === selectedIndex ? highlightText : 'text-slate-800 dark:text-slate-200'
                       }`}>
                         {result.title}
                       </h4>
