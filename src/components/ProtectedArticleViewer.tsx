@@ -1,71 +1,71 @@
 'use client';
 
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 
 interface ProtectedArticleViewerProps {
   html: string;
   title: string;
 }
 
-// Splits HTML into chunks for lazy rendering — avoids exposing full DOM at once
-function splitHtmlIntoChunks(html: string, chunkSize = 3): string[] {
+// Split HTML into paragraph-level chunks for lazy rendering
+function splitHtmlIntoChunks(html: string, chunkSize = 4): string[] {
   const div = document.createElement('div');
   div.innerHTML = html;
   const children = Array.from(div.children);
+  if (children.length === 0) return [html];
   const chunks: string[] = [];
   for (let i = 0; i < children.length; i += chunkSize) {
-    const slice = children.slice(i, i + chunkSize);
-    chunks.push(slice.map((el) => el.outerHTML).join(''));
+    chunks.push(
+      children
+        .slice(i, i + chunkSize)
+        .map((el) => el.outerHTML)
+        .join('')
+    );
   }
-  return chunks.length > 0 ? chunks : [html];
+  return chunks;
 }
 
-// Watermark canvas drawn behind article
+// Canvas-based diagonal watermark behind the article text
 function WatermarkCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     const draw = () => {
       canvas.width = canvas.offsetWidth || 800;
       canvas.height = canvas.offsetHeight || 1200;
-
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const lines = ['NATIONAL LEGAL OBSERVATORY', 'BHOOMIJA KHANNA', 'NLO · RESTRICTED'];
-      const step = 180;
+      const step = 200;
 
       for (let y = -canvas.height; y < canvas.height * 2; y += step) {
         for (let x = -canvas.width; x < canvas.width * 2; x += step) {
           const lineIndex = Math.floor(Math.abs(x + y) / step) % lines.length;
-          const text = lines[lineIndex];
-          // Slight randomisation per tile
-          const angle = -(Math.PI / 5.5) + (((x * 7 + y * 3) % 100) / 10000);
-          const opacity = 0.038 + (((x * 3 + y * 7) % 100) / 10000);
-          const fontSize = 10 + (Math.abs(x + y) % 4);
+          const angle = -(Math.PI / 5.5) + (((x * 7 + y * 3) % 100) / 8000);
+          const opacity = 0.04 + (((Math.abs(x * 3 + y * 7)) % 100) / 4000);
+          const fontSize = 11 + (Math.abs(x + y) % 3);
 
           ctx.save();
           ctx.translate(x, y);
           ctx.rotate(angle);
           ctx.globalAlpha = opacity;
           ctx.fillStyle = '#1e1b4b';
-          ctx.font = `600 ${fontSize}px 'Georgia', serif`;
-          ctx.letterSpacing = '0.18em';
-          ctx.fillText(text, 0, 0);
+          ctx.font = `600 ${fontSize}px Georgia, serif`;
+          ctx.fillText(lines[lineIndex], 0, 0);
           ctx.restore();
         }
       }
     };
 
     draw();
-    const observer = new ResizeObserver(draw);
-    observer.observe(canvas);
-    return () => observer.disconnect();
+    const ro = new ResizeObserver(draw);
+    ro.observe(canvas);
+    return () => ro.disconnect();
   }, []);
 
   return (
@@ -78,35 +78,31 @@ function WatermarkCanvas() {
         width: '100%',
         height: '100%',
         pointerEvents: 'none',
-        zIndex: 0,
+        zIndex: 1,
       }}
     />
   );
 }
 
-// Dynamic floating watermark overlay — moves slightly every few seconds
+// Slowly drifting timestamp watermark — barely visible
 function DynamicWatermark() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    let frame = 0;
     const positions = [
+      { top: '10%', left: '6%' },
       { top: '12%', left: '8%' },
-      { top: '14%', left: '10%' },
-      { top: '11%', left: '9%' },
-      { top: '13%', left: '7%' },
+      { top: '9%',  left: '7%' },
+      { top: '11%', left: '5%' },
     ];
-
+    let frame = 0;
     const interval = setInterval(() => {
       frame = (frame + 1) % positions.length;
-      const pos = positions[frame];
-      el.style.top = pos.top;
-      el.style.left = pos.left;
+      if (ref.current) {
+        ref.current.style.top  = positions[frame].top;
+        ref.current.style.left = positions[frame].left;
+      }
     }, 3500);
-
     return () => clearInterval(interval);
   }, []);
 
@@ -120,12 +116,12 @@ function DynamicWatermark() {
       aria-hidden="true"
       style={{
         position: 'fixed',
-        top: '12%',
-        left: '8%',
+        top: '10%',
+        left: '6%',
         pointerEvents: 'none',
-        zIndex: 9,
+        zIndex: 9999,
         opacity: 0.045,
-        transition: 'top 2s ease, left 2s ease',
+        transition: 'top 2.5s ease, left 2.5s ease',
         userSelect: 'none',
         fontFamily: 'Georgia, serif',
         fontSize: '11px',
@@ -141,25 +137,25 @@ function DynamicWatermark() {
   );
 }
 
-export default function ProtectedArticleViewer({ html, title }: ProtectedArticleViewerProps) {
+export default function ProtectedArticleViewer({ html }: ProtectedArticleViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [chunks, setChunks] = React.useState<string[]>([]);
-  const [visibleCount, setVisibleCount] = React.useState(2);
-  const sentinelRef = useRef<HTMLDivElement>(null);
+  const sentinelRef  = useRef<HTMLDivElement>(null);
+  const [chunks, setChunks]           = useState<string[]>([]);
+  const [visibleCount, setVisibleCount] = useState(3);
 
-  // Split into chunks on mount (client-only — avoids full DOM exposure)
+  // Client-only: split into chunks
   useEffect(() => {
-    setChunks(splitHtmlIntoChunks(html, 3));
+    setChunks(splitHtmlIntoChunks(html, 4));
   }, [html]);
 
-  // Lazy-reveal chunks via IntersectionObserver
+  // Lazy reveal via IntersectionObserver
   useEffect(() => {
     const sentinel = sentinelRef.current;
     if (!sentinel || chunks.length === 0) return;
     const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setVisibleCount((v) => Math.min(v + 2, chunks.length));
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisibleCount((v) => Math.min(v + 3, chunks.length));
         }
       },
       { threshold: 0.1 }
@@ -168,46 +164,37 @@ export default function ProtectedArticleViewer({ html, title }: ProtectedArticle
     return () => observer.disconnect();
   }, [chunks]);
 
-  // ── All copy/selection/keyboard protections ──
+  // Block all copy / keyboard shortcuts / print / drag
   const block = useCallback((e: Event) => e.preventDefault(), []);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
-    // Block context menu, drag
     el.addEventListener('contextmenu', block);
-    el.addEventListener('dragstart', block);
-    el.addEventListener('drop', block);
-    el.addEventListener('selectstart', block);
+    el.addEventListener('dragstart',   block);
+    el.addEventListener('drop',        block);
 
-    // Block keyboard shortcuts
     const handleKey = (e: KeyboardEvent) => {
       const mod = e.metaKey || e.ctrlKey;
-      if (mod && ['c', 'x', 'a', 's', 'p', 'u'].includes(e.key.toLowerCase())) {
+      if (mod && ['c','x','a','s','p','u'].includes(e.key.toLowerCase())) {
         e.preventDefault();
       }
     };
     window.addEventListener('keydown', handleKey);
 
-    // Block print
-    const handleBeforePrint = () => {
-      if (el) el.style.display = 'none';
-    };
-    const handleAfterPrint = () => {
-      if (el) el.style.display = '';
-    };
-    window.addEventListener('beforeprint', handleBeforePrint);
-    window.addEventListener('afterprint', handleAfterPrint);
+    const beforePrint = () => { if (el) el.style.visibility = 'hidden'; };
+    const afterPrint  = () => { if (el) el.style.visibility = ''; };
+    window.addEventListener('beforeprint', beforePrint);
+    window.addEventListener('afterprint',  afterPrint);
 
     return () => {
       el.removeEventListener('contextmenu', block);
-      el.removeEventListener('dragstart', block);
-      el.removeEventListener('drop', block);
-      el.removeEventListener('selectstart', block);
-      window.removeEventListener('keydown', handleKey);
-      window.removeEventListener('beforeprint', handleBeforePrint);
-      window.removeEventListener('afterprint', handleAfterPrint);
+      el.removeEventListener('dragstart',   block);
+      el.removeEventListener('drop',        block);
+      window.removeEventListener('keydown',      handleKey);
+      window.removeEventListener('beforeprint',  beforePrint);
+      window.removeEventListener('afterprint',   afterPrint);
     };
   }, [block]);
 
@@ -215,43 +202,41 @@ export default function ProtectedArticleViewer({ html, title }: ProtectedArticle
     <>
       <DynamicWatermark />
 
-      {/* Print blocker */}
       <style>{`
-        @media print {
-          .protected-article-viewer { display: none !important; }
-        }
+        @media print { .nlo-protected { display: none !important; } }
       `}</style>
 
       <div
         ref={containerRef}
-        className="protected-article-viewer relative"
-        style={{
-          WebkitUserSelect: 'none',
-          MozUserSelect: 'none',
-          msUserSelect: 'none',
-          userSelect: 'none',
-          WebkitTouchCallout: 'none',
-          WebkitUserDrag: 'none',
-        } as React.CSSProperties}
+        className="nlo-protected relative"
         onCopy={block as any}
         onCut={block as any}
-        onPaste={block as any}
+        style={{
+          WebkitUserSelect:    'none',
+          MozUserSelect:       'none',
+          msUserSelect:        'none',
+          userSelect:          'none',
+          WebkitTouchCallout:  'none',
+        } as React.CSSProperties}
       >
-        {/* Static watermark canvas layer */}
+        {/* Watermark canvas — absolutely positioned, pointer-events none */}
         <WatermarkCanvas />
 
-        {/* Subtle noise texture */}
+        {/* Noise texture layer */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-0"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E")`,
+            position:       'absolute',
+            inset:          0,
+            pointerEvents:  'none',
+            zIndex:         2,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.022'/%3E%3C/svg%3E")`,
             backgroundSize: '200px 200px',
           }}
         />
 
-        {/* Article content — lazy chunked */}
-        <div className="relative z-10">
+        {/* Article content — above watermark, fully readable */}
+        <div style={{ position: 'relative', zIndex: 10 }}>
           {chunks.slice(0, visibleCount).map((chunk, i) => (
             <div
               key={i}
@@ -259,23 +244,10 @@ export default function ProtectedArticleViewer({ html, title }: ProtectedArticle
               dangerouslySetInnerHTML={{ __html: chunk }}
             />
           ))}
-          {/* Sentinel for lazy loading */}
           {visibleCount < chunks.length && (
             <div ref={sentinelRef} style={{ height: 1 }} />
           )}
         </div>
-
-        {/* Top glass shield — intercepts pointer to prevent text tool selection */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 z-20 pointer-events-auto"
-          style={{ background: 'transparent' }}
-          onMouseDown={(e) => {
-            // Allow links to work but block text selection drag
-            const target = e.target as HTMLElement;
-            if (target.tagName !== 'A') e.preventDefault();
-          }}
-        />
       </div>
     </>
   );
