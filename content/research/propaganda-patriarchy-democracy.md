@@ -36,16 +36,6 @@ references:
   - "Tyagi, P. (2020). Prevalence of rape culture in India. International Journal of Law Management & Humanities, 3, 832–836."
 ---
 
-## Abstract
-
-This study questions how the concept of womanhood has been strategically instrumentalized as a part of contemporary Indian political propaganda, and that the state is actively creating a sense of ontological insecurity to consolidate majoritarian authority. Using Qualitative Critical Discourse Analysis (CDA), this paper analyzes how rape culture, political misogyny, and populist masculinity come together in the creation of a protectionist state narrative. A combination of political rhetoric about Love Jihad, digital ethnography of online Gaali cultures, and the selective politicisation of women's safety shows how victim blaming and moral policing are armed to enforce Brahminical patriarchy.
-
-Evidence suggests that sexist campaign language is not only an insult, but also a way of re-constituting women as honour-bearing subjects who need a masculine guardian — and thus denied agency. The analysis also shows the intersection of media and misogyny in punishing transgressive women with religion and gender control, and the use of patriarchal rhetoric on honour killing to vilify minority groups. Finally, the paper argues that the maintenance of patriarchal power structures is inherent to the existing model of muscular nationalism, which endangers the democratic promise of unconditional citizenship.
-
-**Keywords:** rape culture, victim blaming, political misogyny, moral policing, patriarchal rhetoric, honour killing, populist masculinity, politicisation of women's safety, sexist campaign language, religion and gender control, media and misogyny
-
----
-
 ## Introduction
 
 India has a complicated status in the international political system because it is a constitutional democracy that ensures gender equality but operates under strongly rooted patriarchal values that often put women's citizenship as subordinate to honouring the community. Although women have managed to rise to top political positions, the wider political culture remains deeply rooted in a culture of misogyny in which the agency of women is usually conditional (Krishnan, 2015).
