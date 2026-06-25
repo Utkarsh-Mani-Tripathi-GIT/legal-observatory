@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Landmark, ArrowRight, Mail, HelpCircle } from 'lucide-react';
+import HelpDeskModal from './HelpDeskModal';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
