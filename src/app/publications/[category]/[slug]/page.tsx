@@ -2,6 +2,9 @@ import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { headers } from 'next/headers';
+
+// Force dynamic rendering so searchParams (e.g. ?source=bhoomija) are always read fresh
+export const dynamic = 'force-dynamic';
 import { getArticleBySlug, getRelatedArticles } from '../../../../lib/content';
 import TableOfContents from '../../../../components/TableOfContents';
 import ArticleCard from '../../../../components/ArticleCard';
