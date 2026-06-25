@@ -39,6 +39,7 @@ export interface AuthorData {
   role: string;
   avatar: string;
   bio: string;
+  email?: string;
   socialLinks?: {
     twitter?: string;
     linkedin?: string;
