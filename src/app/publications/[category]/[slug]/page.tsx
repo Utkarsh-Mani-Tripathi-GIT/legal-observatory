@@ -269,12 +269,16 @@ export default async function ArticlePage(props: PageProps) {
             </div>
           )}
 
-          {/* Rendered HTML content from markdown (using Tailwind CSS prose classes) */}
-          <ReadOnlyArticle slug={article.slug}>
-            <article className="prose max-w-none dark:prose-invert prose-headings:font-serif prose-h2:text-xl prose-h2:font-extrabold prose-h2:mt-8 prose-h2:pb-1 prose-h2:border-b prose-h2:border-slate-200/50 dark:prose-h2:border-slate-800/50 prose-h3:text-lg prose-h3:font-bold prose-h3:mt-6 prose-a:text-indigo-600 dark:prose-a:text-indigo-400 prose-a:font-semibold prose-blockquote:border-l-4 prose-blockquote:border-slate-300 dark:prose-blockquote:border-slate-850 prose-blockquote:pl-4 prose-blockquote:italic prose-p:leading-relaxed prose-li:leading-relaxed prose-table:text-xs text-justify">
-              <div dangerouslySetInnerHTML={{ __html: article.content }} />
-            </article>
-          </ReadOnlyArticle>
+          {/* Rendered HTML content from markdown */}
+          {article.slug === 'propaganda-patriarchy-democracy' ? (
+            <ProtectedArticleViewer html={article.content} title={article.title} />
+          ) : (
+            <ReadOnlyArticle slug={article.slug}>
+              <article className="prose max-w-none dark:prose-invert prose-headings:font-serif prose-h2:text-xl prose-h2:font-extrabold prose-h2:mt-8 prose-h2:pb-1 prose-h2:border-b prose-h2:border-slate-200/50 dark:prose-h2:border-slate-800/50 prose-h3:text-lg prose-h3:font-bold prose-h3:mt-6 prose-a:text-indigo-600 dark:prose-a:text-indigo-400 prose-a:font-semibold prose-blockquote:border-l-4 prose-blockquote:border-slate-300 dark:prose-blockquote:border-slate-850 prose-blockquote:pl-4 prose-blockquote:italic prose-p:leading-relaxed prose-li:leading-relaxed prose-table:text-xs text-justify">
+                <div dangerouslySetInnerHTML={{ __html: article.content }} />
+              </article>
+            </ReadOnlyArticle>
+          )}
 
           {/* Reference List Section (for academic styling) */}
           {article.references && article.references.length > 0 && (
@@ -284,7 +288,11 @@ export default async function ArticlePage(props: PageProps) {
               </h3>
               <ol className="list-decimal pl-5 text-xs text-slate-500 dark:text-slate-400 space-y-2 leading-relaxed font-mono">
                 {article.references.map((ref) => (
-                  <li key={ref} className="select-all">{ref}</li>
+                  <li
+                    key={ref}
+                    className={article.slug === 'propaganda-patriarchy-democracy' ? 'select-none' : 'select-all'}
+                    style={article.slug === 'propaganda-patriarchy-democracy' ? { userSelect: 'none' } : undefined}
+                  >{ref}</li>
                 ))}
               </ol>
             </section>
