@@ -866,7 +866,42 @@
 }
 .bk-about-tag:hover {
   background: #7d1919;
-  color: #efebe8;
+  color: #ffffff !important;
+}
+
+/* Tooltip for about tags */
+.bk-about-tag {
+  position: relative;
+}
+
+.bk-about-tag::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: #2a0a0a;
+  color: #ffffff;
+  font-size: 11px;
+  line-height: 1.4;
+  padding: 8px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  max-width: 200px;
+  white-space: normal;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.bk-about-tag:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
 }
 
 /* ─────────────────────────────────────────
@@ -1269,9 +1304,9 @@
   /* Gradient from transparent at top to dark at bottom */
   background: linear-gradient(
     to top,
-    rgba(44, 8, 8, 0.92) 0%,
-    rgba(44, 8, 8, 0.5) 45%,
-    transparent 100%
+    rgba(44, 8, 8, 0.96) 0%,
+    rgba(44, 8, 8, 0.75) 45%,
+    rgba(44, 8, 8, 0.3) 100%
   );
   transition: background 0.5s;
 }
@@ -1291,7 +1326,7 @@
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(239, 200, 160, 0.5);
+  color: rgba(239, 200, 160, 0.85);
   margin: 0 0 8px;
   transition: color 0.3s;
 }
@@ -1304,7 +1339,7 @@
 .bk-pub-card-title {
   font-family: 'Gloria Hallelujah', cursive;
   font-size: clamp(15px, 1.6vw, 19px);
-  color: rgba(239, 235, 232, 0.22);
+  color: rgba(239, 235, 232, 0.65);
   line-height: 1.35;
   margin: 0 0 12px;
   transition: color 0.3s cubic-bezier(0.22, 1, 0.36, 1),

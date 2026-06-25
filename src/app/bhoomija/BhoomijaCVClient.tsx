@@ -47,7 +47,7 @@ const EXPERIENCE = [
   },
   {
     role: 'Finance Minister',
-    org: 'Mock Parliament — Alliance University',
+    org: 'Mock Parliament — High School',
     period: '2025',
     desc: 'Represented the Finance Ministry portfolio, demonstrating legislative understanding and policy argumentation in a structured parliamentary simulation.',
     active: false,
@@ -104,7 +104,7 @@ const ACHIEVEMENTS = [
   'State-level hockey player.',
   'Trained swimmer.',
   'Represented India at an international debate competition in the United Kingdom.',
-  'Mock Parliament — Finance Minister.',
+  'Mock Parliament — Finance Minister (High School).',
 ];
 
 // ─── Skills custom cursor ─────────────────────────────────────────────────────
@@ -331,7 +331,7 @@ export default function BhoomijaCVClient() {
           <div className="bk-about-text-col">
             <h2 className="bk-about-heading">Hi, I&apos;m Bhoomija.</h2>
             <p className="bk-about-body">
-              I&apos;m a first-year B.A. LL.B. (Hons.) student at Alliance University, Bengaluru with a deep
+              I&apos;m a 2nd Year B.A. LL.B. (Hons.) student at Alliance University, Bengaluru with a deep
               interest in corporate transactional law, constitutional analysis, and written advocacy. My legal
               work is grounded in primary sources — I build arguments from statute, case law, and first
               principles rather than commentary.
@@ -349,8 +349,15 @@ export default function BhoomijaCVClient() {
               hockey player and trained swimmer.
             </p>
             <div className="bk-about-tags">
-              {['Constitutional Law', 'Contract Drafting', 'Legal Research', 'Written Advocacy', 'Corporate Law', 'Moot Courts'].map(t => (
-                <span key={t} className="bk-about-tag">{t}</span>
+              {[
+                { name: 'Constitutional Law', desc: 'Study of fundamental principles, rights, and governmental structures' },
+                { name: 'Contract Drafting', desc: 'Creating legally binding agreements and commercial documents' },
+                { name: 'Legal Research', desc: 'Finding and analyzing statutes, case law, and legal precedents' },
+                { name: 'Written Advocacy', desc: 'Persuasive legal writing for briefs, pleadings, and submissions' },
+                { name: 'Corporate Law', desc: 'Legal framework for business entities and commercial transactions' },
+                { name: 'Moot Courts', desc: 'Simulated court proceedings for legal argumentation practice' }
+              ].map(t => (
+                <span key={t.name} className="bk-about-tag" data-tooltip={t.desc}>{t.name}</span>
               ))}
             </div>
           </div>
@@ -544,7 +551,7 @@ export default function BhoomijaCVClient() {
           <section className="bk-reveal">
             <h2 className="bk-block-title">Professional Summary</h2>
             <p className="bk-summary-text">
-              Second-year B.A. LL.B. (Hons.) student at Alliance University with a strong interest in corporate
+              2nd Year B.A. LL.B. (Hons.) student at Alliance University with a strong interest in corporate
               transactional law, contract law, and commercial dispute resolution. Skilled in legal research, contract
               drafting and analysis, and written advocacy through academic legal projects, an independent drafting
               portfolio of <strong>15 documents</strong>, and moot court participation. Seeking internship
@@ -628,7 +635,7 @@ export default function BhoomijaCVClient() {
               <ul className="bk-bullet-list">
                 <li>Participated in intra-university Moot Court competitions — legal argumentation, case preparation, oral advocacy.</li>
                 <li>Represented India at an international debate competition in the United Kingdom.</li>
-                <li>Participated in Mock Parliament as Finance Minister, demonstrating legislative and policy understanding.</li>
+                <li>Participated in Mock Parliament as Finance Minister at High School, demonstrating legislative and policy understanding.</li>
               </ul>
             </div>
           </section>
