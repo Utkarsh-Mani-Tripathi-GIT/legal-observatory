@@ -38,7 +38,7 @@ export default function SearchOverlay({
   const activeBg = isBhoomijaPage ? 'bg-[#f5f0eb]' : 'bg-indigo-50 dark:bg-slate-800/80';
   const highlightText = isBhoomijaPage ? 'text-[#5c1212]' : 'text-indigo-950 dark:text-white';
   const spinnerBorder = isBhoomijaPage ? 'border-[#7d1919]' : 'border-indigo-600';
-  const backdropBg = isBhoomijaPage ? 'bg-[#5c1212]/60' : 'bg-slate-900/60 dark:bg-black/80';
+  const backdropBg = isBhoomijaPage ? 'bg-slate-900/60 dark:bg-black/80' : 'bg-slate-900/60 dark:bg-black/80';
   const modalBg = isBhoomijaPage ? 'bg-[#f5f0eb]' : 'bg-white dark:bg-slate-900';
   const modalBorder = isBhoomijaPage ? 'border-[#7d1919]/30' : 'border-slate-200 dark:border-slate-800';
   const inputBorder = isBhoomijaPage ? 'border-[#7d1919]/20' : 'border-slate-100 dark:border-slate-800';
