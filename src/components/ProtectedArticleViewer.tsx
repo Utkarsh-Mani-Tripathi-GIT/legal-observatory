@@ -1,33 +1,208 @@
 'use client';
 
-import React, { useEffect, useRef, useCallback, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 
 interface ProtectedArticleViewerProps {
   html: string;
   title: string;
 }
 
-// Split HTML into paragraph-level chunks for lazy rendering
-function splitHtmlIntoChunks(html: string, chunkSize = 4): string[] {
-  const div = document.createElement('div');
-  div.innerHTML = html;
-  const children = Array.from(div.children);
-  if (children.length === 0) return [html];
-  const chunks: string[] = [];
-  for (let i = 0; i < children.length; i += chunkSize) {
-    chunks.push(
-      children
-        .slice(i, i + chunkSize)
-        .map((el) => el.outerHTML)
-        .join('')
-    );
-  }
-  return chunks;
+// Parse HTML into plain structured blocks for canvas rendering
+interface Block {
+  tag: string;   // h1 h2 h3 h4 p li blockquote strong em hr
+  text: string;
 }
 
-// Canvas-based diagonal watermark behind the article text
-function WatermarkCanvas() {
+function parseHtmlToBlocks(html: string): Block[] {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  const blocks: Block[] = [];
+
+  function walk(node: Element) {
+    const tag = node.tagName?.toLowerCase() || '';
+    if (['h1','h2','h3','h4','h5','h6','p','li','blockquote'].includes(tag)) {
+      const text = (node.textContent || '').trim();
+      if (text) blocks.push({ tag, text });
+    } else if (tag === 'hr') {
+      blocks.push({ tag: 'hr', text: '' });
+    } else {
+      Array.from(node.children).forEach(walk);
+    }
+  }
+  Array.from(div.children).forEach(walk);
+  return blocks;
+}
+
+// Wrap text to fit canvas width, return array of lines
+function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
+  const words = text.split(' ');
+  const lines: string[] = [];
+  let current = '';
+  for (const word of words) {
+    const test = current ? current + ' ' + word : word;
+    if (ctx.measureText(test).width > maxWidth && current) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = test;
+    }
+  }
+  if (current) lines.push(current);
+  return lines;
+}
+
+// Render a single block onto canvas, return height used
+function renderBlock(
+  ctx: CanvasRenderingContext2D,
+  block: Block,
+  y: number,
+  width: number,
+  isDark: boolean
+): number {
+  const pad = 48;
+  const usable = width - pad * 2;
+  const textColor   = isDark ? '#e2e8f0' : '#1e293b';
+  const mutedColor  = isDark ? '#94a3b8' : '#475569';
+  const accentColor = isDark ? '#818cf8' : '#4f46e5';
+
+  if (block.tag === 'hr') {
+    ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.12)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pad, y + 12);
+    ctx.lineTo(width - pad, y + 12);
+    ctx.stroke();
+    return 32;
+  }
+
+  let fontSize = 15;
+  let fontWeight = '400';
+  let fontFamily = 'Georgia, serif';
+  let color = textColor;
+  let marginTop = 12;
+  let marginBottom = 8;
+  let indentLeft = 0;
+  let lineHeight = 1.75;
+
+  switch (block.tag) {
+    case 'h1':
+      fontSize = 28; fontWeight = '800'; marginTop = 32; marginBottom = 12;
+      color = textColor; lineHeight = 1.3;
+      break;
+    case 'h2':
+      fontSize = 22; fontWeight = '700'; marginTop = 36; marginBottom = 10;
+      color = textColor; lineHeight = 1.35;
+      // draw bottom border after text
+      break;
+    case 'h3':
+      fontSize = 18; fontWeight = '700'; marginTop = 28; marginBottom = 8;
+      color = textColor; lineHeight = 1.4;
+      break;
+    case 'h4':
+      fontSize = 15; fontWeight = '700'; marginTop = 20; marginBottom = 6;
+      color = accentColor; lineHeight = 1.5;
+      break;
+    case 'blockquote':
+      fontSize = 14; fontWeight = '400'; fontFamily = 'Georgia, serif';
+      color = mutedColor; indentLeft = 20; marginTop = 16; marginBottom = 16;
+      lineHeight = 1.75;
+      break;
+    case 'li':
+      fontSize = 15; indentLeft = 24; marginTop = 4; marginBottom = 4;
+      color = textColor; lineHeight = 1.7;
+      break;
+    default:
+      fontSize = 15; lineHeight = 1.75; marginTop = 0; marginBottom = 12;
+  }
+
+  ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+  ctx.fillStyle = color;
+  ctx.textBaseline = 'top';
+
+  const textX = pad + indentLeft;
+  const textWidth = usable - indentLeft;
+  const linePixels = fontSize * lineHeight;
+
+  // Blockquote left bar
+  if (block.tag === 'blockquote') {
+    ctx.fillStyle = isDark ? 'rgba(129,140,248,0.5)' : 'rgba(79,70,229,0.35)';
+    ctx.fillRect(pad, y + marginTop, 3, 9999); // placeholder, will trim after
+    ctx.fillStyle = color;
+  }
+
+  // List bullet
+  let displayText = block.text;
+  if (block.tag === 'li') {
+    ctx.beginPath();
+    ctx.arc(pad + 8, y + marginTop + fontSize * 0.55, 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = accentColor;
+    ctx.fill();
+    ctx.fillStyle = color;
+  }
+
+  const lines = wrapText(ctx, displayText, textWidth);
+  let cursor = y + marginTop;
+
+  for (const line of lines) {
+    ctx.fillText(line, textX, cursor);
+    cursor += linePixels;
+  }
+
+  const totalHeight = marginTop + lines.length * linePixels + marginBottom;
+
+  // H2 bottom border
+  if (block.tag === 'h2') {
+    ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pad, y + marginTop + lines.length * linePixels + 4);
+    ctx.lineTo(width - pad, y + marginTop + lines.length * linePixels + 4);
+    ctx.stroke();
+  }
+
+  // Fix blockquote bar height
+  if (block.tag === 'blockquote') {
+    ctx.fillStyle = isDark ? 'rgba(129,140,248,0.5)' : 'rgba(79,70,229,0.35)';
+    ctx.fillRect(pad, y + marginTop, 3, lines.length * linePixels);
+    ctx.fillStyle = color;
+  }
+
+  return totalHeight;
+}
+
+// Diagonal watermark tiles on a canvas
+function drawWatermark(ctx: CanvasRenderingContext2D, width: number, height: number) {
+  const lines = ['NATIONAL LEGAL OBSERVATORY', 'BHOOMIJA KHANNA', 'NLO · RESTRICTED'];
+  const step = 220;
+  ctx.save();
+  for (let y = -height; y < height * 2; y += step) {
+    for (let x = -width; x < width * 2; x += step) {
+      const idx = Math.floor(Math.abs(x + y) / step) % lines.length;
+      const angle = -(Math.PI / 5.5) + (((x * 7 + y * 3) % 100) / 9000);
+      const opacity = 0.045 + ((Math.abs(x * 3 + y * 7) % 100) / 5000);
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.globalAlpha = opacity;
+      ctx.fillStyle = '#1e1b4b';
+      ctx.font = `600 11px Georgia, serif`;
+      ctx.fillText(lines[idx], 0, 0);
+      ctx.restore();
+    }
+  }
+  ctx.restore();
+}
+
+// Single canvas segment
+function ArticleCanvas({
+  blocks,
+  isDark,
+}: {
+  blocks: Block[];
+  isDark: boolean;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [height, setHeight] = useState(600);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -35,219 +210,169 @@ function WatermarkCanvas() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const draw = () => {
-      canvas.width = canvas.offsetWidth || 800;
-      canvas.height = canvas.offsetHeight || 1200;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const dpr = window.devicePixelRatio || 1;
+    const width = canvas.offsetWidth || 700;
 
-      const lines = ['NATIONAL LEGAL OBSERVATORY', 'BHOOMIJA KHANNA', 'NLO · RESTRICTED'];
-      const step = 200;
+    // First pass: measure total height
+    ctx.scale(1, 1);
+    let totalHeight = 0;
+    for (const block of blocks) {
+      const h = renderBlock(ctx, block, totalHeight, width, isDark);
+      totalHeight += h;
+    }
+    totalHeight += 32;
+    setHeight(totalHeight);
 
-      for (let y = -canvas.height; y < canvas.height * 2; y += step) {
-        for (let x = -canvas.width; x < canvas.width * 2; x += step) {
-          const lineIndex = Math.floor(Math.abs(x + y) / step) % lines.length;
-          const angle = -(Math.PI / 5.5) + (((x * 7 + y * 3) % 100) / 8000);
-          const opacity = 0.04 + (((Math.abs(x * 3 + y * 7)) % 100) / 4000);
-          const fontSize = 11 + (Math.abs(x + y) % 3);
+    // Second pass: draw at correct size
+    canvas.width  = width * dpr;
+    canvas.height = totalHeight * dpr;
+    canvas.style.height = totalHeight + 'px';
+    ctx.scale(dpr, dpr);
 
-          ctx.save();
-          ctx.translate(x, y);
-          ctx.rotate(angle);
-          ctx.globalAlpha = opacity;
-          ctx.fillStyle = '#1e1b4b';
-          ctx.font = `600 ${fontSize}px Georgia, serif`;
-          ctx.fillText(lines[lineIndex], 0, 0);
-          ctx.restore();
-        }
-      }
-    };
+    // Background
+    ctx.fillStyle = isDark ? '#0f172a' : '#ffffff';
+    ctx.fillRect(0, 0, width, totalHeight);
 
-    draw();
-    const ro = new ResizeObserver(draw);
-    ro.observe(canvas);
-    return () => ro.disconnect();
-  }, []);
+    // Text
+    let y = 0;
+    for (const block of blocks) {
+      y += renderBlock(ctx, block, y, width, isDark);
+    }
+
+    // Watermark on top
+    drawWatermark(ctx, width, totalHeight);
+
+  }, [blocks, isDark]);
 
   return (
     <canvas
       ref={canvasRef}
-      aria-hidden="true"
       style={{
-        position: 'absolute',
-        inset: 0,
         width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
-        zIndex: 1,
-      }}
+        height,
+        display: 'block',
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        pointerEvents: 'none', // text cannot be selected at all
+      } as React.CSSProperties}
     />
   );
 }
 
-// Slowly drifting timestamp watermark — barely visible
+// Drifting fixed watermark overlay
 function DynamicWatermark() {
   const ref = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const positions = [
       { top: '10%', left: '6%' },
       { top: '12%', left: '8%' },
-      { top: '9%',  left: '7%' },
-      { top: '11%', left: '5%' },
+      { top: '9%',  left: '5%' },
+      { top: '11%', left: '7%' },
     ];
-    let frame = 0;
-    const interval = setInterval(() => {
-      frame = (frame + 1) % positions.length;
+    let i = 0;
+    const t = setInterval(() => {
+      i = (i + 1) % positions.length;
       if (ref.current) {
-        ref.current.style.top  = positions[frame].top;
-        ref.current.style.left = positions[frame].left;
+        ref.current.style.top  = positions[i].top;
+        ref.current.style.left = positions[i].left;
       }
     }, 3500);
-    return () => clearInterval(interval);
+    return () => clearInterval(t);
   }, []);
 
-  const ts = new Date().toLocaleDateString('en-IN', {
-    day: '2-digit', month: 'short', year: 'numeric',
-  });
+  const ts = new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
 
   return (
-    <div
-      ref={ref}
-      aria-hidden="true"
-      style={{
-        position: 'fixed',
-        top: '10%',
-        left: '6%',
-        pointerEvents: 'none',
-        zIndex: 9999,
-        opacity: 0.045,
-        transition: 'top 2.5s ease, left 2.5s ease',
-        userSelect: 'none',
-        fontFamily: 'Georgia, serif',
-        fontSize: '11px',
-        fontWeight: 700,
-        letterSpacing: '0.2em',
-        color: '#1e1b4b',
-        whiteSpace: 'nowrap',
-        transform: 'rotate(-30deg)',
-      }}
-    >
+    <div ref={ref} aria-hidden="true" style={{
+      position: 'fixed', top: '10%', left: '6%',
+      pointerEvents: 'none', zIndex: 9999,
+      opacity: 0.05, transition: 'top 2.5s ease, left 2.5s ease',
+      userSelect: 'none', fontFamily: 'Georgia, serif',
+      fontSize: '12px', fontWeight: 700,
+      letterSpacing: '0.2em', color: '#1e1b4b',
+      whiteSpace: 'nowrap', transform: 'rotate(-30deg)',
+    }}>
       NATIONAL LEGAL OBSERVATORY · {ts}
     </div>
   );
 }
 
-export default function ProtectedArticleViewer({ html }: ProtectedArticleViewerProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const sentinelRef  = useRef<HTMLDivElement>(null);
-  const [chunks, setChunks]           = useState<string[]>([]);
-  const [visibleCount, setVisibleCount] = useState(3);
+const CHUNK_SIZE = 8; // blocks per canvas segment
 
-  // Client-only: split into chunks
+export default function ProtectedArticleViewer({ html }: ProtectedArticleViewerProps) {
+  const [chunks, setChunks] = useState<Block[][]>([]);
+  const [visibleChunks, setVisibleChunks] = useState(1);
+  const [isDark, setIsDark] = useState(false);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    setChunks(splitHtmlIntoChunks(html, 4));
+    setIsDark(document.documentElement.classList.contains('dark'));
+    const obs = new MutationObserver(() =>
+      setIsDark(document.documentElement.classList.contains('dark'))
+    );
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => obs.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const blocks = parseHtmlToBlocks(html);
+    const result: Block[][] = [];
+    for (let i = 0; i < blocks.length; i += CHUNK_SIZE) {
+      result.push(blocks.slice(i, i + CHUNK_SIZE));
+    }
+    setChunks(result);
   }, [html]);
 
-  // Lazy reveal via IntersectionObserver
+  // Lazy load more canvas segments on scroll
   useEffect(() => {
-    const sentinel = sentinelRef.current;
-    if (!sentinel || chunks.length === 0) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisibleCount((v) => Math.min(v + 3, chunks.length));
-        }
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(sentinel);
-    return () => observer.disconnect();
+    const s = sentinelRef.current;
+    if (!s || chunks.length === 0) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) setVisibleChunks(v => Math.min(v + 1, chunks.length));
+    }, { threshold: 0.1 });
+    obs.observe(s);
+    return () => obs.disconnect();
   }, [chunks]);
 
-  // Block all copy / keyboard shortcuts / print / drag
-  const block = useCallback((e: Event) => e.preventDefault(), []);
+  // Block keyboard shortcuts
+  const blockKey = useCallback((e: KeyboardEvent) => {
+    const mod = e.metaKey || e.ctrlKey;
+    if (mod && ['c','x','a','s','p','u','i'].includes(e.key.toLowerCase())) {
+      e.preventDefault();
+    }
+  }, []);
 
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    el.addEventListener('contextmenu', block);
-    el.addEventListener('dragstart',   block);
-    el.addEventListener('drop',        block);
-
-    const handleKey = (e: KeyboardEvent) => {
-      const mod = e.metaKey || e.ctrlKey;
-      if (mod && ['c','x','a','s','p','u'].includes(e.key.toLowerCase())) {
-        e.preventDefault();
-      }
-    };
-    window.addEventListener('keydown', handleKey);
-
-    const beforePrint = () => { if (el) el.style.visibility = 'hidden'; };
-    const afterPrint  = () => { if (el) el.style.visibility = ''; };
+    window.addEventListener('keydown', blockKey);
+    const beforePrint = () => document.getElementById('nlo-protected-wrap')!.style.display = 'none';
+    const afterPrint  = () => document.getElementById('nlo-protected-wrap')!.style.display = '';
     window.addEventListener('beforeprint', beforePrint);
     window.addEventListener('afterprint',  afterPrint);
-
     return () => {
-      el.removeEventListener('contextmenu', block);
-      el.removeEventListener('dragstart',   block);
-      el.removeEventListener('drop',        block);
-      window.removeEventListener('keydown',      handleKey);
-      window.removeEventListener('beforeprint',  beforePrint);
-      window.removeEventListener('afterprint',   afterPrint);
+      window.removeEventListener('keydown', blockKey);
+      window.removeEventListener('beforeprint', beforePrint);
+      window.removeEventListener('afterprint',  afterPrint);
     };
-  }, [block]);
+  }, [blockKey]);
 
   return (
     <>
       <DynamicWatermark />
-
-      <style>{`
-        @media print { .nlo-protected { display: none !important; } }
-      `}</style>
-
+      <style>{`@media print { #nlo-protected-wrap { display: none !important; } }`}</style>
       <div
-        ref={containerRef}
-        className="nlo-protected relative"
-        onCopy={block as any}
-        onCut={block as any}
-        style={{
-          WebkitUserSelect:    'none',
-          MozUserSelect:       'none',
-          msUserSelect:        'none',
-          userSelect:          'none',
-          WebkitTouchCallout:  'none',
-        } as React.CSSProperties}
+        id="nlo-protected-wrap"
+        onContextMenu={e => e.preventDefault()}
+        style={{ userSelect: 'none', WebkitUserSelect: 'none' } as React.CSSProperties}
       >
-        {/* Watermark canvas — absolutely positioned, pointer-events none */}
-        <WatermarkCanvas />
-
-        {/* Noise texture layer */}
-        <div
-          aria-hidden="true"
-          style={{
-            position:       'absolute',
-            inset:          0,
-            pointerEvents:  'none',
-            zIndex:         2,
-            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.022'/%3E%3C/svg%3E")`,
-            backgroundSize: '200px 200px',
-          }}
-        />
-
-        {/* Article content — above watermark, fully readable */}
-        <div style={{ position: 'relative', zIndex: 10 }}>
-          {chunks.slice(0, visibleCount).map((chunk, i) => (
-            <div
-              key={i}
-              className="prose max-w-none dark:prose-invert prose-headings:font-serif prose-h2:text-xl prose-h2:font-extrabold prose-h2:mt-8 prose-h2:pb-1 prose-h2:border-b prose-h2:border-slate-200/50 dark:prose-h2:border-slate-800/50 prose-h3:text-lg prose-h3:font-bold prose-h3:mt-6 prose-a:text-indigo-600 dark:prose-a:text-indigo-400 prose-a:font-semibold prose-blockquote:border-l-4 prose-blockquote:border-slate-300 dark:prose-blockquote:border-slate-700 prose-blockquote:pl-4 prose-blockquote:italic prose-p:leading-relaxed prose-li:leading-relaxed text-justify"
-              dangerouslySetInnerHTML={{ __html: chunk }}
-            />
-          ))}
-          {visibleCount < chunks.length && (
-            <div ref={sentinelRef} style={{ height: 1 }} />
-          )}
-        </div>
+        {chunks.slice(0, visibleChunks).map((chunk, i) => (
+          <ArticleCanvas key={i} blocks={chunk} isDark={isDark} />
+        ))}
+        {visibleChunks < chunks.length && (
+          <div ref={sentinelRef} style={{ height: 1 }} />
+        )}
+        {chunks.length === 0 && (
+          <div className="text-slate-400 text-sm py-8 text-center">Loading article…</div>
+        )}
       </div>
     </>
   );
