@@ -27,6 +27,15 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
 
   return (
     <article className="group relative flex flex-col justify-between p-6 glass-card border border-slate-200/60 dark:border-slate-800/80 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
+      {article.coverImage ? (
+        <div className="overflow-hidden rounded-3xl mb-4">
+          <img
+            src={article.coverImage}
+            alt={article.title}
+            className="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+      ) : null}
       <div>
         {/* Top Header Row */}
         <div className="flex items-center justify-between text-xs mb-3 text-slate-400 dark:text-slate-500">

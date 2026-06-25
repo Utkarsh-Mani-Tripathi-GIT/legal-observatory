@@ -347,7 +347,7 @@ export default function BhoomijaCVClient() {
             </p>
             <p className="bk-about-body">
               Beyond the classroom, I founded the{' '}
-              <Link href="/" className="bk-inline-link">National Legal Observatory</Link> — an independent
+              <Link href="/" target="_blank" rel="noopener noreferrer" className="bk-inline-link">National Legal Observatory</Link> — an independent
               platform dedicated to tracking India&apos;s constitutional developments, judicial shifts, and
               digital policy. I believe rigorous, accessible legal writing is a democratic necessity, not a
               professional luxury.
@@ -511,13 +511,13 @@ export default function BhoomijaCVClient() {
                       <span className="bk-pub-card-coming-soon">
                         ⏳ Publishing in progress
                       </span>
-                    ) : (
-                      <Link href={pub.href} className="bk-pub-card-link">Read Article →</Link>
-                    )}
+                    ) : pub.type !== 'Handbook' ? (
+                      <Link href={pub.href} target="_blank" rel="noopener noreferrer" className="bk-pub-card-link">Read Article →</Link>
+                    ) : null}
                   </div>
-                  {!pub.comingSoon && (
+                  {!pub.comingSoon && pub.type === 'Handbook' && (
                     <div className="bk-pub-card-cta">
-                      <Link href={pub.href} className="bk-pub-card-cta-btn">
+                      <Link href={pub.href} target="_blank" rel="noopener noreferrer" className="bk-pub-card-cta-btn bk-pub-card-cta-btn--small">
                         Read Online
                       </Link>
                     </div>
@@ -592,7 +592,7 @@ export default function BhoomijaCVClient() {
                   An independent research platform dedicated to tracking India&apos;s constitutional law,
                   digital surveillance policies, and judicial updates with rigorous, primary-source analysis.
                 </p>
-                <Link href="/about" className="bk-research-link">View Founder&apos;s Note →</Link>
+                <Link href="/about" target="_blank" rel="noopener noreferrer" className="bk-research-link">View Founder&apos;s Note →</Link>
               </div>
             </div>
           </section>

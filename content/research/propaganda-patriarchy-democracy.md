@@ -3,6 +3,7 @@ slug: propaganda-patriarchy-democracy
 type: research
 title: "Gender, Propaganda and Patriarchal Power in Indian Democratic Politics"
 author: bhoomija-khanna
+excludeFromArchive: true
 date: 2025-11-15
 categories:
   - gender-rights
@@ -15,6 +16,7 @@ tags:
   - Democracy
   - Political Communication
 abstract: "A socio-legal analysis of gendered rhetoric, political exclusion, and patriarchal propaganda in Indian democratic institutions."
+coverImage: "/propaganda.jpg"
 references:
   - "Akhil Reed Amar, The Constitution and Criminal Procedure: First Principles."
   - "Arundhati Roy, The Ministry of Utmost Happiness."

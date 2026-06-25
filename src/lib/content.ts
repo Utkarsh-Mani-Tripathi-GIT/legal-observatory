@@ -38,6 +38,8 @@ function mapDbArticleToArticleData(dbArt: any, authorDetails?: AuthorData): Arti
     
     abstract: dbArt.abstract,
     references: dbArt.references,
+    coverImage: dbArt.cover_image ?? dbArt.coverImage,
+    excludeFromArchive: dbArt.exclude_from_archive ?? false,
   };
 }
 
@@ -186,6 +188,7 @@ export async function getArticles(
                 citation: local.citation || mapped.citation,
                 references: local.references || mapped.references,
                 authorDetails: local.authorDetails || mapped.authorDetails,
+                excludeFromArchive: local.excludeFromArchive ?? mapped.excludeFromArchive,
               };
             }
             return mapped;
@@ -229,7 +232,9 @@ export async function getArticleBySlug(
           categories: localArticle.categories || mapped.categories,
           tags: localArticle.tags || mapped.tags,
           citation: localArticle.citation || mapped.citation,
+            coverImage: localArticle.coverImage || mapped.coverImage,
           references: localArticle.references || mapped.references,
+          excludeFromArchive: localArticle.excludeFromArchive ?? mapped.excludeFromArchive,
         };
       }
     }
@@ -241,6 +246,7 @@ export async function getArticleBySlug(
 export async function getRelatedArticles(currentArticle: ArticleData, limit: number = 3): Promise<ArticleData[]> {
   const allArticles = await getArticles();
   return allArticles
+    .filter((art) => !art.excludeFromArchive)
     .filter((art) => art.slug !== currentArticle.slug) // exclude current
     .filter((art) => 
       art.categories.some((cat) => currentArticle.categories.includes(cat)) ||

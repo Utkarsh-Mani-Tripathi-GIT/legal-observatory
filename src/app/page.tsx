@@ -6,7 +6,7 @@ import UpcomingResearchTeaser from '../components/UpcomingResearchTeaser';
 import { Landmark, Search, BookOpen, PenTool, Sparkles, Users, ArrowRight } from 'lucide-react';
 
 export default async function Homepage() {
-  const articles = (await getArticles()).filter((art) => art.slug !== 'propaganda-patriarchy-democracy');
+  const articles = (await getArticles()).filter((art) => !art.excludeFromArchive);
   const authors = await getAuthors();
   const categories = await getCategories();
 

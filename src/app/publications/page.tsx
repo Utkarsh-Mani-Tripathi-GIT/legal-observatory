@@ -36,9 +36,7 @@ export default async function PublicationsPage(props: PageProps) {
   const itemsPerPage = 6;
 
   // Retrieve base content data
-  const rawArticles = (await getArticles())
-    .filter((art) => art.slug !== 'propaganda-patriarchy-democracy')
-    .filter((art) => !art.excludeFromArchive);
+  const rawArticles = (await getArticles()).filter((art) => !art.excludeFromArchive);
   const categories = await getCategories();
 
   // 1. Filter Articles

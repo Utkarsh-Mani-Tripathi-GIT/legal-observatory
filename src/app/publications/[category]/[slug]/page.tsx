@@ -38,6 +38,17 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const article = await getArticleBySlug(folder, resolvedParams.slug);
   if (!article) return {};
 
+  if (article.excludeFromArchive) {
+    const searchParams = await props.searchParams;
+    const source = searchParams.source || '';
+    if (source !== 'bhoomija') {
+      return {
+        title: 'Restricted Publication',
+        description: 'This publication is only accessible through the Bhoomija portfolio.',
+      };
+    }
+  }
+
   const descriptionText = article.abstract || article.caseSummary || article.policyOverview || '';
 
   return {
@@ -78,7 +89,7 @@ export default async function ArticlePage(props: PageProps) {
     return notFound();
   }
 
-  if (article.slug === 'propaganda-patriarchy-democracy') {
+  if (article.excludeFromArchive) {
     const searchParams = await props.searchParams;
     const source = searchParams.source || '';
     const requestHeaders = await headers();

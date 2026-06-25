@@ -57,6 +57,7 @@ export interface CategoryData {
 export interface ArticleData {
   slug: string;
   type: 'judgment' | 'policy' | 'research' | 'opinion';
+  coverImage?: string;
   format?: 'monthly-report' | 'post' | 'blog'; // content format filter
   title: string;
   author: string; // author slug
@@ -200,6 +201,7 @@ export async function getArticleBySlug(
       // Research
       abstract: data.abstract,
       references: data.references,
+      coverImage: data.coverImage || data.cover_image,
       excludeFromArchive: data.excludeFromArchive ?? false,
     };
   } catch (error) {

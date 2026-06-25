@@ -16,7 +16,7 @@ export async function GET(request: Request) {
 
     const filtered = articles
       .filter((art) => {
-        if (art.slug === 'propaganda-patriarchy-democracy' && source !== 'bhoomija') {
+        if (art.excludeFromArchive && source !== 'bhoomija') {
           return false;
         }
 

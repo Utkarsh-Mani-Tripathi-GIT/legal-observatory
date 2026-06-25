@@ -30,9 +30,11 @@ export default async function AuthorProfilePage(props: PageProps) {
     return notFound();
   }
 
-  // Get all articles written by this author
+  // Get all articles written by this author and hide portfolio-only content
   const allArticles = await getArticles();
-  const authorArticles = allArticles.filter((art) => art.author === resolvedParams.slug);
+  const authorArticles = allArticles.filter(
+    (art) => art.author === resolvedParams.slug && !art.excludeFromArchive
+  );
 
   return (
     <div className="space-y-8 py-4 max-w-4xl mx-auto">

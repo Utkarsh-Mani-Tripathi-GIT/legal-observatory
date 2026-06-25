@@ -1,0 +1,305 @@
+How does modern Indian political propaganda play around with notions of womanhood, morality, and victimhood to preserve patriarchal power structures in democratic systems?
+
+Abstract
+
+This study questions how the concept of womanhood has been strategically instrumentalized as a part of the contemporary Indian political propaganda, and that the state is actively creating the sense of ontological insecurity to consolidate majoritarian authority. Using Qualitative Critical Discourse Analysis (CDA), this paper will analyze how rape culture, political misogyny, and populist masculinity come together in the creation of a protectionist state narrative. A combination of political rhetoric about Love Jihad, digital ethnography of online Gaali cultures, and the selective politicisation of women safety shows how victim blaming and moral policing are armed to enforce Brahminical patriarchy. Evidence suggests that sexist campaign language is not only an insult, but also a way of re-constituting women as honour-bearing and need a masculine guardian and thus, they are denied agency. The analysis also shows the intersection of media and misogyny in punishing transgressive women with religion and gender control and the use of patriarchal rhetoric on honour killing to vilify minority groups. Finally, the paper also assumes that the maintenance of patriarchal power structures is inherent to the existing model of muscular nationalism, which endangers the promise of democracy of unconditional citizenship.
+
+Keywords: rape culture, victim blaming, political misogyny, moral policing, patriarchal rhetoric, honour killing, populist masculinity, politicisation of women's safety, sexist campaign language, religion and gender control, media and misogyny
+
+Introduction
+
+India has a complicated status in the international political system because it is a constitutional democracy that ensures gender equality but operates under strongly rooted patriarchal values that often-put citizenship of women as the subordination of honouring the community. Although women have managed to rise to the top political positions, the wider political culture is still deep-rooted in a culture of misogyny in which the agency of women is usually conditional (Krishnan, 2015). This study examines one of the most important changes in this dynamic: the instrumentalization of modern Indian political propaganda of womanhood that has played a critical role in this dynamic. In particular, it discusses how the emergence of right-wing populism has prompted a process of masculinization of politics in which the nation is no longer a pluralistic space but a feminine body (Bharat Mata) in constant danger requiring a hyper-masculine protector (Dutta & Abbas, 2025). This fact is significant to consider since it completely changes the democratic social contract; the political discussion stops portraying women as independent citizens with rights but as honour-bearing subjects whose safety depends upon their compliance with conventions (Oza, 2022). The implications of this rhetoric are practical, and it is experienced in the politicisation of the safety of women in that violence towards women is only agitated under selective conditions when it serves a social purpose, thus making the bodies of women discursive spaces where national honour is negotiated and not areas of justice (Big Think, 2021).
+
+Existing literature offers a strong building block to analyzing the interplay between caste, religion, and gender in India with the control of women sexuality being key to perpetuating social stratification (Chakravarti, 1993). Historians have discussed “muscular nationalism”, claiming that populist nationalism is based on “ontological insecurity”, an existential panic about identity because of the social change on it (Kinnvall, 2019). This anxiety is used by leaders to portray themselves as masculine defenders of a constructed friend/ enemy dichotomy, in which the political opponent or minorities are perceived as existential threats to tradition (Dutta & Abbas, 2024). Moreover, legal and sociological research has reported that the way in which the state applies a certain “rape script” in the process of deciding which women are the “ideal victims” and who should deserve justice (Oza, 2023). The case of rape according to legal scholars is usually dependent on how the subjectivity of the woman is constructed by the state and patriarchal family and denying her the right to autonomy in defining her own account (Oza, 2023). This is further enhanced by a culture of rape which does not consider the survivor as a wounded citizen but an alive corpse or a “zinda laash” whose social value is lost (Oza, 2023).
+
+These conventional types of control have transferred to the digital realm in the modern age. Recent studies on Online Gender-Based Violence (OGBV) suggest that social media are not neutral channels, but they are active sites of “techno-political” violence. Even the judiciary and the law enforcers do not comprehend the severity of digital misogyny, and they interpret it through the archaic perspectives of modesty as opposed to rights (Rajkumar & Sen, 2023). It has been reported that online abuse can be “highly choreographed”, women are threatened with rape and death to silence them and shut them out of the public space (Tewari & Dasarathy, 2023). Although this corpus of literature is rich, it is still a gap in the analysis of how these divergent aspects - the conspiracies of “Love Jihad” to the digital “troll patrols” - get bundled into a single effective strategy of propagandas by the modern state (Gurumurthy &Dasarathy, 2022). There is a tendency in current literature to elucidate the concepts of “rape culture”, “political rhetoric”, and “digital violence” as neighbouring processes; this study aims to show how political discourse creates these crises in order to maintain patriarchal power relations in a democratic society (Kinnvall, 2019).
+
+This paper gives a solution to these open-ended questions through the use of Qualitative Critical Discourse Analysis which will break down the semiotics of protection and control in contemporary Indian politics (Kinnvall, 2019). In the following parts, the weaponization of the narrative of “Love Jihad” (Hasan, 2025) as a weapon of policing the female sexuality and strengthening the boundaries of the religious identity is going to be initially discussed (Kapur, 2020). Next, the analysis will shift to the digital realm and how the so-called “Gaali culture” can be seen as the mechanism of exclusion to make the women leave the public discussion (Gurumurthy & Dasarathy, 2022). Lastly, the paper will focus on the selective politicization of sexual violence based on the Justice Verma Committee Report (Justice Verma Committee, 2013) and legal amendments after that to contend that the state’s reaction to rape is not about justice but about solidifying majoritarian power, by consolidating the status of worthy and unworthy victims (Lodhia, 2015).
+
+Problem Statement
+
+The key issue, which this study aims to solve, is the metamorphosis of the Indian state as a constitutional guarantee of rights, into a “masculine protector”, which lives on the constructed vulnerability of women. Although the traditional feminist literature has been critical of patriarchy found in legal systems, in this paper, we assume a narrower and more immediate crisis, which is the surfacing of a protectionist trap in which the state takes on an active role in creating “ontological insecurity” in order to legitimize the surveillance and regulation of female sexuality. The issue is not that the state does not defend women, but that the political utility of fearful, victimized feminine population is higher than the political will of empowering an independent one. The force of this interaction generates a nationalism that is “schizophrenic” where women are revered as symbols of national honour, and punished as disruptions to national social cohesion when they exercise agency.
+
+To determine the mechanism behind this "protectionist trap," it is necessary first to isolate the mechanic of narrative that is employed to create the "threat" in the first place. In the passage below, the term “Love Jihad” is separated not as a question of religion, but as a method of politics, tailored to deal with the “crisis of masculinity” in the majority community.
+
+The political discourse of “Love Jihad”, which is a so-called plot of Muslim men to entice and convert the Hindu women, is a serious failure of the secular democratic state. According to this study, this story is not a conspiracy theory by fringe groups, but as a mainstream tool to impose “Brahminical patriarchy” by taking away the right of women to choose spouses (Chakravarti, 1993; Tyagi, 2020). The issue is that the state has capitalized on the fact that there was a “crisis of masculinity” to mobilize the majority electorate (Kinnvall, 2019). The creation of the existential danger of an “emasculated” Hindu male and a gullible woman who can be robbed is created with the help of the political propaganda which generates the need to establish the “strongman” leader as the one who will take care of it (Dutta and Abbas, 2025). This kind of rhetoric literally eliminates the woman as a legal person with a consent, making her a biological repository of the communal honour whose safety must forcefully suspend her civil freedoms (Menon, 2009). The state thereby poses a problem (the “threat” of the Other) to which the only solution is to curtail the mobility and autonomy of women.
+
+Since the production of the so-called threat is already determined, the research has to address the next question: how the state responds to the very violence that takes place. This part is needed to prove that the protection of the state is not universal, and it is only extended to the “ideal victim”, whereas “transgressive” women are eliminated in society by using particular cultural scripts.
+
+One of the key aspects of this issue is that a state is guided by a set of strict rules of the so-called “rape script” when deciding the validity of sexual violence. The legal and political machine creates a dichotomy between an “ideal victim”: chaste, submissive, and typically assaulted by a stranger; and a “transgressive” woman who works, drinks, or moves freely (Oza, 2022; Baxi, 2014). This study emphasizes the usage of the political discourse as a weapon of “victim blaming” to undermine survivors who do not conform to traditional concept of gender but instead, their attack was perceived as a result of their “westernization” or deficit of moral virtue (Jahan, 2021; Tyagi, 2020). Making the idea of the zinda laash (living corpse) viral, the political class insinuates that the worth of a woman is destroyed through sexual violation, thus, making the place of “shame” on the culprit (Lodhia, 2015). The main issue is that this “culture of misogyny” is not a fringe benefit of tradition by itself but rather actively supported by the politicians who use sexist comments like: boys will be boys, to indicate commitment to conservative vote blocs, which makes violence acceptable as a form of social discipline (Vadhulas, 2020; “Mulayam’ shocker”, 2014).
+
+The last dimension in the problem statement should deal with the channel of implementation of these archaic patriarchal rules in the contemporary world. It is necessary to argue in this section that digital platforms offer the new "street" of moral policing, taking advantage of technology to amplify the exclusion of the women sphere of politics.
+
+The study discerns a gaping void on how it is that the concept of “protectionist” violence is outsourced to the digital world. Social media platforms have become infested with the “Gaali culture” (abuse culture) not only due to the sexist society but a “profitable provocation” that political machinery may employ to repress dissent (Gurumurthy & Dasarathy, 2022). This violence is the “techno-political” issue in which algorithmic architectures are motivated to encourage misogynistic online violence against vocal women journalists and politicians to displace them in the public discourse (Gurumurthy, Jha, and Raghavan, 2021). This online violence is exercised as a form of a “chilling effect”, practically, denying women their democratic right to be heard in the name of “nationalist” outrage. The inability of the judiciary and law enforcement to define this as a system-wide attack on the citizenship, rather than an “insult” by a single individual, allows the state to continue operating under the pretense of democracy and tolerate a mob-infested patriarchy (Rajkumar and Sen, 2023). This forms a loop in which the non-regulation of digital misogyny by the state becomes the way of perpetuating its interests in interfering with the political agency of women.
+
+Theoretical Framework
+
+To question how contemporary Indian political propaganda maintains patriarchal dominance, this study transcends the usual feminist arguments on state non-reaction. Rather, it postulates an artificial scheme between the Ontological Insecurity, Semiotics of the “Rape Script”, and Masculinist Pact concept. This three-part model assumes that the Indian state is not just a state that is failing at protecting women; on the contrary, it is a state that mobilizes female vulnerability to solve a “crisis of masculinity” in the body politic. The state itself is a “masculine protector” and needs a certain kind of victim: passive, chaste, and in danger of an “Other”, to justify its authoritarian trespass. As such, political propaganda is not only a messaging technology, but it is a disciplinary technology that castigates female sexual subjectivity (agency) to enforce the moral and demographic limits of the state.
+
+Before we can realize the reason why political propaganda puts so much to the touch with the figure of the “threatened woman”, we must first examine the psychology of the state. This following passage employs political psychology to justify that there is a deep sense of anxiety brought by rapid modernization which the populist leaders use by selling them a political commodity of “protection”.
+
+The notion of what is called the “Ontological Insecurity” is an existential worry about personal identity and belonging in the world, evoked by the intensive globalization and social change; it is the main prism of this study (Kinnvall, 2019; Giddens, 1991). The Indian situation is marked by the loss of conservative caste and gender hierarchies, which results in a “crisis of masculinity” inside the dominant majority, who perceive their traditional position as being threatened (Basu, 2016). Populist propaganda does not attempt to provide solutions to this insecurity, but rather provides a “security of becoming” an imaginary restoration to a glorious patriarchal past (Kinnvall, 2019). More importantly, this model redefines the populist leader not only as a politician, but as a “Masculine Protector”. It is based on the logic of masculinist protection of Young: the state wants women to be “dependent and obedient”, to keep them safe, to imagine an external threat that is being created (Dutta and Abbas, 2025; Young, 2003). In India, such a menace is often represented by the “hyper-sexualized” Muslim male or the “Westernized” modernity that is said to corrupt Hindu women (Kinnvall, 2019). This hypothetical position provides an innovative explanation of the “Love Jihad” story: not Islamophobia, but a process of solving the ontological insecurity of the Hindu male by means of reasserting the control over the reproductive potential of “his” women. That way, the state becomes what Anand (2011) terms a “schizophrenic” institution - creating violence in polarizing the state, and at the same time proclaiming itself to be the sole guarantor of security (Kinnvall, 2019).
+
+When the state is defined as a protector, we need to know in what language it speaks in order to differentiate between women who deserve protection and those who can be disposed of. This part presents the “Rape Script” not so much as a legal concept, but as a political instrument to police female agency.
+
+The state guarantees the protection, but conditional. To examine such conditionality, the paper uses the notion of "Brahminical Patriarchy" (Chakravarti, 1993) cross-sectioned with the "Rape Script" (Oza, 2023). Chakravarti confirms that women are the “gateways” to caste purity in the caste hierarchy and thus, their sexuality should be strictly protected to eliminate any “pollution” of the caste lineage. Current propaganda secularizes this ancient panic into a political “script”- a template of narrative that is followed in order to decide who deserves to be considered a legitimate victim.
+
+Oza (2023) claims the rape script forces women to prove their ability to commit “abject victimhood” before their claims would be considered and they are granted justice. Propaganda helps to strengthen the idea that a “good” woman is one with no sexual subjectivity (agency/desire). When a woman exercises marzi (will/consent), especially in inter-caste or inter-religious relationships, she goes against the script and becomes a “victim” of her own destiny transformed into a “corrupt” or “loose” woman (Oza, 2023). On the other hand, the ideal victim consists of the zinda laash (living corpse), i.e., a woman, who was devastated by the loss of the so-called “honour” to the extent of her being socially dead (Lodhia, 2015; Singh, 2020). This structure allows one to make an individual analysis of the issue: the zinda laash narrative is encouraged by the political propaganda as this approach makes the woman a passive image of the national shame that is to be avenged by men, whereas the independent woman is a danger to the patriarchal system that must be suppressed.
+
+Lastly, the system should consider the way in which these archaic patriarchal demands are imposed in the 21st century. The subsequent section incorporates the theory of digital media to state that online harassment is not a noise but a structural extension of state power, which serves as a “digital brotherhood”.
+
+To show how the mechanisms of present-day propaganda work, this study combines the idea of the “Masculinist Pact” by Segato with the “Female Fear Factory” by Gqola. Segato presents the argument that the violence against women is not directed to the woman herself, but to fellow men, a “horizontal” display of manhood to belong to a “masculinist brotherhood” (Segato,2023). On the internet, this is reflected in the form of so-called “Gaali culture” (culture of abuse) where political IT cells and trolls engage in performative misogyny to indicate their allegiance to the leader and the ideology (Udupa, 2018; Gurumurthy and Dasarathy, 2022).
+
+The online trolling theory is based on the concept that online trolling is a digital spectacle of the public witch-burning that Federici called a “chilling effect” and a constructed system that results in women self-policing and exiting the social arena (IT for Change, 2023). The propaganda machine creates a “Female Fear Factory” by actively participating in the so-called “techno-political” disciplining of women who speak up, making the public space a man territory (Gqola, 2015). This is the vicious cycle of control, the state creates ontological insecurity, requires people to follow a rigid scheme of protection: a “rape script”, and a “masculinist pact” of digital violence to enforce discipline.
+
+Literature Review
+
+To understand how contemporary political propaganda uses the concept of womanhood as a tool, it is necessary to find a way out of the contradiction between the constitutional principles of equality and the conservative patriarchal norms that dictate the social life in India. A synthetic reading of the current literature indicates that the state is simply taking the place of the traditional patriarch, moving beyond a passive overseer of rights to an active controller of female morality. The review assumes that the unequal nature of caste-based violence, online campaign of trolling, and protectionist laws are not phenomena in a vacuum but rather three related technologies of one political agenda, the maintenance of patriarchal sovereignty in the era of democracy. This rhetoric is based on the theory of the so-called “Brahminical patriarchy” coined by Uma Chakravarti who postulates that upper-caste women act as “gateways” to caste purity in the caste hierarchy; as such, their sexuality must be strictly protected so as to avoid the prohibited “miscegeny” or inter-caste mixing (Chakravarti, 1993). Modern literature of thought argues that this ancient anxiety has been secularized and nationalized by the contemporary political propaganda. The story of “Love Jihad”, a conspiracy theory that Muslim men seduce Hindu women to become Muslims, can be seen as, in fact, an update to the Chakravarti theory of a “gateway”, as the woman is no longer a mere bearer of family honour, but the biological territory of the Hindu nation (Tyagi & Sen, 2020; Strohl, 2019).
+
+This anxiety about the “pollution” of the country is carried out with the system of the “muscular nationalism” and the process of the “masculinization of politics”. Scholars such as Catarina Kinnvall and Sikata Banerjee suggest that the Hindutva ideology is based on a “crisis of masculinity” - an existential panic about the perceived effeminacy of Hindu male in the face of the “hyper-sexualized” invader (Kinnvall, 2019; Banerjee, 2012). This “ontological insecurity” is resolved through propaganda of political leadership by placing the leader in the role of a “masculine protector” forming a protection racket whereby women are offered the autonomy in return of the safety (Kinnvall, 2019; Dutta and Abbas, 2025). This dynamic makes the state a hyper-masculine one in which women are expected to be “dependent and obedient” in return to receive protection against an artificial external danger. As a result, the political worth of a woman is established in accordance with her usefulness to this nationalist project: she is either an “ideal” mother who needs to be defended or a “westernized” threat who needs to be punished. This binary is supported by the so-called “rape script” or a narrative pattern that the state and legal system applies to adjudicate on the women who are deemed credible victims (Oza, 2022).
+
+According to the “rape script”, the rights of a woman to receive justice is based on her act of being an “abject victim”. Propaganda helps to strengthen the idea that good woman has no sexual subjectivity or agency; when woman uses marzi (will/consent), especially in inter-caste or inter-religious relations, woman breaks the script and is re-defined as a corrupt woman herself rather than a victim (Oza, 2022). This is also complicated using the metaphor of zinda laash (living corpse) politically. According to Lodhia and Oza, rape survivors are often referred to, using political rhetoric, as living corpses who lost their honour and social worth (Lodhia, 2015). This rhetoric is two-fold: on one hand, rape is a more horrible destiny than death, which instils a culture of shame, and on the other hand, the value of a woman is fully subject to her sexual chastity, not her citizenship. According to this literature, contemporary propaganda does not simply safeguard women against the “Other”; it safeguards the property rights of the community over women against women themselves (Chakravarti, 1993; Baxi, 2014).
+
+Moreover, such “hierarchy of victimhood” of the political propaganda is witnessed by the selective politicization of sexual violence. Dalit women violence is frequently overlooked or even repressed by the state apparatus due to the traditional construction of their bodies as “available” and not subject to Brahminical respectability (Mangat & Gill, 2024; Datta and Satija, 2020). On the other hand, the hyper-visibility of violence against women of upper castes by the minority men is used to cater to the majoritarian interests. This selective indignation helps in showing that the issue of the state is not “womanhood” in the abstract sense, but rather the “moral woman” that perpetuates the traditional structures. This discussion criticizes the “protectionist” state narrative, showing that the state is a kind of system of “benevolent sexism” in which protection is the price of obedience (Rawat and Chaudhary, 2021). These societal prejudices tend to be reflected in the legal system, as in certain cases, it involves the use of archaic norms of modesty and the questioning of the actions of those who do not correspond to the norms of an ideal victim (Baxi, 2014; Satish, 2017).
+
+Lastly, the process of patriarchal preservation has shifted its form of street-level moral policing to an elaborate digital infrastructure of abuse, which is known as the culture of abuse, or “Gaali culture” (culture of abuse). However, recent news suggests that the new sites of “performative masculinity” are the social media platforms, where harassment of women is not a personal assault, but a political action aimed at proving allegiance to the majoritarian cause (Gurumurthy & Dasarathy, 2022). According to research by Amnesty International and IT for Change, women politicians and journalists, especially those who belong to minority groups experience organized, algorithmic hate campaigns aimed at marginalizing them in the public space (Amnesty International, 2020; Gurumurthy, Jha, and Raghavan, 2021). This online violence is a chilling effect and in essence robs women of their democratic right to free speech in the guise of nationalist outrage. The literature supports the phenomenology that the “masculine character” of the political domain is actively reproduced via systematic intimidation of women who attempt to take up the space of the public to ensure that, in the cycle of control, the state produces “ontological insecurity”, enforces a rigid  rape script as a mode of protection, and enforces a regime of control through a series of established digital violence to make sure that non-compliance is not tolerated.
+
+Methodology
+
+This research uses a Qualitative Critical Discourse Analysis (CDA) in order to examine how contemporary Indian political propaganda is created in order to perpetuate patriarchal power by producing an “ontological insecurity”. In this analysis, the Discourse-Historical Approach (DHA) develop by Wodak is used. This approach to studying political rhetoric considers it not as fixed text, as opposed to traditional content analysis where words are counted, and considers it a social practice that constructs reality (Dutta and Abbas, 2025). The innovation of the paper is that the DHA framework is extended into a “Multi-Modal Discursive Autopsy”, which examines the lifecycle of patriarchal propaganda at three different levels which are distinct yet interconnected; higher level (macro-level) of state oratory (speeches/laws), middle-level (meso-level) of media framing, low-level (micro-level) of digital enforcement (Gaali culture). This three-part strategy is needed to encompass the online-offline spectrum of violence, where digital hate speech acts as a force-enhancing factor in patriarchal norms approved by the state (IT for Change, 2023).
+
+Data Source I: The Rhetoric of the "Strongman" (2014–2024)
+
+The major data is a purposive sample of 50 influential political speeches and official statements of the senior members of the ruling Bharatiya Janata Party (BJP), such as Prime Minister Narendra Modi, within a period of 2014-2024. These texts were chosen on the basis of the availability of different keywords like suraksha (security), beti (daughter), samman (honour), and atankvaad (terrorism) as per the protocol applied by Dutta and Abbas (2025). The texts are scrutinised in the analysis on the basis of the “gendered linguistic tropes”, that is, the anthropomorphization of the nation as a feminine body (Bharat Mata) in need of protection (with a 56-inch chest) by a hyper-masculine leadership (Kinnvall, 2019). Moreover, the legal text of the “Prohibition of Unlawful Conversion of Religion Ordinance” (issued in states like Uttar Pradesh) is included in it, but it is not analyzed as a legal document but a discursive artifact; it legalizes the idea of the “Love Jihad” by infantilizing adult women on a legal level (Shanker-Grandpierre, 2023; Unpacking the Love Jihad..., n.d.).
+
+Data Source II: Digital Ethnography of the "Gaali Culture"
+
+This paper is based on the digital ethnographic data and relies on the methodology of the research conducted in the framework of Troll Patrol (Amnesty International USA, n.d.; Gurumurthy and Dasarathy, 2022) to understand the "micro-physics" of the patriarchal power. The data is a set of “problematic” and “abusive” tweets that are sent to influential Indian women politicians and journalists. In contrast to regular sentiment analysis, this paper uses an “intersectional annotation” approach to encode abuse according to caste and religious identity. Particularly, it follows the use of the metaphor of the whores and the living corpse (zinda laash) in the online sphere (Lodhia, 2015). This virtual autopsy demonstrates how “IT Cells” use so-called “automated hate” and “networked harassment” to silence those women who do not fit the “ideal victim” script, thus they act as the decentralized moral police (Gurumurthy et al., 2021).
+
+Data Source III: Media Framing and Emotional Intensity
+
+The third point of analysis will focus on media coverage of high-profile sexual violence cases (e.g., Hathras, Kathua) through the “Framing Theory” and determining the emotion intensity of the headlines i.e. the strategic application of anger vis-a-vis shame (Awais and Al Gharaibeh, n.d.). Comparing the “justice frame” (rights-based) and “moral frame” (honour-based), this aspect examines how media discourses correlate with political propaganda in order to differentiate between the worthy (who serve the nationalist agenda) and the unworthy victims (Dalit or minority women). This discussion is based on the evidence provided by J. Vishnu Narayanan (2022) about the purpose of television in the “identity politics” to conclude that media spectacles are not objective reporting but dynamic “techno-social” creation of the rape script (Jahan, 2021).
+
+Analytical Strategy and Ethical Reflexivity
+
+The information in these three sources was triangulated through an “Intertextual Analysis”, which can trace the migration of a high-level political signal (e.g. a speech about “pink revolution”) down to form a “digital flashpoint” of violence against women (Kinnvall, 2019). It examines the presence of what the author calls “discursive knots”, the points at which the languages of national security, caste purity, and female modesty get confused. This paper follows a politics of refusal methodologically in connection to the “pornography of violence” (Oza, 2022). Rather than visualizing the specifics of sexual violence, the analysis dwells on the machineries of power or “scripts”, which make such sexual violence understandable or unnoticed. The study avoids the “epistemic violence” of the researcher posing on behalf of the subaltern and instead examines the structures that ensure that the subaltern will not be heard (Maggio, 2007; Spivak).
+
+Findings: The Political Unity of the “Threatened” Women
+
+Criticism of political rhetoric, lawmaking tendencies, press framing, and ethnographic studies of the internet show that contemporary Indian political propaganda is not only feeding off of the already existing misogyny; it monetizes it. The results indicate that the state operates in a manner known as a “Schizophrenic Protectionism”- both creating “ontological insecurity” about the safety of women to legitimize its authoritarian action, and actively using the violence of a “techno-political” nature on women who practice constitutional autonomy. According to the data, the “woman” in the Indian propaganda is not rights-based citizen, but rather, she is a “boundary marker” of the caste and religious groups (Chakravarti, 1993; Menon, 2009). She is the “Goddess” that needs protection when she is within the boundary and the “vessel of pollution” that needs discipline when she crosses it (Chowdhry, 2015; Tyagi, 2020).
+
+The “Love Jihad” Algorithm: Legitimizing the “Gullible” Victim
+
+The political rhetoric analysis shows the use of the “demographic anxiety” as a strategic tool to deprive women of sexual sovereignty was in place. The “Love Jihad” story a conspiracy theory about Muslim men seducing Hindu women to convert them serves as one of the contemporary political ways of using the term of “Brahminical patriarchy” whereby the woman is the “gateway” to the caste and community (Unpacking the Love Jihad..., n.d.). This finding is very critical in that the rhetoric is based on the legal infantilization of women. Promoting the “anti-conversion” laws, the state effectively legalizes the idea of adult women as fools and victims of “psychological kidnapping” and quips their constitutional right to pick a partner, where the argument of Article 21 emerges (Dey, 2021; Parashar, 2008).
+
+This forms a “protectionist dilemma”: in order to become a protectee of the state, a woman must confess that she is unable to consent. When she holds agency (marzi), she ceases to be a victim and turns out to be a betrayer to the very “biological reproduction of the nation” (Oza, 2022; Tyagi, 2020). The propaganda has a twofold effect: first, it unites the majority vote by regulating the “masculinity crisis” among men, who are assured the assistance of the state in “reclaiming” their women, and second, it regulates the movement of women (Kinnvall, 2019; Dutta and Abbas, 2025; Coe et al., 2023). The domestic violence sphere is then re-introduced to the realm of a national security spectacle; the independence of women is going to be positioned as the danger to the social order (Banerjee Dhawan and Bhasin, n.d.; Das and Randeria, 2015).
+
+The “Zinda Laash” and the Hierarchy of Victimhood
+
+A drastic "Hierarchy of Victimhood" is disclosed in the “Multi-Modal Discursive Autopsy” of legal and media responses. The results prove the availability of a fixed “rape script” only in case women are passive, chaste, and they are attacked by strangers or by someone who does not belong to their circle, they receive a status of an “ideal victim” (Oza, 2022; Baxi, 2014; Suresh, 2017). In the analysis of the media, the sexual violence and the cases of honour killings are widely biased by the use of the “Moral Framing” and not the “Justice Framing”. The violence is usually moralized by the outlets over the tradition-bound narratives with attention given to the “modesty” of the victim rather than the criminality of the perpetrator (Awais & Al Gharaibeh, n.d.; Meyers, 1997).
+
+One of the new understandings of the information is the politicization of the zinda laash (living corpse) metaphor. Political speeches and the headline of the media often refer to survivors as having “lost everything” or being “ruined” (Lodhia, 2015; Singh, 2020). This is a rhetoric that underlines the notion that the citizenship of a woman is literally found in her sexual purity. As a result, when women violate moral familial standards, i.e., when Dalit women, women in inter-caste relationships, or those in the open sphere violate them, they are “victim-blamed” in such a way that their attack can be linked to “westernization”, or absence of sanskar (values) (Jahan, 2021; Mangat and Gill, 2024; Moen, 1977). The judiciary justifies this hierarchy even further as “judicial misogyny” is frequently observed in the rulings that have recourse to archaic ideas of female virtue instead of constitutional rights (Rawat & Chaudhary, 2021; Rajkumar and Sen, 2023).
+
+The “Digital Brahmin”: The Manosphere as State Proxy
+
+Digital ethnography has shown that it is not an assembly of random trolls that constitute the so-called “Gaali culture” (abuse culture), but an organized, so-called “techno-political” extension of state power (Gurumurthy & Dasarathy, 2022). The statistics indicate the positive relationship between high-level political rhetoric and the severity of Online Gender-Based Violence (OGBV). Women politicians and journalists (especially representatives of minority groups) receive “highly choreographed” attacks that are clearly sexualized and community-based (Ahmad, 2021; New Study Shows..., n.d.).
+
+Uniquely to the research, the emergence of a special group, a generation of the “Red-Pilled” Indian youth, which became radicalized through a convergence of the Western “Manosphere” influencers and indigenous patriarchal nationalism, is identified ( Red Pill, Rage..., n.d.; Why gen-Z men..., n.d.). This group of people does not only perceive feminism as a social irritant but an “anti-national” conspiracy. The results indicate that this is an active propagation of political propaganda to enhance this so-called “toxic masculinity” to leverage digital mobs as a “state proxy”. The state continues to appear democratic by ensuring the censorship of women through the outsourcing of online crowds who threaten rape and death (e.g., Sulli Deals), harnessing a “Female Fear Factory” (Raghavan, 2021; The-internet-enabled-assault-, 2021). Lack of acknowledgement by the legal system of digital violence as a structural violence against citizenship also emboldens this so-called “digital moral policing”, and women are now left with no choice but to suppress themselves (Rajkumar & Sen, 2023; HGHHG, n.d.).
+
+Systematic Complicity and the Illusion of Reform
+
+Even though there are such progressive laws as Domestic Violence Act (PWDVA) and post-Justice Verma Committee Report amendments, the results show a strong sense of “institutional apathy” and “complicity” when it comes to maintaining patriarchal norms (Justice Verma Committee, 2013; Banerjee Dhawan and Bhasin, n.d.; Agnes, 2012). The victims are frequently pressured by the service providers, police, and lower courts to “compromise” or “adapt”, to save the family structure, domestic violence is perceived through the prism of “welfare” but not rights (Nayak & Banerjee, 2025; Kaur, 2004). This institutional inefficiency is further enhanced by the politicisation of female safety in which indignation is both speculative and procedural. The reaction of the state towards violence is generally performative (requiring the death penalty of rapists of the “ideal victim”) and, at the same time, the watering down of the concept of consent in the law and refusal to criminalize marital rape (Nandan, 2022; Jodha, 2021; Why Sandeshkhali..., 2024). This proves that eliminating violence against women is not the main concern of the state but the preservation of a patriarchal status quo wherein women are regarded as dependent subjects but not independent citizens (Menon, 2000; Jayal, 2008).
+
+Discussion: The Architecture and Protectionist Trap
+
+The results of the study indicate that the modern Indian nation has managed to create a “Protectionist Trap”, a socio-political phenomenon when the assurance of security to women depends on the relinquishment of their agency. This discussion transcends the normal criticism of “patriarchal apathy” arguing that the state does not stand in a state of neglect to women, but of hyper-surveillance under the guise of benevolence. Conjugating the “Love Jihad” conspiracy, the “rape script”, and digital misogyny, it is clear that the political machine resorts to the “ontological insecurity” (Kinnvall, 2019) to convert the female body into the main battlefield to form the majoritarian nation-state.
+
+Nationalizing Brahminical Patriarchy and Voice Erasure
+
+The legislative fight against “Love Jihad” is an important change of what was a personal family regulation to a state regulation of female sexuality. Although Chakravarti (1993) theorized that the caste-maintenance system that was operated by family could be termed as “Brahminical patriarchy”, this role has been nationalized in the modern political propaganda. Instead, the state has successfully replaced the patriarch with laws that do not consider adult women as constitutional citizens who have the right of choice but as the “property” of the nation, which can be stolen by the “Other” (Unpacking the Love Jihad..., n.d.; Tyagi, 2020). This rhetoric is essentially another way of undermining the tradition of the “Argumentative Indian”, or the heterodox, questioning self that Amartya Sen has characterized as central to Indian democracy (Sen, 2005). At the expense of the “argumentative woman” (such as Gargi or Maitreyi), the “gullible victim”, the state legitimizes the retrogressive model of citizenship, regarding the safety of women as possible only through their silence (Dey, 2021).
+
+Zinda Laash and Semiotics of Inaudibility
+
+Sexual violence analysis shows that there is a terrifying dependency on the “Rape Script” as a weapon of political legitimacy. The state also practices “performative justice”; it only responds with muscular indignation when violence is part of the story of the “ideal victim” (Oza, 2022). This partiality forms what Oza calls “inaudibility”, the situation when a woman tends to claim justice, it becomes inaudible when she does not conform to the moral standards (Oza, 2022). Politics supports the metaphor of the zinda laash (living corpse), meaning that a raped woman is deprived of her social worth (Lodhia, 2015; Singh, 2020). This is exacerbated by the fact that the media tends to moral frame the issue, concentrating more on victims being westernized or wearing western clothes instead of the criminality of the perpetrator, and thus, policing women movement in the guise of news (Awais and Al Gharaibeh, n.d.; Rapes can only be stopped..., n.d.). This institutional ineffectiveness, according to the Justice Verma Committee is facilitated by the police and political institutions, which tend to perceive women solely in the welfare, and not rights paradigm, and sometimes become accomplices in victim silencing (Justice Verma Committee, 2013).
+
+Digital Khap Panchayat and Gamified Misogyny
+
+An original finding of this study is the designation of the “Manosphere” as one of the decentralized forms of state power. Social media “Gaali culture” is not just a random abuse but the gamification of misogyny, in which the algorithm encourages the use of aggression to suppress dissent (Gurumurthy and Dasarathy, 2022; Nguyen, 2021). The “chilling effect” of the formation of a “Red-Pilled generation, which was radicalized by a combination of western influencers such as Andrew Tate and native-based patriarchal nationalism, is that women no longer remain a part of the social realm (Red Pill, Rage..., n.d.; Ahmad, 2021). This kind of “techno-political” violence acts as a kind of “Digital Khap Panchayat”, creating an archaic gender cartography using contemporary surveillance (Raghavan, 2021). Politicians who ignore such violence or call out loud women as “dented and painted” make this digital ostracism standard practice (President Pranab Mukherjee, son, n.d.). Finally, the politicisation of women safety has turned into a Trojan horse; it can invite the authoritarian surveillance into the most personal areas of life and excuse the transition to a society of rights to a society of duties (Vadhulas, 2020; Menon, 2009).
+
+Conclusion: The Bharat Mata to the Autonomous Citizen
+
+The study was initiated by questioning the paradox of Indian democracy, in which the constitutional claim of gender equality coexists with a culture of misogyny that is slowly taking over the political arena (Krishnan, 2015; Ghosh, 2021). This paper proves the existence of a “Protectionist Trap” through the “Multi-Mode Discursive Autopsy” of political discourse, judicial decision-making, and online antics. The state in this trap provides security to the women, not as their right under the constitution, but as a reward of conforming to the Brahminical and patriarchal norms (Chakravarti, 1993; Menon, 2009). This paper does not simply conclude that the state has been unable to secure women because of the institutional resignation; instead, the state has effectively used female vulnerability as a weapon to reproduce the “ethnic democracy” and govern the “ontological insecurity” of the majority of male population (Kinnvall, 2019; Dutta and Abbas, 2025).
+
+The results indicate that the masculinization of Indian politics is based on a given leader-follower dynamic in which the leader is perceived as a “masculine protector”, caused by the endless creation of internal and external threats (Dutta and Abbas, 2025; Coe et al., 2023). This dynamic necessitates women to be constructed not as equal citizens, but as gullible subjects who need to be saved from the constructed threat of “Love Jihad” or the hyper-sexualized Other (Dey, 2021; Tyagi, 2020; Unpacking the Love Jihad..., n.d.). The fact that adult women cannot differentiate between love and coercion in inter-faith marriages, as legally codified by the state, denies them the reach of reason and agency that Amartya Sen declares to be the hallmark of the Argumentative Indian tradition (Sen, 2005; Parashar, 2008). The rhetoric of politicizing women as Bharat Mata (Mother India) both requires them to be figuratively deified and practically subordinated, as biological containers of the honour of the community (Basu, 2016; Vishuddha Manusmriti..., 2021).
+
+The incongruity between the popular culture and the reality of the law is an effective discovery. Although films like “Pink” made the slogan “No means No” popular, the everyday examples of male-dominated-state power in real courtrooms tell a bit different story (Oza, 2022). The results show that the judiciary tends to follow a “rape script”, which examines the character of the victim instead of the violence used by the perpetrator, which effectively subjects the victim to trial (Suresh, 2017; Baxi, 2014). Although the Justice Verma Committee suggested the recognition of female autonomy, judicial misogyny remains, and courts do not consider the survivor as a rights-bearing citizen, but as a damaged object or zinda laash (living corpse) whose social value has been destroyed (Lodhia, 2015; Rawat and Chaudhary, 2021; Justice Verma Committee, 2013). Media narratives that portray the victim as being less modest or westernized to implicitly establish her as being the cause of the violence contribute to this (Awais and Al Gharaibeh, n.d.; Meyers, 1997; Chatterjee and Pillai, 2018).
+
+An important add to this research is the fact that the digital sphere is the new phase of muscular nationalism. The rise of a so-called “Red-Pilled” generation of young Indian men, being shaped by the global “Manosphere” stars and domestic religious extremism, is a threatening development in which equality is viewed as a privilege loss (The News Minute, n.d.; Money & Macro, n.d.; DW News, n.d.). This is a form of “techno-social” violence that operates as a “Digital Khap Panchayat” as it employs algorithms to hate women who do not conform to gender norms (Gurumurthy and Dasarathy, 2022; Raghavan, 2021). This violence has a “chilling effect” to make sure that the subaltern woman is not heard, but it is the infrastructure of communication designed to increase her abuse (Maggio, 2007; IT for Change, 2023). The perpetrators often present this type of digital misogyny as “freedom of speech”, but it is the structural instrument to deny women (especially minority women) the space of political discourse (Jahan, 2021; Ahmad, 2021; Amnesty International USA, n.d.).
+
+Finally, the paper suggests that the security of women cannot be provided by so-called protectionist policies that view women as property or honour (Vadhulas, 2020; Upadhyay and Upadhyay, 2023). Real safety means that it is time to replace “benevolent sexism” with constitutional morality; where the state acknowledges the autonomy of women without any conditions (Boyce, 2015; Nandan, 2022). To break the “Protectionist Trap”, the civil society needs to reject the mythic past of the fascist politics and the hierarchy of victimhood that makes some women disposable (Stanley, n.d.; Mangat & Gill, 2024). Whether Indian democracy can tolerate an Argumentative Woman who, instead of being victimized, goddessified, or a corpse, merely and radically seeks to become a citizen is the future of Indian democracy (Sen, 2005; Jayal, 2008).
+
+References
+
+Ahmad, N. B. (2021). "Blood, Sweat, Tears": A Muslim woman law professor's view on degenerative racism, misogyny, and (internal) Islamophobia from preeclampsia and presumed incompetent to pandemic tenure. FIU Law Review, 16(1), 13–74.
+
+Ali, S. (2011). The politics of gender, community and modernity: Essays on education in India. Social Change, 41(4), 637–639.
+
+Awais, M., & Al Gharaibeh, F. (2026). Justice or tradition? Cross-national media framing of honor killings in India, Pakistan, and global outlets. Women's Studies International Forum, 114, 103219.
+
+Banerjee Dhawan, N., & Bhasin, H. (2023). Combating domestic violence in West Bengal, India: Gendered norms and legal regulations. Women's Studies International Forum. [ScienceDirect].
+
+Banerjee, S. (2012). Muscular nationalism: Gender, violence and empire in India and Ireland, 1914–2004. New York University Press.
+
+Basu, S. (2016). Looking through misogyny: Indian men's rights activists, law, and challenges for feminism. Canadian Journal of Women and the Law, 28(1), 45–68.
+
+Baxi, P. (2014). Public secrets of law: Rape trials in India. Oxford University Press.
+
+Bhaumik, S., & Sahu, S. (2023). Lived experiences of urban working mothers during pandemic: A matricentric exploration in the Indian context. Women's Studies International Forum. [ScienceDirect].
+
+Boyce, B. (2015). Sexuality and gender identity under the Constitution of India. Journal of Gender, Race & Justice, 18(1), 1–64.
+
+Chakravarti, U. (1993). Conceptualising Brahmanical patriarchy in early India: Gender, caste, class and state. Economic and Political Weekly, 28(14), 579–585.
+
+Chakravarty, R. (2012). OTHER HISTORIES: Gender and politics in the fiction of Mahasweta Devi. India International Centre Quarterly, 39(3/4), 122–133.
+
+Chatterjee, K., & Pillai, V. K. (2018). Media effects on gender child preference in India. Journal of Research in Gender Studies, 8(1), 108–132.
+
+Chelluri, K. R. (2019). Can identity politics translate into notions of gender equality. International Journal of Law Management & Humanities, 2(4), 378–382.
+
+Chowdhry, P. (2015). Popular perceptions of masculinity in rural north Indian oral traditions. Asian Ethnology, 74(1), 5–36.
+
+Coe, C., Fraile, M., Alexander, A., Fortin-Rittberger, J., & Banducci, S. (2023). Editorial: Masculinity, sexism and populist radical right support. Frontiers in Political Science, 5, 1038659.
+
+Cohen, G. A. (1993). Amartya Sen's unequal world. Economic and Political Weekly, 28(40), 2156–2160.
+
+Das, V., & Randeria, S. (2015). Politics of the urban poor: Aesthetics, ethics, volatility, precarity. Current Anthropology, 56(S11), S3–S14.
+
+Deo, S. (2021). Anti-rape laws in India. Jus Corpus Law Journal, 1(3), 201–207.
+
+Dey, A. U. (2021). Islam and gender: Religious debates in contemporary India. International Journal of Law Management & Humanities, 4(4), 3927–3942.
+
+Dutta, S., & Abbas, T. (2025). Protecting the people: Populism and masculine security in India and Hungary. Journal of Political Ideologies, 30(2), 517–539.
+
+Dwivedi, V., & Khandelwal, M. (2021). Rights of rape victims in India. International Journal of Law Management & Humanities, 4(6), 1302–1328.
+
+Exploring women entrepreneurs' motivations and challenges from an institutional perspective: Evidences from a patriarchal state in India. (2023). [ScienceDirect Excerpt].
+
+Ghosh, B. (2021). Understanding social stigma related to religion and women in India and identifying ways to promote democracy. ShodhKosh: Journal of Visual and Performing Arts, 2(1), 71–79.
+
+Ghosh, D. (2001). Water out of fire: Novel women, national fictions and the legacy of Nehruvian developmentalism in India. Third World Quarterly, 22(6), 951–967.
+
+Gurumurthy, A., & Dasarathy, A. (2022). Profitable provocations: A Twitter-based study of abuse and misogynistic trolling directed at Indian women in public-political life. IT for Change.
+
+Gurumurthy, A., Jha, B., & Raghavan, A. (2021). The internet-enabled assault on women’s democratic rights. IT for Change.
+
+India Today. (2025, December 15). Kerala: Local CPIM leader sparks outrage with shocking sexist remarks after poll victory.
+
+India Today. (n.d.). Ladli Behena Yojana raises aid for women but sparks concern over state’s soaring debt.
+
+J., Vishnu Narayanan. (2022). Television and identity politics in India. Jus Corpus Law Journal, 3(2), 232–238.
+
+Jahan, N. (2021). Rape victim blaming: Understanding the discourse of online comments. Indian Journal of Criminology, 49(2), 123–136.
+
+Jayal, N. G. (2008). Left behind? Women, politics, and development in India. The Brown Journal of World Affairs, 14(2), 91–102.
+
+Jodha, K. (2021). Gender biased rape laws in India. International Journal of Law Management & Humanities, 4, 1928–1934.
+
+Justice Verma Committee. (2013). Report of the committee on amendments to criminal law. Government of India.
+
+Kapur, R. (2020). Gender and the “faith” in law: Equality, secularism, and the rise of the Hindu nation. Journal of Law and Religion, 35(3).
+
+Katzenstein, M. F. (1978). Towards equality? Cause and consequence of the political prominence of women in India. Asian Survey, 18(5), 473–486.
+
+Kaushal, S. (2020). Social, political, economic empowerment of women. Jus Corpus Law Journal, 1(1), 49–54.
+
+Kazi, S. (2022). Women, gender politics, and resistance in Kashmir. Socio-Legal Review, 18(1), 95–120.
+
+Kinnvall, C. (2019). Populism, ontological insecurity and Hindutva: Modi and the masculinization of Indian politics. Cambridge Review of International Affairs, 32(3), 283–302.
+
+Krishnan, K. (2015). Rape culture and sexism in globalising India. Sur - International Journal on Human Rights, 12(22), 255–260.
+
+Lodhia, S. (2015). From “living corpse” to India's daughter: Exploring the social, political and legal landscape of the 2012 Delhi gang rape. Women's Studies International Forum, 50, 89–101.
+
+Maggio, J. (2007). "Can the subaltern be heard?": Political theory, translation, representation, and Gayatri Chakravorty Spivak. Alternatives: Global, Local, Political, 32(4), 419–443.
+
+Mangat, S., & Gill, A. K. (2024). Negotiating between speech and silence as a form of agency: Understanding Dalit women's experiences of sexual violence in India. Women's Studies International Forum, 105.
+
+Menon, N. (2000). Elusive 'woman': Feminism and women's reservation bill. Economic and Political Weekly, 35(43/44), 3835–3844.
+
+Menon, N. (2009). Sexuality, caste, governmentality: Contests over 'gender' in India. Feminist Review, 91, 94–112.
+
+Menon, N. (2019). Marxism, feminism and caste in contemporary India. In V. Satgar (Ed.), Racism after apartheid. Wits University Press.
+
+Misra, J. (2020). Women, politics, and gender inequality. Western New England Law Review, 42(3), 397–418.
+
+Moen, E. W. (1977). Third world women, world population growth: A case of blaming the victim. Journal of Sociology & Social Welfare, 4(8), 1186–1202.
+
+Money & Macro. (n.d.). Why gen-Z men are turning far right and women far left [Video]. YouTube.
+
+Nair, H. V., Dinesh, A., Sidharthan, S., & Bhaskaran, R. (2025). Understanding domestic violence in rural south India: Prevalence and associated risk factors in married women. Ethique & Santé, 22(3).
+
+Nandan, P. (2022). Gender-neutral laws in India. International Journal of Law Management & Humanities, 5(1), 2370–2393.
+
+Nayak, A. R., & Banerjee, B. (2025). Perspectives of service providers who support women victims/survivors of sexual offenses in Goa, India. Women's Studies International Forum, 114.
+
+Oza, R. (2022). Semiotics of rape: Sexual subjectivity and violation in rural India. Duke University Press.
+
+Parashar, A. (2008). Gender inequality and religious personal laws in India. The Brown Journal of World Affairs, 14(2), 103–112.
+
+Patel, P. (2021). Gender equality in India. International Journal of Law Management & Humanities, 4(6), 260–272.
+
+Patriarchy and patriarchal customs in the Meitei Society of Manipur. (2024). [ScienceDirect Excerpt].
+
+Prasad, A. L. (1988). [Title Unavailable]. Economic and Political Weekly. (Based on provided excerpt "jg.pdf").
+
+Raghavan, A. (2021). The internet-enabled assault on women’s democratic rights. IT for Change.
+
+Rai, R., & Rai, A. K. (2020). Is sexual assault breaking women's spatial confidence in cities of India? Some explorations from Varanasi city. Cities, 102.
+
+Rajkumar, M., & Sen, S. (2023). The judiciary's tryst with OGBV. IT for Change.
+
+Raman, U. (2022). M3: Man, male, masculine - Staging aggressive masculinity: Report of a media monitoring project. Network of Women in Media, India (NWMI).
+
+Ravikumar, S. (2020). Eliminating gender stereotypes in India. International Journal of Law Management & Humanities, 3, 514–517.
+
+Rawat, A., & Chaudhary, D. (2021). Judicial misogyny: When 'preserver of rights' furthers the culture of misogyny and 'rape culture'. GNLU Law Review, 8(1), 73–103.
+
+S., Darshan. (2022). Victim rights under criminal justice system in India - An analysis. Indian Journal of Integrated Research in Law, 2(2), 1–22.
+
+Sato, K., & Howard-Payne, L. (2024). A thematic content analysis of views regarding sexual assault disclosure and the #MeToo/WeToo movements for CALD Japanese women in Australia. Women's Studies International Forum, 104.
+
+Sen, A. (2005). The argumentative Indian: Writings on Indian history, culture and identity. Farrar, Straus and Giroux.
+
+Singh, A. (2020). Rape - A victim's offence? International Journal of Law Management & Humanities, 3, 1819–1824.
+
+Singh, S., & Rai, A. (2023). Silenced no more: Exploring the dynamics of rape victim experiences in India. Indian Journal of Criminology, 51(2), 79–89.
+
+Stewart, A. (1995). Debating gender justice in India. Social & Legal Studies, 4, 253–274.
+
+Suresh, M. (2017). Public secrets of law: Rape trials in India. Law, Culture and the Humanities, 13(1), 169–171.
+
+Tewari, A., & Dasarathy, A. (Eds.). (2023). Feminist perspectives on social media governance. IT for Change.
+
+The Indian Express. (2014, April 11). Mulayam’s shocker: Boys will be boys, they make mistakes… Will you hang them for rape?
+
+The News Minute. (n.d.). Red Pill, Rage, and Religion: Misogyny and Extremism in India [Video]. YouTube.
+
+The Yale Review of International Studies. (2024). India’s political institutions grapple with misogynistic culture as sexual violence persists in the country.
+
+Tyagi, P. (2020). Prevalence of rape culture in India: Where are we heading? International Journal of Law Management & Humanities, 3, 832–836.
+
+UCSD Psychology. (n.d.). Research paper structure. University of California, San Diego.
+
+Under pressure: Women's leadership during the COVID-19 crisis. (2022). Journal of Development Economics. [ScienceDirect Excerpt].
+
+Unpacking the Love Jihad conspiracy theory: A critique of Hindutva narratives and the rise of religious nationalism in India. (n.d.). [Unpublished Manuscript/PDF].
+
+Upadhyay, H., & Upadhyay, S. (2023). Rape culture in India. International Journal of Law Management & Humanities, 6, 943–960.
+
+Vadhulas, S. (2020). Influence of the political class towards violence against women. International Journal of Law Management & Humanities, 3, 587–595.
+
+Vepachedu, S. (2022). Islamic Hindugenocidal culture of rape and Hindu suicidal culture of tolerance in the Islamic Republic of India (IRI). Anna's Archive.
+
+Vishuddha Manusmriti original pdf (Dr. Surendra Kumar). (n.d.). Internet Archive.
+
+Whatley, M. A. (1996). Victim characteristics influencing attributions of responsibility to rape victims: A meta-analysis. Aggression and Violent Behavior, 1(2), 81–95.
