@@ -75,10 +75,19 @@ const PUBLICATIONS = [
     type: 'Research Paper',
     title: 'Gender, Propaganda and Patriarchal Power in Indian Democratic Politics',
     desc: 'A socio-legal analysis of gendered rhetoric, political exclusion, and patriarchal propaganda in Indian democratic institutions.',
-    href: '/publications/research/propaganda-patriarchy-democracy',
+    href: '/publications/research/propaganda-patriarchy-democracy?source=bhoomija',
     tag: 'NLO · 2025',
-    readOnline: false,
-    comingSoon: true,
+    readOnline: true,
+    comingSoon: false,
+  },
+  {
+    type: 'Handbook',
+    title: 'Digital Self-Defence Handbook',
+    desc: 'Practical guidance on navigating digital safety, privacy, and self-defence in online spaces, authored and published by Bhoomija Khanna.',
+    href: 'https://media.licdn.com/dms/document/media/v2/D561FAQGL95AefM2ugw/feedshare-document-sanitized-pdf/B56Z6i.cRrJsA8-/0/1780850740601?e=1782990000&v=beta&t=QP1vhu-bMBBqCRfHDG9fcUc1E3Rb5Kqiit0Lve9GTWU',
+    tag: 'NLO · 2025',
+    readOnline: true,
+    comingSoon: false,
   },
   {
     type: 'Founding Editorial',
@@ -503,9 +512,16 @@ export default function BhoomijaCVClient() {
                         ⏳ Publishing in progress
                       </span>
                     ) : (
-                      <Link href={pub.href} className="bk-pub-card-link">Read Online →</Link>
+                      <Link href={pub.href} className="bk-pub-card-link">Read Article →</Link>
                     )}
                   </div>
+                  {!pub.comingSoon && (
+                    <div className="bk-pub-card-cta">
+                      <Link href={pub.href} className="bk-pub-card-cta-btn">
+                        Read Online
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </BorderGlow>
             ))}

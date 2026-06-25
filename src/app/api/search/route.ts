@@ -10,11 +10,16 @@ export async function GET(request: Request) {
   }
 
   try {
+    const source = searchParams.get('source') || '';
     const articles = await getArticles();
     const cleanQuery = query.toLowerCase().trim();
 
     const filtered = articles
       .filter((art) => {
+        if (art.slug === 'propaganda-patriarchy-democracy' && source !== 'bhoomija') {
+          return false;
+        }
+
         const titleMatch = art.title.toLowerCase().includes(cleanQuery);
         const contentMatch = art.rawContent?.toLowerCase().includes(cleanQuery);
         const tagMatch = art.tags.some((tag) => tag.toLowerCase().includes(cleanQuery));

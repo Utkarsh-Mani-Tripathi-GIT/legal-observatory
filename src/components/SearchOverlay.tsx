@@ -80,7 +80,8 @@ export default function SearchOverlay({
     const delayDebounce = setTimeout(async () => {
       setIsLoading(true);
       try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+        const sourceParam = isBhoomijaPage ? '&source=bhoomija' : '';
+        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}${sourceParam}`);
         if (res.ok) {
           const data = await res.json();
           setResults(data);

@@ -1,11 +1,13 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 import { getArticleBySlug, getRelatedArticles } from '../../../../lib/content';
 import TableOfContents from '../../../../components/TableOfContents';
 import ArticleCard from '../../../../components/ArticleCard';
 import HighlightMention from '../../../../components/HighlightMention';
 import ReadingProgressBar from '../../../../components/ReadingProgressBar';
+import ReadOnlyArticle from '../../../../components/ReadOnlyArticle';
 import Link from 'next/link';
 import { Calendar, Clock, User, Landmark, Quote, ArrowLeft, Share2, FileText } from 'lucide-react';
 import CiteSection from './CiteSection';
@@ -17,6 +19,7 @@ interface RouteParams {
 
 interface PageProps {
   params: Promise<RouteParams>;
+  searchParams: Promise<{ source?: string }>;
 }
 
 // Generate Dynamic SEO Metadata
@@ -73,6 +76,17 @@ export default async function ArticlePage(props: PageProps) {
   const article = await getArticleBySlug(folder, resolvedParams.slug);
   if (!article) {
     return notFound();
+  }
+
+  if (article.slug === 'propaganda-patriarchy-democracy') {
+    const searchParams = await props.searchParams;
+    const source = searchParams.source || '';
+    const requestHeaders = await headers();
+    const referer = requestHeaders.get('referer') || '';
+    const allowed = source === 'bhoomija' || referer.includes('/bhoomija');
+    if (!allowed) {
+      return redirect('/bhoomija');
+    }
   }
 
   const related = await getRelatedArticles(article, 3);
@@ -244,9 +258,11 @@ export default async function ArticlePage(props: PageProps) {
           )}
 
           {/* Rendered HTML content from markdown (using Tailwind CSS prose classes) */}
-          <article className="prose max-w-none dark:prose-invert prose-headings:font-serif prose-h2:text-xl prose-h2:font-extrabold prose-h2:mt-8 prose-h2:pb-1 prose-h2:border-b prose-h2:border-slate-200/50 dark:prose-h2:border-slate-800/50 prose-h3:text-lg prose-h3:font-bold prose-h3:mt-6 prose-a:text-indigo-600 dark:prose-a:text-indigo-400 prose-a:font-semibold prose-blockquote:border-l-4 prose-blockquote:border-slate-300 dark:prose-blockquote:border-slate-850 prose-blockquote:pl-4 prose-blockquote:italic prose-p:leading-relaxed prose-li:leading-relaxed prose-table:text-xs text-justify">
-            <div dangerouslySetInnerHTML={{ __html: article.content }} />
-          </article>
+          <ReadOnlyArticle slug={article.slug}>
+            <article className="prose max-w-none dark:prose-invert prose-headings:font-serif prose-h2:text-xl prose-h2:font-extrabold prose-h2:mt-8 prose-h2:pb-1 prose-h2:border-b prose-h2:border-slate-200/50 dark:prose-h2:border-slate-800/50 prose-h3:text-lg prose-h3:font-bold prose-h3:mt-6 prose-a:text-indigo-600 dark:prose-a:text-indigo-400 prose-a:font-semibold prose-blockquote:border-l-4 prose-blockquote:border-slate-300 dark:prose-blockquote:border-slate-850 prose-blockquote:pl-4 prose-blockquote:italic prose-p:leading-relaxed prose-li:leading-relaxed prose-table:text-xs text-justify">
+              <div dangerouslySetInnerHTML={{ __html: article.content }} />
+            </article>
+          </ReadOnlyArticle>
 
           {/* Reference List Section (for academic styling) */}
           {article.references && article.references.length > 0 && (
@@ -286,18 +302,11 @@ export default async function ArticlePage(props: PageProps) {
           {article.slug === 'propaganda-patriarchy-democracy' && (
             <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl space-y-3">
               <h4 className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">
-                Original Draft Document
+                Protected Publication
               </h4>
               <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
-                Download the complete academic draft in DOCX format, including full annotations and citations.
+                This article is published exclusively through Bhoomija Khanna's portfolio and is not available for download.
               </p>
-              <a
-                href="/Gender_Propaganda_Patriarchal_Power_Research_Paper.docx"
-                download
-                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-650 dark:text-indigo-400 transition"
-              >
-                <FileText className="w-4 h-4 mr-2" /> Download Draft (DOCX)
-              </a>
             </div>
           )}
           {article.slug === 'founding-editorial' && (
