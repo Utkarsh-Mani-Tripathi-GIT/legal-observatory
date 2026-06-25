@@ -93,19 +93,8 @@ export default async function ArticlePage(props: PageProps) {
     return notFound();
   }
 
-  if (article.excludeFromArchive) {
-    const searchParams = await props.searchParams;
-    const source = searchParams.source || '';
-    const requestHeaders = await headers();
-    const referer = requestHeaders.get('referer') || '';
-    const allowed = source === 'bhoomija' || referer.includes('/bhoomija');
-    if (!allowed) {
-      return redirect('/bhoomija');
-    }
-  }
-
-  // For the protected article specifically, never redirect when ?source=bhoomija is present
-  // (handled above — this comment documents intent)
+  // propaganda-patriarchy-democracy is protected via canvas rendering only.
+  // No server-side redirect — the canvas viewer itself is the protection layer.
 
   const related = await getRelatedArticles(article, 3);
 
