@@ -173,19 +173,20 @@ function renderBlock(
 // Diagonal watermark tiles on a canvas
 function drawWatermark(ctx: CanvasRenderingContext2D, width: number, height: number) {
   const lines = ['NATIONAL LEGAL OBSERVATORY', 'BHOOMIJA KHANNA', 'NLO · RESTRICTED'];
-  const step = 220;
+  const step = 180;
   ctx.save();
   for (let y = -height; y < height * 2; y += step) {
     for (let x = -width; x < width * 2; x += step) {
       const idx = Math.floor(Math.abs(x + y) / step) % lines.length;
       const angle = -(Math.PI / 5.5) + (((x * 7 + y * 3) % 100) / 9000);
-      const opacity = 0.045 + ((Math.abs(x * 3 + y * 7) % 100) / 5000);
+      const opacity = 0.13 + ((Math.abs(x * 3 + y * 7) % 100) / 1200);
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(angle);
-      ctx.globalAlpha = opacity;
-      ctx.fillStyle = '#1e1b4b';
-      ctx.font = `600 11px Georgia, serif`;
+      ctx.globalAlpha = Math.min(opacity, 0.22);
+      ctx.fillStyle = '#4f46e5';
+      ctx.font = `700 12px Georgia, serif`;
+      ctx.letterSpacing = '0.15em';
       ctx.fillText(lines[idx], 0, 0);
       ctx.restore();
     }
