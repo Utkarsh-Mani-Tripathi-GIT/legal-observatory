@@ -104,6 +104,9 @@ export default async function ArticlePage(props: PageProps) {
     }
   }
 
+  // For the protected article specifically, never redirect when ?source=bhoomija is present
+  // (handled above — this comment documents intent)
+
   const related = await getRelatedArticles(article, 3);
 
   const formattedDate = new Date(article.date).toLocaleDateString('en-US', {
