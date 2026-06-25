@@ -514,10 +514,22 @@ export default function BhoomijaCVClient() {
                       <span className="bk-pub-card-coming-soon">
                         ⏳ Publishing in progress
                       </span>
-                    ) : pub.type !== 'Handbook' ? (
+                    ) : pub.type === 'Research Paper' ? null : pub.type !== 'Handbook' ? (
                       <Link href={pub.href} target="_blank" rel="noopener noreferrer" className="bk-pub-card-link">Read Article →</Link>
                     ) : null}
                   </div>
+                  {!pub.comingSoon && pub.type === 'Research Paper' && (
+                    <div className="bk-pub-card-cta">
+                      <Link
+                        href={`${pub.href}?source=bhoomija`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bk-pub-card-cta-btn"
+                      >
+                        Read Online
+                      </Link>
+                    </div>
+                  )}
                   {!pub.comingSoon && pub.type === 'Handbook' && (
                     <div className="bk-pub-card-cta">
                       <Link href={pub.href} target="_blank" rel="noopener noreferrer" className="bk-pub-card-cta-btn bk-pub-card-cta-btn--small">
