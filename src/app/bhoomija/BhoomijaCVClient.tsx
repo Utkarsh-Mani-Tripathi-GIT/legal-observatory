@@ -522,8 +522,6 @@ export default function BhoomijaCVClient() {
                     <div className="bk-pub-card-cta">
                       <Link
                         href={pub.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
                         className="bk-pub-card-cta-btn"
                       >
                         Read Online
