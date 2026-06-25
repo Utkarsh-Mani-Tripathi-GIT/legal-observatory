@@ -228,5 +228,7 @@ export default function Footer() {
 </div>
       </div>
     </footer>
+    <HelpDeskModal isOpen={helpDeskOpen} onClose={() => setHelpDeskOpen(false)} />
+    </>
   );
 }
