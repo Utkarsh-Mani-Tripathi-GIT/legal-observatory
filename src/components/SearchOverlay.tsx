@@ -32,12 +32,24 @@ export default function SearchOverlay({
   const isBhoomijaPage = pathname === '/bhoomija';
   
   // Theme styling overrides
-  const iconColor = isBhoomijaPage ? 'text-[#7d1919] dark:text-[#c97a7a]' : 'text-indigo-500';
-  const categoryTextColor = isBhoomijaPage ? 'text-[#7d1919] dark:text-[#c97a7a]' : 'text-indigo-600 dark:text-indigo-400';
+  const iconColor = isBhoomijaPage ? 'text-[#7d1919]' : 'text-indigo-500';
+  const categoryTextColor = isBhoomijaPage ? 'text-[#7d1919]' : 'text-indigo-600 dark:text-indigo-400';
   const highlightBorder = isBhoomijaPage ? 'border-[#7d1919]' : 'border-indigo-600';
-  const activeBg = isBhoomijaPage ? 'bg-red-50/50 dark:bg-red-950/20' : 'bg-indigo-50 dark:bg-slate-800/80';
-  const highlightText = isBhoomijaPage ? 'text-red-950 dark:text-white' : 'text-indigo-950 dark:text-white';
+  const activeBg = isBhoomijaPage ? 'bg-[#f5f0eb]' : 'bg-indigo-50 dark:bg-slate-800/80';
+  const highlightText = isBhoomijaPage ? 'text-[#5c1212]' : 'text-indigo-950 dark:text-white';
   const spinnerBorder = isBhoomijaPage ? 'border-[#7d1919]' : 'border-indigo-600';
+  const backdropBg = isBhoomijaPage ? 'bg-[#5c1212]/60' : 'bg-slate-900/60 dark:bg-black/80';
+  const modalBg = isBhoomijaPage ? 'bg-[#f5f0eb]' : 'bg-white dark:bg-slate-900';
+  const modalBorder = isBhoomijaPage ? 'border-[#7d1919]/30' : 'border-slate-200 dark:border-slate-800';
+  const inputBorder = isBhoomijaPage ? 'border-[#7d1919]/20' : 'border-slate-100 dark:border-slate-800';
+  const inputText = isBhoomijaPage ? 'text-[#5c1212] placeholder-[#7d1919]/50' : 'text-slate-900 dark:text-white placeholder-slate-400';
+  const closeBtnHover = isBhoomijaPage ? 'hover:bg-[#7d1919]/10 hover:text-[#7d1919]' : 'hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-600';
+  const quickSearchBg = isBhoomijaPage ? 'hover:bg-[#7d1919]/10' : 'hover:bg-slate-50 dark:hover:bg-slate-800';
+  const quickSearchText = isBhoomijaPage ? 'text-[#7d1919]' : 'text-slate-400';
+  const resultHover = isBhoomijaPage ? 'hover:bg-[#7d1919]/10' : 'hover:bg-slate-50 dark:hover:bg-slate-800/50';
+  const footerBg = isBhoomijaPage ? 'bg-[#efebe8]' : 'bg-slate-50 dark:bg-slate-800/30';
+  const footerText = isBhoomijaPage ? 'text-[#7d1919]/70' : 'text-slate-400';
+  const kbdBorder = isBhoomijaPage ? 'border-[#7d1919]/30 bg-[#f5f0eb]' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800';
 
   useEffect(() => {
     if (isOpen) {
@@ -175,27 +187,27 @@ export default function SearchOverlay({
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-slate-900/60 dark:bg-black/80"
+      className={`fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 ${backdropBg}`}
     >
       <motion.div
         variants={modalVariants}
-        className="w-full max-w-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl overflow-hidden glass-panel"
+        className={`w-full max-w-2xl ${modalBg} border ${modalBorder} rounded-xl shadow-2xl overflow-hidden glass-panel`}
         onKeyDown={handleKeyDown}
       >
         {/* Search Input */}
-        <div className="flex items-center px-4 py-3 border-b border-slate-100 dark:border-slate-800">
-          <Search className="w-5 h-5 text-slate-400 mr-3 shrink-0" />
+        <div className={`flex items-center px-4 py-3 border-b ${inputBorder}`}>
+          <Search className={`w-5 h-5 ${isBhoomijaPage ? 'text-[#7d1919]/60' : 'text-slate-400'} mr-3 shrink-0`} />
           <input
             ref={inputRef}
             type="text"
-            className="w-full bg-transparent text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none text-base"
+            className={`w-full bg-transparent ${inputText} focus:outline-none text-base`}
             placeholder={isBhoomijaPage ? "Search Bhoomija's publications, drafts, and research..." : "Search judgments, policies, research, tags, authors..."}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
           <button
             onClick={onClose}
-            className="p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 transition"
+            className={`p-1 rounded-md transition ${closeBtnHover}`}
           >
             <X className="w-5 h-5" />
           </button>
@@ -230,22 +242,22 @@ export default function SearchOverlay({
             <motion.div
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
-              className="py-4 px-3 text-slate-400"
+              className={`py-4 px-3 ${quickSearchText}`}
             >
-              <span className="text-xs font-semibold uppercase tracking-wider block mb-2 text-slate-500">Quick Searches</span>
+              <span className={`text-xs font-semibold uppercase tracking-wider block mb-2 ${isBhoomijaPage ? 'text-[#7d1919]/80' : 'text-slate-500'}`}>Quick Searches</span>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 {isBhoomijaPage ? (
                   <>
-                    <button onClick={() => setQuery('Founding')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
+                    <button onClick={() => setQuery('Founding')} className={`flex items-center p-2 rounded-lg ${quickSearchBg} text-left transition-colors duration-150`}>
                       <Compass className={`w-4 h-4 ${iconColor} mr-2`} /> Founding Note
                     </button>
-                    <button onClick={() => setQuery('Consent')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
+                    <button onClick={() => setQuery('Consent')} className={`flex items-center p-2 rounded-lg ${quickSearchBg} text-left transition-colors duration-150`}>
                       <FileText className={`w-4 h-4 ${iconColor} mr-2`} /> Manufacturing Consent
                     </button>
-                    <button onClick={() => setQuery('Drafting')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
+                    <button onClick={() => setQuery('Drafting')} className={`flex items-center p-2 rounded-lg ${quickSearchBg} text-left transition-colors duration-150`}>
                       <BookOpen className={`w-4 h-4 ${iconColor} mr-2`} /> Drafting Portfolio
                     </button>
-                    <button onClick={() => setQuery('Constitutional')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
+                    <button onClick={() => setQuery('Constitutional')} className={`flex items-center p-2 rounded-lg ${quickSearchBg} text-left transition-colors duration-150`}>
                       <FileText className={`w-4 h-4 ${iconColor} mr-2`} /> Constitutional Law
                     </button>
                   </>
@@ -286,7 +298,7 @@ export default function SearchOverlay({
                   className={`rounded-lg transition duration-150 ${
                     idx === selectedIndex
                       ? `${activeBg} border-l-4 ${highlightBorder}`
-                      : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'
+                      : resultHover
                   }`}
                 >
                   {/* Main article row */}
@@ -334,9 +346,9 @@ export default function SearchOverlay({
         </div>
 
         {/* Footer */}
-        <div className="px-4 py-2 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 flex justify-between text-xs text-slate-400">
-          <span>Use <kbd className="px-1 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded">↑↓</kbd> to navigate</span>
-          <span>Press <kbd className="px-1 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded">Esc</kbd> to close</span>
+        <div className={`px-4 py-2 border-t ${inputBorder} ${footerBg} flex justify-between text-xs ${footerText}`}>
+          <span>Use <kbd className={`px-1 border ${kbdBorder} rounded`}>↑↓</kbd> to navigate</span>
+          <span>Press <kbd className={`px-1 border ${kbdBorder} rounded`}>Esc</kbd> to close</span>
         </div>
       </motion.div>
     </motion.div>
