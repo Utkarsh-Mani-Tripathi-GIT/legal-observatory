@@ -521,7 +521,7 @@ export default function BhoomijaCVClient() {
                   {!pub.comingSoon && pub.type === 'Research Paper' && (
                     <div className="bk-pub-card-cta">
                       <Link
-                        href={`${pub.href}?source=bhoomija`}
+                        href={pub.href}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="bk-pub-card-cta-btn"
