@@ -141,14 +141,20 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition">
+                <button
+                  onClick={() => setHelpDeskOpen(true)}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition text-left"
+                >
                   Contact Editorial
-                </Link>
+                </button>
               </li>
               <li>
-                <a href="#" className="flex items-center hover:text-indigo-600 dark:hover:text-indigo-400 transition">
+                <button
+                  onClick={() => setHelpDeskOpen(true)}
+                  className="flex items-center hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+                >
                   <HelpCircle className="w-3.5 h-3.5 mr-1" /> Help Desk
-                </a>
+                </button>
               </li>
               <li>
                 <a
