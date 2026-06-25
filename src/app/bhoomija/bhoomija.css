@@ -223,15 +223,11 @@
   font-family: 'Gloria Hallelujah', cursive;
   font-size: clamp(48px, 7.5vw, 84px);
   line-height: 1.05;
-  color: #FFD700;
+  color: #7d1919;
   padding: 18px 48px 18px 0;
   display: inline-block;
   flex-shrink: 0;
   opacity: 0.9;
-  background: #2a2a2a;
-  border: 2px solid #FFD700;
-  border-radius: 12px;
-  padding: 24px 32px;
 }
 
 .bk-type-word-hollow {
