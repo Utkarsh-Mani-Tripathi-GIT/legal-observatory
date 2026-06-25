@@ -532,7 +532,7 @@ export default function BhoomijaCVClient() {
                   )}
                   {!pub.comingSoon && pub.type === 'Handbook' && (
                     <div className="bk-pub-card-cta">
-                      <Link href={pub.href} target="_blank" rel="noopener noreferrer" className="bk-pub-card-cta-btn bk-pub-card-cta-btn--small">
+                      <Link href={pub.href} target="_blank" rel="noopener noreferrer" className="bk-pub-card-cta-btn">
                         Read Online
                       </Link>
                     </div>
