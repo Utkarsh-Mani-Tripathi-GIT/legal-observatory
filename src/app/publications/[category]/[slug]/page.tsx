@@ -8,6 +8,7 @@ import ArticleCard from '../../../../components/ArticleCard';
 import HighlightMention from '../../../../components/HighlightMention';
 import ReadingProgressBar from '../../../../components/ReadingProgressBar';
 import ReadOnlyArticle from '../../../../components/ReadOnlyArticle';
+import ProtectedArticleViewer from '../../../../components/ProtectedArticleViewer';
 import Link from 'next/link';
 import { Calendar, Clock, User, Landmark, Quote, ArrowLeft, Share2, FileText } from 'lucide-react';
 import CiteSection from './CiteSection';
