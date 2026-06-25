@@ -126,6 +126,7 @@ export function getAuthorBySlug(slug: string): AuthorData | undefined {
       role: data.role || '',
       avatar: data.avatar || '',
       bio: data.bio || '',
+      email: data.email || '',
       socialLinks: data.socialLinks || {},
       content: content,
     };
