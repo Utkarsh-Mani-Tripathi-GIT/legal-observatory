@@ -75,7 +75,7 @@ const PUBLICATIONS = [
     type: 'Research Paper',
     title: 'Gender, Propaganda and Patriarchal Power in Indian Democratic Politics',
     desc: 'A socio-legal analysis of gendered rhetoric, political exclusion, and patriarchal propaganda in Indian democratic institutions.',
-    href: '/publications/research/propaganda-patriarchy-democracy?source=bhoomija',
+    href: '/private/Gender_Propaganda_Patriarchal_Power_Research_Paper.docx',
     tag: 'NLO · 2025',
     readOnline: true,
     comingSoon: false,
