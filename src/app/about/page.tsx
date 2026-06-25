@@ -33,7 +33,7 @@ export default function AboutPage() {
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-6 border-b border-slate-100 dark:border-slate-900 text-xs">
         <div className="flex items-center gap-4">
           <img
-            src="/bhoomija-avatar.png"
+            src="/images/bhoomija-avatar.png"
             alt="Bhoomija Khanna"
             className="w-12 h-12 rounded-full object-cover border border-slate-200 dark:border-slate-700"
           />

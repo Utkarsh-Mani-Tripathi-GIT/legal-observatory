@@ -4,6 +4,9 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import Link from 'next/link';
 import './bhoomija.css';
 import BorderGlow from '@/components/reactbits/BorderGlow';
+import CurvedLoop from '@/components/reactbits/CurvedLoop';
+import OrbitImages from '@/components/reactbits/OrbitImages';
+import TargetCursor from '@/components/reactbits/TargetCursor';
 
 // ─── Data ──────────────────────────────────────────────────────────────────────
 
@@ -315,7 +318,7 @@ export default function BhoomijaCVClient() {
         </div>
         <div className="bk-hero-right">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/BHOOMIJA DESK .png" alt="Bhoomija Khanna — Legal Research Desk" className="bk-hero-photo" />
+          <img src="/images/bhoomija-desk.png" alt="Bhoomija Khanna — Legal Research Desk" className="bk-hero-photo" />
         </div>
       </section>
 
@@ -335,7 +338,7 @@ export default function BhoomijaCVClient() {
         <div className="bk-about-grid">
           <div className="bk-about-photo-col">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/bhoomija-avatar.png" alt="Bhoomija Khanna" className="bk-about-photo" />
+            <img src="/images/bhoomija-avatar.png" alt="Bhoomija Khanna" className="bk-about-photo" />
           </div>
           <div className="bk-about-text-col">
             <h2 className="bk-about-heading">Hi, I&apos;m Bhoomija.</h2>
@@ -582,7 +585,7 @@ export default function BhoomijaCVClient() {
               <div 
                 className="bk-hover-image-reveal"
                 style={{ 
-                  backgroundImage: "url('/founding_note.jpg')",
+                  backgroundImage: "url('/images/founding_note.jpg')",
                 }}
               />
               <div className="bk-hover-content relative z-10">
@@ -632,7 +635,7 @@ export default function BhoomijaCVClient() {
               <div 
                 className="bk-hover-image-reveal"
                 style={{ 
-                  backgroundImage: "url('/propaganda.jpg')",
+                  backgroundImage: "url('/images/propaganda.jpg')",
                 }}
               />
               <div className="bk-hover-content relative z-10">

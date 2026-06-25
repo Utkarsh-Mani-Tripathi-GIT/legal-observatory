@@ -16,7 +16,7 @@ tags:
   - Democracy
   - Political Communication
 abstract: "A socio-legal analysis of gendered rhetoric, political exclusion, and patriarchal propaganda in Indian democratic institutions."
-coverImage: "/propaganda.jpg"
+coverImage: "/images/Gender propaganda.jpg"
 references:
   - "Akhil Reed Amar, The Constitution and Criminal Procedure: First Principles."
   - "Arundhati Roy, The Ministry of Utmost Happiness."

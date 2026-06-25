@@ -120,9 +120,6 @@ export default function Header() {
           {/* Logo brand */}
           <Link
             href="/"
-            onClick={() => {
-              alert("This button takes you to the HOME PAGE");
-            }}
             className="flex items-center space-x-2.5 group shrink-0"
           >
             <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-900 dark:bg-[#1a1a1a] border border-yellow-500/40 dark:border-yellow-500/30 shadow-sm transition-transform group-hover:scale-105 shrink-0">

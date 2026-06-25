@@ -1530,19 +1530,24 @@
   border-radius: 100px;
 }
 
-/* Background patterns for cards without real images */
+/* Background images for publication cards */
 .bk-pub-bg-1 {
-  background-image: linear-gradient(to bottom, rgba(20, 4, 4, 0.82), rgba(10, 2, 2, 0.96)), url('/manufacturing.png');
+  background-image: linear-gradient(to bottom, rgba(20, 4, 4, 0.72), rgba(10, 2, 2, 0.88)), url('/images/manufacturing.png');
   background-size: cover;
   background-position: center;
 }
 .bk-pub-bg-2 {
-  background-image: linear-gradient(to bottom, rgba(20, 4, 4, 0.82), rgba(10, 2, 2, 0.96)), url('/propaganda.jpg');
+  background-image: linear-gradient(to bottom, rgba(20, 4, 4, 0.72), rgba(10, 2, 2, 0.88)), url('/images/propaganda.jpg');
   background-size: cover;
   background-position: center;
 }
 .bk-pub-bg-3 {
-  background-image: linear-gradient(to bottom, rgba(20, 4, 4, 0.82), rgba(10, 2, 2, 0.96)), url('/digital_self_defence.jpg');
+  background-image: linear-gradient(to bottom, rgba(20, 4, 4, 0.62), rgba(10, 2, 2, 0.78)), url('/images/digital-self-defence.png');
+  background-size: cover;
+  background-position: center top;
+}
+.bk-pub-bg-4 {
+  background-image: linear-gradient(to bottom, rgba(20, 4, 4, 0.72), rgba(10, 2, 2, 0.88)), url('/images/founding_note.jpg');
   background-size: cover;
   background-position: center;
 }
