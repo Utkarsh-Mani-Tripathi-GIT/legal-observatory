@@ -38,7 +38,7 @@ export default function BhoomijaLayout({ children }: { children: React.ReactNode
   }, []);
 
   return (
-    <div ref={wrapRef} style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginTop: '-32px', marginBottom: '-16px' }}>
+    <div ref={wrapRef} style={{ width: '100%', marginTop: '-32px', marginBottom: '-16px', overflowX: 'hidden' }}>
       {children}
     </div>
   );

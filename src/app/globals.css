@@ -399,17 +399,14 @@ body {
 }
 
 /* Mobile nav drawer */
-.bhoomija-mode header div[class*="bg-white"],
-.bhoomija-mode header div[class*="bg-slate-950"] {
+.bhoomija-mode header .md\:hidden {
   background-color: #efebe8 !important;
   border-color: rgba(125, 25, 25, 0.14) !important;
 }
-.bhoomija-mode header div[class*="bg-white"] a,
-.bhoomija-mode header div[class*="bg-slate-950"] a {
+.bhoomija-mode header .md\:hidden a {
   color: rgba(125, 25, 25, 0.7) !important;
 }
-.bhoomija-mode header div[class*="bg-white"] a:hover,
-.bhoomija-mode header div[class*="bg-slate-950"] a:hover {
+.bhoomija-mode header .md\:hidden a:hover {
   background-color: rgba(125, 25, 25, 0.07) !important;
   color: #7d1919 !important;
 }

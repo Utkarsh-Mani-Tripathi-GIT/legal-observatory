@@ -765,12 +765,24 @@
   .bk-hero-left     { border-right: none; border-bottom: 1px solid rgba(125,25,25,0.18); padding: 40px 24px; }
   .bk-hero-right    { height: 340px; min-height: 340px; }
   .bk-hero-name     { font-size: 40px; }
+  .bk-hero-cta-row  { justify-content: center; gap: 8px; }
   .bk-body          { grid-template-columns: 1fr; }
   .bk-sidebar       { border-right: none; border-bottom: 1px solid rgba(125,25,25,0.18); }
   .bk-main          { padding: 32px 24px; }
   .bk-nav           { padding: 14px 20px; }
   .bk-type-word     { font-size: 38px; }
   .bk-footer        { flex-direction: column; gap: 4px; text-align: center; }
+}
+
+@media (max-width: 600px) {
+  .bk-hero-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .bk-hero-cta-row .bk-btn {
+    justify-content: center;
+  }
 }
 
 /* ─────────────────────────────────────────
