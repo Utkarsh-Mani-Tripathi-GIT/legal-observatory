@@ -26,6 +26,25 @@ customRenderer.heading = function (args: any) {
   return `<h${depth} id="${slug}">${text}</h${depth}>`;
 };
 
+customRenderer.link = function (args: any) {
+  let href = '';
+  let title = '';
+  let text = '';
+  if (typeof args === 'object' && args !== null) {
+    href = args.href || '';
+    title = args.title || '';
+    text = args.text || '';
+  } else {
+    href = arguments[0] || '';
+    title = arguments[1] || '';
+    text = arguments[2] || '';
+  }
+  const isExternal = href.startsWith('http://') || href.startsWith('https://');
+  const targetAttr = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+  const titleAttr = title ? ` title="${title}"` : '';
+  return `<a href="${href}"${targetAttr}${titleAttr}>${text}</a>`;
+};
+
 marked.use({ renderer: customRenderer });
 
 marked.setOptions({

@@ -9,7 +9,7 @@ categories: ["constitutional-law", "public-policy", "human-rights", "technology-
 tags: ["Monthly Review", "Supreme Court", "Online Gaming", "AI Regulation", "Delimitation", "Transgender Rights", "Labour Codes", "Fair Trial", "Article 142"]
 abstract: "The inaugural Monthly Legal Review from the National Legal Observatory covers June 2026: the Supreme Court's landmark ruling in State of Tamil Nadu v. Junglee Games (2026 INSC 594), draft AI regulations for courts, fair trial rights and chargesheet access, Article 142 and irretrievable breakdown of marriage, homemakers as nation builders, the defeated delimitation bills, the Transgender Persons Amendment Act 2026, EPF wage ceiling notification, and an editor's note on the gap between regulating AI outputs and AI inputs in the judicial process."
 citation: "Bhoomija Khanna (ed.), 'Monthly Legal Review — Vol. 1, Issue 1, June 2026', National Legal Observatory (June 2026)."
-coverImage: "/images/monthly_review_june_2026.jpg"
+coverImage: "/images/bhoomija-desk.png"
 references:
   - "2026 INSC 594 — State of Tamil Nadu & Ors. v. Junglee Games India Pvt. Ltd. & Ors. (Full judgment text, Supreme Court of India)"
   - "LiveLaw case report — State of Tamil Nadu v. Junglee Games"

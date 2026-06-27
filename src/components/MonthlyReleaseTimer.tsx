@@ -7,19 +7,20 @@ import { Clock, Bell, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
 
 interface MonthlyReleaseTimerProps {
   targetHour?: number; // default 18 (6 PM)
-  monthlyReviewArticle: {
-    slug: string;
-    title: string;
-    type: string;
-    readingTime: string;
-    abstract?: string;
-    tags: string[];
-    authorDetails?: {
-      name: string;
-      role: string;
-      avatar?: string;
+    monthlyReviewArticle: {
+      slug: string;
+      title: string;
+      type: string;
+      readingTime: string;
+      abstract?: string;
+      coverImage?: string;
+      tags: string[];
+      authorDetails?: {
+        name: string;
+        role: string;
+        avatar?: string;
+      };
     };
-  };
 }
 
 function AnimatedDigit({ value, label }: { value: number; label: string }) {
@@ -132,7 +133,7 @@ export default function MonthlyReleaseTimer({
   };
 
   return (
-    <div className="relative w-full rounded-2xl overflow-hidden min-h-[380px] sm:min-h-[420px] flex">
+    <div className="relative w-full rounded-2xl min-h-[380px] sm:min-h-[420px] flex">
       <AnimatePresence mode="wait">
         {isReleased ? (
           /* ── 6:00 PM SHARP: Smooth Framer-Motion Fade-In Article Card ── */
@@ -149,6 +150,15 @@ export default function MonthlyReleaseTimer({
             </div>
 
             <div>
+              {monthlyReviewArticle.coverImage && (
+                <div className="overflow-hidden rounded-xl mb-4 w-full h-48 sm:h-56">
+                  <img
+                    src={monthlyReviewArticle.coverImage}
+                    alt={monthlyReviewArticle.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+              )}
               <div className="flex items-center space-x-3 text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-widest font-bold mb-4 mt-1">
                 <span className="px-2.5 py-0.5 rounded bg-indigo-50 dark:bg-slate-800 text-[10px]">
                   Monthly Review

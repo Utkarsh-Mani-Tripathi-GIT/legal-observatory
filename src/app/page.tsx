@@ -122,6 +122,7 @@ export default async function Homepage() {
                 type: 'research',
                 readingTime: monthlyReview?.readingTime || '15 min read',
                 abstract: monthlyReview?.abstract || 'The inaugural Monthly Legal Review covering Supreme Court rulings, AI regulations in courts, delimitation battles, and labor law updates.',
+                coverImage: monthlyReview?.coverImage || '/images/bhoomija-desk.png',
                 tags: monthlyReview?.tags || ['Monthly Review', 'Supreme Court', 'AI Regulations'],
                 authorDetails: monthlyReview?.authorDetails || {
                   name: 'Bhoomija Khanna',
