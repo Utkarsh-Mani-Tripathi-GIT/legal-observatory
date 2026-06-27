@@ -43,3 +43,7 @@ next-env.d.ts
 # Local subscribers log
 subscribers.txt
 
+# Local-only newsletter tooling (not for deployment)
+/scripts/
+/email-drafts/
+
