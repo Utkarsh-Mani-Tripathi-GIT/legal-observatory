@@ -224,29 +224,6 @@ export default function MonthlyReleaseTimer({
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 text-[11px] font-bold uppercase tracking-widest">
                 <Clock className="w-3.5 h-3.5 text-indigo-400 animate-pulse" /> Release Countdown
               </div>
-              
-              {/* Interactive Dev Test Controls */}
-              <div className="flex items-center gap-1 text-[10px] text-slate-400 bg-slate-800/80 px-2 py-1 rounded border border-slate-700/50 shadow-sm">
-                <span className="font-mono text-slate-500">Test:</span>
-                <button
-                  onClick={() => setDemoTimeOverride(4 * 60 * 1000 + 30 * 1000)} // 4m 30s
-                  className="hover:text-indigo-300 underline"
-                >
-                  5m Warning
-                </button>
-                <span>•</span>
-                <button
-                  onClick={() => setDemoTimeOverride(2 * 1000)} // 2s -> trigger release
-                  className="hover:text-emerald-300 underline font-semibold text-emerald-400"
-                >
-                  Trigger 6PM
-                </button>
-                {demoTimeOverride !== null && (
-                  <button onClick={() => setDemoTimeOverride(null)} className="text-rose-400 ml-1 font-bold">
-                    ✕ Reset
-                  </button>
-                )}
-              </div>
             </div>
 
             {/* Center Content */}
