@@ -1,5 +1,5 @@
 {
-  "enabled": true,
+  "enabled": false,
   "name": "Auto Push to Vercel",
   "description": "After any file is edited in the NLO project, stage all changes, commit, and push to main for instant Vercel deployment",
   "version": "1",

@@ -78,11 +78,13 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2 text-xs">
             {article.authorDetails?.avatar ? (
-              <img
-                src={article.authorDetails.avatar}
-                alt={article.authorDetails.name}
-                className="w-6 h-6 rounded-full object-cover border border-slate-200 dark:border-slate-700"
-              />
+              <Link href={article.author === 'bhoomija-khanna' ? '/bhoomija' : `/authors/${article.author}`} className="shrink-0">
+                <img
+                  src={article.authorDetails.avatar}
+                  alt={article.authorDetails.name}
+                  className="w-6 h-6 rounded-full object-cover border border-slate-200 dark:border-slate-700 hover:border-indigo-500 hover:scale-110 transition duration-200 cursor-pointer"
+                />
+              </Link>
             ) : (
               <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
                 <User className="w-3.5 h-3.5" />

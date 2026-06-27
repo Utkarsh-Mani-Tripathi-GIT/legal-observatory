@@ -33,7 +33,7 @@ export async function GET(request: Request) {
         type: art.type,
         title: art.title,
         date: art.date,
-        authorName: art.authorDetails?.name || 'Observatory Scholar',
+        authorName: art.authorDetails?.name || 'Observatory Author',
         category: art.categories[0] ? art.categories[0].replace('-', ' ').toUpperCase() : 'GENERAL',
       }))
       .slice(0, 8); // Cap suggestions at 8 results for autocomplete clarity

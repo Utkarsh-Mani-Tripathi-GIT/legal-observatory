@@ -8,6 +8,7 @@ export const dynamic = 'force-dynamic';
 import { getArticleBySlug, getRelatedArticles } from '../../../../lib/content';
 import TableOfContents from '../../../../components/TableOfContents';
 import ArticleCard from '../../../../components/ArticleCard';
+import AnimatedDownloadButton from '@/components/AnimatedDownloadButton';
 import HighlightMention from '../../../../components/HighlightMention';
 import ReadingProgressBar from '../../../../components/ReadingProgressBar';
 import ReadOnlyArticle from '../../../../components/ReadOnlyArticle';
@@ -63,7 +64,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
       description: descriptionText.slice(0, 160),
       type: 'article',
       publishedTime: article.date,
-      authors: [article.authorDetails?.name || 'Observatory Scholar'],
+      authors: [article.authorDetails?.name || 'Observatory Author'],
       tags: article.tags,
     },
     twitter: {
@@ -305,13 +306,7 @@ export default async function ArticlePage(props: PageProps) {
               <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
                 Download the complete academic draft in DOCX format, including full annotations and citations.
               </p>
-              <a
-                href="/NLO_Manufacturing_Consent.docx"
-                download
-                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-650 dark:text-indigo-400 transition"
-              >
-                <FileText className="w-4 h-4 mr-2" /> Download Draft (DOCX)
-              </a>
+              <AnimatedDownloadButton href="/NLO_Manufacturing_Consent.docx" label="Download Draft (DOCX)" fileType="DOCX" />
             </div>
           )}
           {article.slug === 'propaganda-patriarchy-democracy' && (
@@ -332,13 +327,18 @@ export default async function ArticlePage(props: PageProps) {
               <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
                 Download the complete founding editorial draft in DOCX format.
               </p>
-              <a
-                href="/NLO_Founding_Editorial.docx"
-                download
-                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-650 dark:text-indigo-400 transition"
-              >
-                <FileText className="w-4 h-4 mr-2" /> Download Document (DOCX)
-              </a>
+              <AnimatedDownloadButton href="/NLO_Founding_Editorial.docx" label="Download Document (DOCX)" fileType="DOCX" />
+            </div>
+          )}
+          {article.slug === 'monthly-legal-review-june-2026' && (
+            <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl space-y-3">
+              <h4 className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500">
+                Download This Issue
+              </h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal">
+                Download the complete Monthly Legal Review (Vol. 1, Issue 1) as a formatted PDF.
+              </p>
+              <AnimatedDownloadButton href="/NLO_Vol1_Issue1_June2026.pdf" label="Download Issue (PDF)" fileType="PDF" />
             </div>
           )}
 
@@ -358,11 +358,13 @@ export default async function ArticlePage(props: PageProps) {
 
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3">
               {article.authorDetails?.avatar && (
-                <img
-                  src={article.authorDetails.avatar}
-                  alt={article.authorDetails.name}
-                  className="w-12 h-12 rounded-full object-cover border border-slate-100 dark:border-slate-800"
-                />
+                <Link href={article.author === 'bhoomija-khanna' ? '/bhoomija' : `/authors/${article.author}`} className="shrink-0">
+                  <img
+                    src={article.authorDetails.avatar}
+                    alt={article.authorDetails.name}
+                    className="w-12 h-12 rounded-full object-cover border border-slate-100 dark:border-slate-800 hover:border-indigo-500 hover:scale-105 transition duration-200 cursor-pointer"
+                  />
+                </Link>
               )}
               <div className="space-y-1">
                 <Link

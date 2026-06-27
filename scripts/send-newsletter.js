@@ -6,8 +6,20 @@
  * Pass --all-subscribers to send to real subscriber list.
  */
 
-require('dotenv').config({ path: '.env.local' });
 const nodemailer = require('nodemailer');
+
+// Load .env.local manually (no dotenv dependency needed)
+const fs = require('fs');
+const path = require('path');
+const envPath = path.join(__dirname, '..', '.env.local');
+if (fs.existsSync(envPath)) {
+  fs.readFileSync(envPath, 'utf8').split('\n').forEach(line => {
+    const [key, ...rest] = line.split('=');
+    if (key && rest.length && !process.env[key.trim()]) {
+      process.env[key.trim()] = rest.join('=').trim();
+    }
+  });
+}
 
 // ─── Config ────────────────────────────────────────────────────────────────────
 
@@ -310,9 +322,6 @@ const email3 = {
 // sending to the NLO inbox itself with a special flag.
 // Since Gmail's IMAP "append to Drafts" needs imap lib, we send to testers
 // directly and save a local HTML copy so you can paste into Gmail Drafts.
-
-const fs = require('fs');
-const path = require('path');
 
 const EMAILS = [email1, email2, email3];
 

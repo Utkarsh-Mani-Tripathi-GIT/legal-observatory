@@ -32,15 +32,19 @@ export default function AboutPage() {
       {/* Author Details Block */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-6 border-b border-slate-100 dark:border-slate-900 text-xs">
         <div className="flex items-center gap-4">
-          <img
-            src="/images/bhoomija-avatar.png"
-            alt="Bhoomija Khanna"
-            className="w-12 h-12 rounded-full object-cover border border-slate-200 dark:border-slate-700"
-          />
+          <Link href="/bhoomija">
+            <img
+              src="/images/bhoomija-avatar.png"
+              alt="Bhoomija Khanna"
+              className="w-12 h-12 rounded-full object-cover border border-slate-200 dark:border-slate-700 hover:border-indigo-500 hover:scale-105 transition duration-200 cursor-pointer"
+            />
+          </Link>
           <div className="text-center sm:text-left">
-            <p className="font-bold text-slate-900 dark:text-white text-sm">
-              Bhoomija Khanna
-            </p>
+            <Link href="/bhoomija">
+              <p className="font-bold text-slate-900 dark:text-white text-sm hover:text-indigo-600 dark:hover:text-indigo-400 transition cursor-pointer">
+                Bhoomija Khanna
+              </p>
+            </Link>
             <p className="text-slate-500 dark:text-slate-400">
               Founder & Research Director
             </p>

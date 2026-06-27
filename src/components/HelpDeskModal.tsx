@@ -5,7 +5,7 @@ import { X, Scale, Wrench } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const NLO_EMAIL = 'nationallegalobservatory@gmail.com';
-const TECH_EMAIL = 'utkarshisbest69@gmail.com';
+const TECH_EMAIL = 'utkarshmanitripathi2006@gmail.com';
 
 interface HelpDeskModalProps {
   isOpen: boolean;
@@ -43,7 +43,7 @@ export default function HelpDeskModal({
     ? `Re: "${articleTitle}"`
     : 'General Enquiry';
 
-  // Legal query → NLO + article author (if available)
+  // Legal query → NLO + article author (if reading an article) or NLO only
   const legalTo = articleAuthorEmail
     ? `${NLO_EMAIL},${articleAuthorEmail}`
     : NLO_EMAIL;
@@ -58,7 +58,7 @@ export default function HelpDeskModal({
     `---\nThis message was sent via the NLO Help Desk.`
   );
 
-  // Technical query → Tech lead + NLO
+  // Technical query → Tech lead (utkarshmanitripathi2006@gmail.com) + NLO
   const techTo = `${TECH_EMAIL},${NLO_EMAIL}`;
   const techSubject = encodeURIComponent(
     `[Technical Support] ${articleContext} | National Legal Observatory`

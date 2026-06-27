@@ -3,16 +3,51 @@ import { subscribeToNewsletter } from '../../../lib/content';
 import { sendEmail } from '../../../lib/email';
 import { getSupabaseAdminClient } from '../../../lib/supabase';
 
+// In-memory rate limiting map: IP -> timestamp array
+const rateLimitMap = new Map<string, number[]>();
+
 export async function POST(request: Request) {
   try {
+    // 1. IP Rate Limiting (Max 5 requests per 10 minutes per IP)
+    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || '127.0.0.1';
+    const now = Date.now();
+    const windowMs = 10 * 60 * 1000; // 10 minutes
+    const maxRequests = 5;
+
+    const timestamps = (rateLimitMap.get(ip) || []).filter((t) => now - t < windowMs);
+    if (timestamps.length >= maxRequests) {
+      return NextResponse.json(
+        { success: false, message: 'Too many signup requests. Please try again in a few minutes.' },
+        { status: 429 }
+      );
+    }
+    timestamps.push(now);
+    rateLimitMap.set(ip, timestamps);
+
     const body = await request.json();
     const email = body.email;
 
-    if (!email || typeof email !== 'string' || !email.includes('@')) {
-      return NextResponse.json({ success: false, message: 'Please provide a valid email address.' }, { status: 400 });
+    // 2. Strict Email Regex Validation (RFC 5322 standard + disposable/fake domain filter)
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+    
+    if (!email || typeof email !== 'string' || !emailRegex.test(email.trim())) {
+      return NextResponse.json(
+        { success: false, message: 'Please enter a valid email address (e.g., scholar@university.edu).' },
+        { status: 400 }
+      );
     }
 
     const cleanEmail = email.trim().toLowerCase();
+
+    // Check for common temporary / disposable email domains
+    const disposableDomains = ['tempmail.com', 'throwawaymail.com', 'mailinator.com', '10minutemail.com', 'yopmail.com', 'guerrillamail.com'];
+    const domain = cleanEmail.split('@')[1];
+    if (disposableDomains.includes(domain)) {
+      return NextResponse.json(
+        { success: false, message: 'Disposable or temporary email domains are not allowed.' },
+        { status: 400 }
+      );
+    }
 
     // Dispatch to DAL subscription logic (Supabase or local simulation)
     const result = await subscribeToNewsletter(cleanEmail);
