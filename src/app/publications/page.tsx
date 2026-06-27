@@ -178,7 +178,7 @@ export default async function PublicationsPage(props: PageProps) {
                 { slug: 'policy', name: 'Policy Briefs' },
                 { slug: 'research', name: 'Research Articles' },
                 { slug: 'opinion', name: 'Essays & Opinions' },
-                { slug: 'blog', name: 'Blog Posts' },
+                { slug: 'monthly-report', name: 'Monthly Briefs' },
               ].map((fmt) => (
                 <Link
                   key={fmt.slug}
