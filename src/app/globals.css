@@ -326,10 +326,22 @@ body {
 }
 
 /* NLO badge square */
-.bhoomija-mode header .bg-slate-900,
-.bhoomija-mode header [class*="bg-slate-9"] {
+.bhoomija-mode header .group .w-10.h-10 {
   background-color: #7d1919 !important;
   border-color: rgba(239, 235, 232, 0.3) !important;
+}
+
+/* Profile dropdown menu */
+.bhoomija-mode header .relative div.absolute {
+  background-color: #7d1919 !important;
+  border-color: rgba(239, 235, 232, 0.2) !important;
+}
+.bhoomija-mode header .relative div.absolute button {
+  color: #ffffff !important;
+}
+.bhoomija-mode header .relative div.absolute button:hover {
+  background-color: #5c1212 !important;
+  color: #ffffff !important;
 }
 /* "NLO" lettering inside badge */
 .bhoomija-mode header .text-yellow-400 {
@@ -404,11 +416,21 @@ body {
   border-color: rgba(125, 25, 25, 0.14) !important;
 }
 .bhoomija-mode header .md\:hidden a {
-  color: rgba(125, 25, 25, 0.7) !important;
+  background-color: transparent !important;
+  color: rgba(125, 25, 25, 0.75) !important;
 }
 .bhoomija-mode header .md\:hidden a:hover {
-  background-color: rgba(125, 25, 25, 0.07) !important;
+  background-color: rgba(125, 25, 25, 0.08) !important;
   color: #7d1919 !important;
+}
+/* Active link in mobile drawer */
+.bhoomija-mode header .md\:hidden a[class*="text-indigo-"],
+.bhoomija-mode header .md\:hidden a[class*="bg-slate-100"],
+.bhoomija-mode header .md\:hidden a[class*="bg-slate-900"],
+.bhoomija-mode header .md\:hidden a[class*="dark:bg-slate-900"] {
+  background-color: #7d1919 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
 }
 
 /* ══════════════════════════════════════════════════════════════════════
