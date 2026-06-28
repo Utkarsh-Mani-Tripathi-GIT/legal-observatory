@@ -173,7 +173,7 @@ export async function getArticles(
         const dbArticlesMap = new Map(dbArticles.map((art: any) => [art.slug, art]));
 
         return localArticles.map((local) => {
-          const dbArt = dbArticlesMap.get(local.slug);
+          const dbArt = dbArticlesMap.get(local.slug) as any;
           if (dbArt) {
             const authorDetails = authorsMap.get(dbArt.author_slug);
             const mapped = mapDbArticleToArticleData(dbArt, authorDetails);
