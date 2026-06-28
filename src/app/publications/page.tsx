@@ -174,6 +174,7 @@ export default async function PublicationsPage(props: PageProps) {
                 All Formats
               </Link>
               {[
+                { slug: 'monthly-report', name: 'Monthly Legal Reviews' },
                 { slug: 'judgment', name: 'Judgment Reviews' },
                 { slug: 'policy', name: 'Policy Briefs' },
                 { slug: 'research', name: 'Research Articles' },

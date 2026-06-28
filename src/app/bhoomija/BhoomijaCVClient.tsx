@@ -66,6 +66,15 @@ const EXPERIENCE = [
 
 const PUBLICATIONS = [
   {
+    type: 'Monthly Review',
+    title: 'Monthly Legal Review — Vol. 1 | Issue 1 | June 2026',
+    desc: 'The inaugural Monthly Legal Review covering Supreme Court AI Regulations, Online Gaming Ruling, and Delimitation Battles.',
+    href: '/publications/research/monthly-legal-review-june-2026',
+    tag: 'NLO Monthly Review · June 2026',
+    readOnline: true,
+    comingSoon: false,
+  },
+  {
     type: 'Research Article',
     title: 'Manufacturing Consent: How Political Narratives Are Engineered in India',
     desc: 'Examines the mechanisms through which political consent is manufactured in India — from historical propaganda techniques to modern algorithmic amplification.',
@@ -514,27 +523,12 @@ export default function BhoomijaCVClient() {
                       <span className="bk-pub-card-coming-soon">
                         ⏳ Publishing in progress
                       </span>
-                    ) : pub.type === 'Research Paper' ? null : pub.type !== 'Handbook' ? (
-                      <Link href={pub.href} target="_blank" rel="noopener noreferrer" className="bk-pub-card-link">Read Article →</Link>
-                    ) : null}
+                    ) : (
+                      <Link href={pub.href} target="_blank" rel="noopener noreferrer" className="bk-pub-card-link">
+                        Read Online →
+                      </Link>
+                    )}
                   </div>
-                  {!pub.comingSoon && pub.type === 'Research Paper' && (
-                    <div className="bk-pub-card-cta">
-                      <Link
-                        href={pub.href}
-                        className="bk-pub-card-cta-btn"
-                      >
-                        Read Online
-                      </Link>
-                    </div>
-                  )}
-                  {!pub.comingSoon && pub.type === 'Handbook' && (
-                    <div className="bk-pub-card-cta">
-                      <Link href={pub.href} target="_blank" rel="noopener noreferrer" className="bk-pub-card-cta-btn">
-                        Read Online
-                      </Link>
-                    </div>
-                  )}
                 </div>
               </BorderGlow>
             ))}

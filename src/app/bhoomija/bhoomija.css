@@ -3,6 +3,12 @@
 /* ─────────────────────────────────────────
    BASE
 ───────────────────────────────────────── */
+html.bhoomija-mode,
+body.bhoomija-mode {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
 .bk-page {
   background-color: #f5f0eb;
   min-height: 100vh;
@@ -10,6 +16,8 @@
   font-size: 15px;
   color: #5c1212;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -1541,21 +1549,26 @@
 
 /* Background images for publication cards */
 .bk-pub-bg-1 {
-  background-image: linear-gradient(to bottom, rgba(20, 4, 4, 0.72), rgba(10, 2, 2, 0.88)), url('/images/manufacturing.png');
+  background-image: linear-gradient(to bottom, rgba(20, 4, 4, 0.72), rgba(10, 2, 2, 0.88)), url('/images/monthly_review_june_2026.jpg');
   background-size: cover;
   background-position: center;
 }
 .bk-pub-bg-2 {
-  background-image: linear-gradient(to bottom, rgba(20, 4, 4, 0.72), rgba(10, 2, 2, 0.88)), url('/images/propaganda.jpg');
+  background-image: linear-gradient(to bottom, rgba(20, 4, 4, 0.72), rgba(10, 2, 2, 0.88)), url('/images/manufacturing.png');
   background-size: cover;
   background-position: center;
 }
 .bk-pub-bg-3 {
+  background-image: linear-gradient(to bottom, rgba(20, 4, 4, 0.72), rgba(10, 2, 2, 0.88)), url('/images/propaganda.jpg');
+  background-size: cover;
+  background-position: center;
+}
+.bk-pub-bg-4 {
   background-image: linear-gradient(to bottom, rgba(20, 4, 4, 0.62), rgba(10, 2, 2, 0.78)), url('/images/digital-self-defence.png');
   background-size: cover;
   background-position: center top;
 }
-.bk-pub-bg-4 {
+.bk-pub-bg-5 {
   background-image: linear-gradient(to bottom, rgba(20, 4, 4, 0.72), rgba(10, 2, 2, 0.88)), url('/images/founding_note.jpg');
   background-size: cover;
   background-position: center;

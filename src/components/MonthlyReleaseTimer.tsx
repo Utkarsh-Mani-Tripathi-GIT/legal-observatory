@@ -62,42 +62,8 @@ export default function MonthlyReleaseTimer({
   const [demoTimeOverride, setDemoTimeOverride] = useState<number | null>(null);
 
   useEffect(() => {
-    const calculateTime = () => {
-      const now = new Date();
-      const target = new Date();
-      target.setHours(targetHour, 0, 0, 0);
-
-      let diff = target.getTime() - now.getTime();
-
-      if (demoTimeOverride !== null) {
-        diff = demoTimeOverride;
-      }
-
-      if (diff <= 0) {
-        setIsReleased(true);
-        setTimeLeft({ hours: 0, minutes: 0, seconds: 0 });
-        setShowEarlyAccess(false);
-        return;
-      }
-
-      setIsReleased(false);
-      const hours = Math.floor(diff / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-      setTimeLeft({ hours, minutes, seconds });
-
-      if (diff <= 5 * 60 * 1000) {
-        setShowEarlyAccess(true);
-      } else {
-        setShowEarlyAccess(false);
-      }
-    };
-
-    calculateTime();
-    const interval = setInterval(calculateTime, 1000);
-    return () => clearInterval(interval);
-  }, [targetHour, demoTimeOverride]);
+    setIsReleased(true);
+  }, []);
 
   const [errorMsg, setErrorMsg] = useState('');
 

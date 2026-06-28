@@ -170,30 +170,29 @@ export async function getArticles(
       if (!error && dbArticles) {
         const authors = await getAuthors();
         const authorsMap = new Map(authors.map((a) => [a.slug, a]));
-        
-        return dbArticles
-          .map((art: any) => {
-            const authorDetails = authorsMap.get(art.author_slug);
-            const mapped = mapDbArticleToArticleData(art, authorDetails);
-            const local = localArticlesMap.get(art.slug);
-            if (local) {
-              return {
-                ...mapped,
-                title: local.title || mapped.title,
-                content: local.content || mapped.content,
-                rawContent: local.rawContent || mapped.rawContent,
-                abstract: local.abstract || mapped.abstract,
-                categories: local.categories || mapped.categories,
-                tags: local.tags || mapped.tags,
-                citation: local.citation || mapped.citation,
-                references: local.references || mapped.references,
-                authorDetails: local.authorDetails || mapped.authorDetails,
-                excludeFromArchive: local.excludeFromArchive ?? mapped.excludeFromArchive,
-              };
-            }
-            return mapped;
-          })
-          .filter((art: ArticleData) => localArticlesMap.has(art.slug));
+        const dbArticlesMap = new Map(dbArticles.map((art: any) => [art.slug, art]));
+
+        return localArticles.map((local) => {
+          const dbArt = dbArticlesMap.get(local.slug);
+          if (dbArt) {
+            const authorDetails = authorsMap.get(dbArt.author_slug);
+            const mapped = mapDbArticleToArticleData(dbArt, authorDetails);
+            return {
+              ...mapped,
+              title: local.title || mapped.title,
+              content: local.content || mapped.content,
+              rawContent: local.rawContent || mapped.rawContent,
+              abstract: local.abstract || mapped.abstract,
+              categories: local.categories || mapped.categories,
+              tags: local.tags || mapped.tags,
+              citation: local.citation || mapped.citation,
+              references: local.references || mapped.references,
+              authorDetails: local.authorDetails || mapped.authorDetails,
+              excludeFromArchive: local.excludeFromArchive ?? mapped.excludeFromArchive,
+            };
+          }
+          return local;
+        });
       }
       console.warn('Supabase articles query error, falling back to local files:', error);
     }
