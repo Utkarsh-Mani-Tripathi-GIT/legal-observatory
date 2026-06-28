@@ -127,7 +127,7 @@ export default async function Homepage() {
                 authorDetails: monthlyReview?.authorDetails || {
                   name: 'Bhoomija Khanna',
                   role: 'Research Director',
-                  avatar: '/images/bhoomija_khanna.jpg',
+                  avatar: '/images/bhoomija-avatar.png',
                 },
               }}
             />
