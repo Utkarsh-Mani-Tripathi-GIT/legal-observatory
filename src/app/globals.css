@@ -331,18 +331,7 @@ body {
   border-color: rgba(239, 235, 232, 0.3) !important;
 }
 
-/* Profile dropdown menu */
-.bhoomija-mode header .relative div.absolute {
-  background-color: #7d1919 !important;
-  border-color: rgba(239, 235, 232, 0.2) !important;
-}
-.bhoomija-mode header .relative div.absolute button {
-  color: #ffffff !important;
-}
-.bhoomija-mode header .relative div.absolute button:hover {
-  background-color: #5c1212 !important;
-  color: #ffffff !important;
-}
+
 /* "NLO" lettering inside badge */
 .bhoomija-mode header .text-yellow-400 {
   color: #efebe8 !important;

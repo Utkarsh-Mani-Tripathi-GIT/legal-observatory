@@ -215,7 +215,7 @@ export default function Header() {
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95, y: 10 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg py-2 z-50 overflow-hidden"
+                      className="absolute right-0 mt-2 w-48 bg-[#7d1919] border border-[rgba(239,235,232,0.2)] rounded-xl shadow-lg py-2 z-50 overflow-hidden"
                     >
                       {[
                         { id: 'hero', label: 'Home' },
@@ -237,7 +237,7 @@ export default function Header() {
                             }
                             setIsProfileMenuOpen(false);
                           }}
-                          className="w-full text-left px-4 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-[#7d1919] dark:hover:text-[#c97a7a] transition-colors"
+                          className="w-full text-left px-4 py-2 text-sm text-white hover:bg-[#5c1212] transition-colors"
                         >
                           {section.label}
                         </button>
