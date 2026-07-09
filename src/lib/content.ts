@@ -25,6 +25,7 @@ function mapDbArticleToArticleData(dbArt: any, authorDetails?: AuthorData): Arti
     content: dbArt.content,
     rawContent: dbArt.raw_content || '',
     readingTime: dbArt.reading_time || '5 min read',
+    draft: dbArt.draft || false,
     
     caseSummary: dbArt.case_summary,
     legalPrinciples: dbArt.legal_principles,
@@ -193,7 +194,8 @@ export async function getArticles(
             }
             return mapped;
           })
-          .filter((art: ArticleData) => localArticlesMap.has(art.slug));
+          // Only show articles that exist in local content AND are not drafts
+          .filter((art: ArticleData) => localArticlesMap.has(art.slug) && !art.draft);
 
         return [...mappedDb, ...localOnlyArticles];
       }

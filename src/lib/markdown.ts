@@ -58,6 +58,7 @@ export interface ArticleData {
   content: string; // HTML string
   rawContent: string;
   readingTime: string;
+  draft?: boolean; // if true, article is hidden from public listings
   
   // Type specific metadata
   caseSummary?: string;
@@ -224,7 +225,7 @@ export async function getArticles(
     );
 
     allArticles = allArticles.concat(
-      articles.filter((art): art is ArticleData => art !== undefined)
+      articles.filter((art): art is ArticleData => art !== undefined && !art.draft)
     );
   }
 
