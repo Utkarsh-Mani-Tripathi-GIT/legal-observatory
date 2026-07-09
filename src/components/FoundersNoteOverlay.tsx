@@ -10,24 +10,17 @@ interface FoundersNoteOverlayProps {
 }
 
 export default function FoundersNoteOverlay({ title, htmlContent }: FoundersNoteOverlayProps) {
-  const [isVisible, setIsVisible] = useState(false);
+  const searchParams = useSearchParams();
+  const shouldForceOpen = searchParams.get('show-founders-note') === 'true';
+  const [isVisible, setIsVisible] = useState(() => {
+    if (typeof window === 'undefined') return false;
+
+    const hasAcceptedSession = sessionStorage.getItem('founders-note-accepted');
+    return shouldForceOpen || !hasAcceptedSession;
+  });
   const [hasRead, setHasRead] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  
-  const searchParams = useSearchParams();
   const router = useRouter();
-
-  useEffect(() => {
-    const showParam = searchParams.get('show-founders-note');
-    const hasAcceptedSession = sessionStorage.getItem('founders-note-accepted');
-
-    // Show overlay if forced by URL parameter or if not already accepted in this session
-    if (showParam === 'true' || !hasAcceptedSession) {
-      setIsVisible(true);
-      // Reset read status if forced view
-      setHasRead(false);
-    }
-  }, [searchParams]);
 
   // Fallback check: in case content is short or doesn't overflow, let them skip or auto-read
   useEffect(() => {
@@ -83,7 +76,7 @@ export default function FoundersNoteOverlay({ title, htmlContent }: FoundersNote
               Founding Directive & Observations
             </h2>
             <p className="text-xs text-slate-400 dark:text-slate-500">
-              Please scroll through the Founder's Note to enter the repository.
+              Please scroll through the Founders&apos; Note to enter the repository.
             </p>
           </div>
         </div>

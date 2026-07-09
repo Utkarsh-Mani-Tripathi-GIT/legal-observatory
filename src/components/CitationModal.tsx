@@ -177,7 +177,7 @@ export default function CitationModal({ isOpen, onClose, article }: CitationModa
           <div className="text-[11px] text-slate-400 leading-normal flex items-start space-x-1.5 bg-blue-50/50 dark:bg-indigo-950/20 p-2.5 rounded border border-blue-100/30 dark:border-indigo-900/30">
             <span>&bull;</span>
             <span>
-              This citation is generated automatically using standard styles. Verify against your publisher's guidelines or import directly into your Zotero/Mendelay citation managers.
+              This citation is generated automatically using standard styles. Verify against your publisher&apos;s guidelines or import directly into your Zotero/Mendeley citation managers.
             </span>
           </div>
         </div>

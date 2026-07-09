@@ -38,8 +38,7 @@ function mapDbArticleToArticleData(dbArt: any, authorDetails?: AuthorData): Arti
     
     abstract: dbArt.abstract,
     references: dbArt.references,
-    coverImage: dbArt.cover_image ?? dbArt.coverImage,
-    excludeFromArchive: dbArt.exclude_from_archive ?? false,
+    coverImage: dbArt.cover_image || dbArt.coverImage,
   };
 }
 
@@ -164,35 +163,39 @@ export async function getArticles(
         };
         query = query.eq('type', typeMapping[typeFolder] || typeFolder);
       }
-      
       const { data: dbArticles, error } = await query.order('date', { ascending: false });
       
       if (!error && dbArticles) {
         const authors = await getAuthors();
         const authorsMap = new Map(authors.map((a) => [a.slug, a]));
-        const dbArticlesMap = new Map(dbArticles.map((art: any) => [art.slug, art]));
+        
+        const dbSlugs = new Set(dbArticles.map((art: any) => art.slug));
+        const localOnlyArticles = localArticles.filter((art) => !dbSlugs.has(art.slug));
+        
+        const mappedDb = dbArticles
+          .map((art: any) => {
+            const authorDetails = authorsMap.get(art.author_slug);
+            const mapped = mapDbArticleToArticleData(art, authorDetails);
+            const local = localArticlesMap.get(art.slug);
+            if (local) {
+              return {
+                ...mapped,
+                title: local.title || mapped.title,
+                content: local.content || mapped.content,
+                rawContent: local.rawContent || mapped.rawContent,
+                abstract: local.abstract || mapped.abstract,
+                categories: local.categories || mapped.categories,
+                tags: local.tags || mapped.tags,
+                citation: local.citation || mapped.citation,
+                references: local.references || mapped.references,
+                authorDetails: local.authorDetails || mapped.authorDetails,
+              };
+            }
+            return mapped;
+          })
+          .filter((art: ArticleData) => localArticlesMap.has(art.slug));
 
-        return localArticles.map((local) => {
-          const dbArt = dbArticlesMap.get(local.slug) as any;
-          if (dbArt) {
-            const authorDetails = authorsMap.get(dbArt.author_slug);
-            const mapped = mapDbArticleToArticleData(dbArt, authorDetails);
-            return {
-              ...mapped,
-              title: local.title || mapped.title,
-              content: local.content || mapped.content,
-              rawContent: local.rawContent || mapped.rawContent,
-              abstract: local.abstract || mapped.abstract,
-              categories: local.categories || mapped.categories,
-              tags: local.tags || mapped.tags,
-              citation: local.citation || mapped.citation,
-              references: local.references || mapped.references,
-              authorDetails: local.authorDetails || mapped.authorDetails,
-              excludeFromArchive: local.excludeFromArchive ?? mapped.excludeFromArchive,
-            };
-          }
-          return local;
-        });
+        return [...mappedDb, ...localOnlyArticles];
       }
       console.warn('Supabase articles query error, falling back to local files:', error);
     }
@@ -231,9 +234,8 @@ export async function getArticleBySlug(
           categories: localArticle.categories || mapped.categories,
           tags: localArticle.tags || mapped.tags,
           citation: localArticle.citation || mapped.citation,
-            coverImage: localArticle.coverImage || mapped.coverImage,
           references: localArticle.references || mapped.references,
-          excludeFromArchive: localArticle.excludeFromArchive ?? mapped.excludeFromArchive,
+          coverImage: localArticle.coverImage || mapped.coverImage,
         };
       }
     }
@@ -245,7 +247,6 @@ export async function getArticleBySlug(
 export async function getRelatedArticles(currentArticle: ArticleData, limit: number = 3): Promise<ArticleData[]> {
   const allArticles = await getArticles();
   return allArticles
-    .filter((art) => !art.excludeFromArchive)
     .filter((art) => art.slug !== currentArticle.slug) // exclude current
     .filter((art) => 
       art.categories.some((cat) => currentArticle.categories.includes(cat)) ||

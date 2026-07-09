@@ -2,7 +2,7 @@ import React from 'react';
 import { getArticles, getCategories, getPageViewCount } from '../../lib/content';
 import ArticleCard from '../../components/ArticleCard';
 import Link from 'next/link';
-import { Search, SlidersHorizontal, ArrowUpDown, Tag, Landmark, User, Clock, AlertCircle, FileText } from 'lucide-react';
+import { Search, ArrowUpDown, Tag, Landmark, AlertCircle, FileText } from 'lucide-react';
 
 interface SearchParams {
   q?: string;
@@ -10,6 +10,8 @@ interface SearchParams {
   type?: string;
   tag?: string;
   author?: string;
+  year?: string;
+  readTime?: string;
   sort?: string;
   page?: string;
 }
@@ -31,12 +33,14 @@ export default async function PublicationsPage(props: PageProps) {
   const activeType = params.type || '';
   const activeTag = params.tag || '';
   const author = params.author || '';
+  const year = params.year || '';
+  const readTime = params.readTime || '';
   const sort = params.sort || 'date';
   const pageNum = parseInt(params.page || '1', 10);
   const itemsPerPage = 6;
 
   // Retrieve base content data
-  const rawArticles = (await getArticles()).filter((art) => !art.excludeFromArchive);
+  const rawArticles = await getArticles();
   const categories = await getCategories();
 
   // 1. Filter Articles
@@ -68,7 +72,21 @@ export default async function PublicationsPage(props: PageProps) {
   }
 
   if (author) {
-    filteredArticles = filteredArticles.filter((art) => art.author === author);
+    filteredArticles = filteredArticles.filter((art) => art.authorDetails?.slug === author || art.author === author);
+  }
+
+  if (year) {
+    filteredArticles = filteredArticles.filter((art) => new Date(art.date).getFullYear().toString() === year);
+  }
+
+  if (readTime) {
+    filteredArticles = filteredArticles.filter((art) => {
+      const minutes = parseInt(art.readingTime?.replace(/\D/g, '') || '0', 10);
+      if (readTime === 'short') return minutes <= 5;
+      if (readTime === 'medium') return minutes > 5 && minutes <= 15;
+      if (readTime === 'long') return minutes > 15;
+      return true;
+    });
   }
 
   // 2. Sort Articles
@@ -82,6 +100,18 @@ export default async function PublicationsPage(props: PageProps) {
     );
     articlesWithViews.sort((a, b) => b.views - a.views);
     filteredArticles = articlesWithViews.map((item) => item.art);
+  } else if (sort === 'longest') {
+    filteredArticles.sort((a, b) => parseInt(b.readingTime?.replace(/\D/g, '') || '0', 10) - parseInt(a.readingTime?.replace(/\D/g, '') || '0', 10));
+  } else if (sort === 'shortest') {
+    filteredArticles.sort((a, b) => parseInt(a.readingTime?.replace(/\D/g, '') || '0', 10) - parseInt(b.readingTime?.replace(/\D/g, '') || '0', 10));
+  } else if (sort === 'relevance' && query.trim()) {
+    // Basic relevance sort by keyword match count
+    const cleanQuery = query.toLowerCase().trim();
+    filteredArticles.sort((a, b) => {
+      const scoreA = (a.title.toLowerCase().match(new RegExp(cleanQuery, 'g'))?.length || 0) * 3 + (a.rawContent?.toLowerCase().match(new RegExp(cleanQuery, 'g'))?.length || 0);
+      const scoreB = (b.title.toLowerCase().match(new RegExp(cleanQuery, 'g'))?.length || 0) * 3 + (b.rawContent?.toLowerCase().match(new RegExp(cleanQuery, 'g'))?.length || 0);
+      return scoreB - scoreA;
+    });
   } else {
     // Default: Date Descending
     filteredArticles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -98,9 +128,19 @@ export default async function PublicationsPage(props: PageProps) {
     new Set(rawArticles.flatMap((art) => art.tags))
   ).slice(0, 8);
 
+  // Collect all unique years for year filter
+  const allYears = Array.from(
+    new Set(rawArticles.map((art) => new Date(art.date).getFullYear().toString()))
+  ).sort((a, b) => parseInt(b) - parseInt(a));
+
+  // Collect unique authors for author filter
+  const allAuthors = Array.from(
+    new Map(rawArticles.map((art) => [art.authorDetails?.slug || art.author, art.authorDetails?.name || art.author])).entries()
+  );
+
   // Helper to compile search href parameters
   const getHref = (updates: Partial<SearchParams>, isReset: boolean = false) => {
-    const newParams = isReset ? {} : { q: query, category, type: activeType, tag: activeTag, author, sort, page: pageNum.toString() };
+    const newParams = isReset ? {} : { q: query, category, type: activeType, tag: activeTag, author, year, readTime, sort, page: pageNum.toString() };
     const merged = { ...newParams, ...updates };
     
     // Clear empty parameters
@@ -143,6 +183,8 @@ export default async function PublicationsPage(props: PageProps) {
               {activeType && <input type="hidden" name="type" value={activeType} />}
               {activeTag && <input type="hidden" name="tag" value={activeTag} />}
               {author && <input type="hidden" name="author" value={author} />}
+              {year && <input type="hidden" name="year" value={year} />}
+              {readTime && <input type="hidden" name="readTime" value={readTime} />}
               {sort && <input type="hidden" name="sort" value={sort} />}
               <input
                 type="text"
@@ -174,7 +216,6 @@ export default async function PublicationsPage(props: PageProps) {
                 All Formats
               </Link>
               {[
-                { slug: 'monthly-report', name: 'Monthly Legal Reviews' },
                 { slug: 'judgment', name: 'Judgment Reviews' },
                 { slug: 'policy', name: 'Policy Briefs' },
                 { slug: 'research', name: 'Research Articles' },
@@ -250,6 +291,18 @@ export default async function PublicationsPage(props: PageProps) {
                 >
                   Latest
                 </Link>
+                {query && (
+                  <Link
+                    href={getHref({ sort: 'relevance' })}
+                    className={`px-2.5 py-1 rounded transition-colors font-semibold ${
+                      sort === 'relevance'
+                        ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm'
+                        : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                    }`}
+                  >
+                    Relevance
+                  </Link>
+                )}
                 <Link
                   href={getHref({ sort: 'popularity' })}
                   className={`px-2.5 py-1 rounded transition-colors font-semibold ${
@@ -260,10 +313,20 @@ export default async function PublicationsPage(props: PageProps) {
                 >
                   Popularity
                 </Link>
+                <Link
+                  href={getHref({ sort: 'longest' })}
+                  className={`hidden sm:block px-2.5 py-1 rounded transition-colors font-semibold ${
+                    sort === 'longest'
+                      ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm'
+                      : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                  }`}
+                >
+                  Longest
+                </Link>
               </div>
 
               {/* Reset filter button if active */}
-              {(query || category || activeType || activeTag || author) && (
+              {(query || category || activeType || activeTag || author || year || readTime) && (
                 <Link
                   href={getHref({}, true)}
                   className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline"
@@ -401,6 +464,111 @@ export default async function PublicationsPage(props: PageProps) {
               ))}
             </div>
           </div>
+          
+          {/* Author Filter */}
+          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm glass-card">
+            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
+              <span className="mr-1 text-indigo-500">✍️</span> Author
+            </h3>
+            <div className="flex flex-col space-y-1 text-xs">
+              <Link
+                href={getHref({ author: undefined, page: '1' })}
+                className={`py-1.5 px-2.5 rounded-md transition ${
+                  !author
+                    ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
+                    : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                All Authors
+              </Link>
+              {allAuthors.map(([slug, name]) => (
+                <Link
+                  key={slug}
+                  href={getHref({ author: slug, page: '1' })}
+                  className={`py-1.5 px-2.5 rounded-md transition truncate ${
+                    author === slug
+                      ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
+                      : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                  title={name}
+                >
+                  {name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Year Filter */}
+          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm glass-card">
+            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
+              <span className="mr-1 text-indigo-500">📅</span> Year
+            </h3>
+            <div className="flex flex-wrap gap-1.5">
+              {allYears.map((y) => (
+                <Link
+                  key={y}
+                  href={getHref({ year: year === y ? undefined : y, page: '1' })}
+                  className={`text-[10px] font-bold px-2 py-0.5 rounded border transition-colors ${
+                    year === y
+                      ? 'bg-indigo-600 border-indigo-600 text-white'
+                      : 'border-slate-200 dark:border-slate-800 text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300'
+                  }`}
+                >
+                  {y}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Read Time Filter */}
+          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm glass-card">
+            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
+              <span className="mr-1 text-indigo-500">⏳</span> Read Time
+            </h3>
+            <div className="flex flex-col space-y-1 text-xs">
+              <Link
+                href={getHref({ readTime: undefined, page: '1' })}
+                className={`py-1.5 px-2.5 rounded-md transition ${
+                  !readTime
+                    ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
+                    : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                Any Length
+              </Link>
+              <Link
+                href={getHref({ readTime: 'short', page: '1' })}
+                className={`py-1.5 px-2.5 rounded-md transition ${
+                  readTime === 'short'
+                    ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
+                    : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                Short (&lt; 5 min)
+              </Link>
+              <Link
+                href={getHref({ readTime: 'medium', page: '1' })}
+                className={`py-1.5 px-2.5 rounded-md transition ${
+                  readTime === 'medium'
+                    ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
+                    : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                Medium (5-15 min)
+              </Link>
+              <Link
+                href={getHref({ readTime: 'long', page: '1' })}
+                className={`py-1.5 px-2.5 rounded-md transition ${
+                  readTime === 'long'
+                    ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
+                    : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                Long (&gt; 15 min)
+              </Link>
+            </div>
+          </div>
+
         </aside>
 
       </div>

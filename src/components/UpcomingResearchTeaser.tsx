@@ -68,8 +68,8 @@ export default function UpcomingResearchTeaser({ publishAt, article }: UpcomingR
     };
   }, [publishAt]);
 
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft);
-  const [isPublished, setIsPublished] = useState(false);
+  const initialTimeLeft = calculateTimeLeft();
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>(initialTimeLeft);
 
   // Reminder state
   const [showReminderForm, setShowReminderForm] = useState(false);
@@ -79,23 +79,18 @@ export default function UpcomingResearchTeaser({ publishAt, article }: UpcomingR
 
   useEffect(() => {
     const initial = calculateTimeLeft();
-    setTimeLeft(initial);
-    if (initial.total <= 0) {
-      setIsPublished(true);
-      return;
-    }
+    if (initial.total <= 0) return;
 
     const timer = setInterval(() => {
       const tl = calculateTimeLeft();
       setTimeLeft(tl);
-      if (tl.total <= 0) {
-        setIsPublished(true);
-        clearInterval(timer);
-      }
+      if (tl.total <= 0) clearInterval(timer);
     }, 1000);
 
     return () => clearInterval(timer);
   }, [calculateTimeLeft]);
+
+  const isPublished = timeLeft.total <= 0;
 
   const handleReminderSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,48 +1,20 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { marked } from 'marked';
+import { marked, type Tokens } from 'marked';
 
 const contentDirectory = path.join(process.cwd(), 'content');
 const categoriesPath = path.join(contentDirectory, 'categories.json');
 
 // Configure marked options to include custom heading renderer with anchor IDs
 const customRenderer = new marked.Renderer();
-customRenderer.heading = function (args: any) {
-  let text = '';
-  let depth = 1;
-  if (typeof args === 'object' && args !== null) {
-    text = args.text || '';
-    depth = args.depth || 1;
-  } else {
-    text = arguments[0] || '';
-    depth = arguments[1] || 1;
-  }
+customRenderer.heading = function ({ text, depth }: Tokens.Heading) {
   const slug = text
     .toLowerCase()
     .replace(/[^\w\s-]/g, '')
     .trim()
     .replace(/[\s_]+/g, '-');
   return `<h${depth} id="${slug}">${text}</h${depth}>`;
-};
-
-customRenderer.link = function (args: any) {
-  let href = '';
-  let title = '';
-  let text = '';
-  if (typeof args === 'object' && args !== null) {
-    href = args.href || '';
-    title = args.title || '';
-    text = args.text || '';
-  } else {
-    href = arguments[0] || '';
-    title = arguments[1] || '';
-    text = arguments[2] || '';
-  }
-  const isExternal = href.startsWith('http://') || href.startsWith('https://');
-  const targetAttr = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
-  const titleAttr = title ? ` title="${title}"` : '';
-  return `<a href="${href}"${targetAttr}${titleAttr}>${text}</a>`;
 };
 
 marked.use({ renderer: customRenderer });
@@ -58,7 +30,6 @@ export interface AuthorData {
   role: string;
   avatar: string;
   bio: string;
-  email?: string;
   socialLinks?: {
     twitter?: string;
     linkedin?: string;
@@ -77,7 +48,6 @@ export interface CategoryData {
 export interface ArticleData {
   slug: string;
   type: 'judgment' | 'policy' | 'research' | 'opinion';
-  coverImage?: string;
   format?: 'monthly-report' | 'post' | 'blog'; // content format filter
   title: string;
   author: string; // author slug
@@ -102,7 +72,7 @@ export interface ArticleData {
   
   abstract?: string;
   references?: string[];
-  excludeFromArchive?: boolean;
+  coverImage?: string;
 }
 
 // Helper to calculate reading time
@@ -145,7 +115,6 @@ export function getAuthorBySlug(slug: string): AuthorData | undefined {
       role: data.role || '',
       avatar: data.avatar || '',
       bio: data.bio || '',
-      email: data.email || '',
       socialLinks: data.socialLinks || {},
       content: content,
     };
@@ -206,6 +175,7 @@ export async function getArticleBySlug(
       content: contentHtml,
       rawContent: content,
       readingTime,
+      coverImage: data.coverImage,
       
       // Judgment reviews
       caseSummary: data.caseSummary,
@@ -222,8 +192,6 @@ export async function getArticleBySlug(
       // Research
       abstract: data.abstract,
       references: data.references,
-      coverImage: data.coverImage || data.cover_image,
-      excludeFromArchive: data.excludeFromArchive ?? false,
     };
   } catch (error) {
     console.error(`Error reading article ${typeFolder}/${slug}:`, error);

@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Search, X, BookOpen, AlertCircle, FileText, Compass, Pin } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface SearchResult {
   slug: string;
@@ -23,8 +23,28 @@ export default function SearchOverlay({
 }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
+  const [aiResponse, setAiResponse] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [rateLimitSeconds, setRateLimitSeconds] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  // Rate limit countdown effect
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (rateLimitSeconds > 0) {
+      timer = setInterval(() => {
+        setRateLimitSeconds((prev) => {
+          if (prev <= 1) {
+             setErrorMsg(null);
+             return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [rateLimitSeconds]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -74,21 +94,34 @@ export default function SearchOverlay({
   // Debounced search
   useEffect(() => {
     if (query.trim().length < 2) {
-      setResults([]);
       return;
     }
     const delayDebounce = setTimeout(async () => {
       setIsLoading(true);
       try {
-        const sourceParam = isBhoomijaPage ? '&source=bhoomija' : '';
-        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}${sourceParam}`);
+        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
         if (res.ok) {
           const data = await res.json();
-          setResults(data);
+          setResults(data.results || []);
+          setAiResponse(data.aiResponse || null);
+          setErrorMsg(null);
           setSelectedIndex(-1);
+        } else if (res.status === 429) {
+          const errorData = await res.json();
+          setErrorMsg(errorData.error || 'Rate limit exceeded.');
+          if (errorData.remaining) {
+            setRateLimitSeconds(errorData.remaining);
+          }
+          setResults([]);
+          setAiResponse(null);
+        } else {
+          setResults([]);
+          setAiResponse(null);
+          setErrorMsg('An error occurred during search.');
         }
       } catch (err) {
         console.error('Search error:', err);
+        setErrorMsg('Failed to connect to the search service.');
       } finally {
         setIsLoading(false);
       }
@@ -123,10 +156,14 @@ export default function SearchOverlay({
     return withHighlight && query.trim() ? `${base}?highlight=${encodeURIComponent(query.trim())}` : base;
   };
 
+  const visibleResults = query.trim().length < 2 ? [] : results;
+
   const handleSelect = (result: SearchResult) => {
     router.push(getArticleUrl(result));
     onClose();
     setQuery('');
+    setAiResponse(null);
+    setErrorMsg(null);
   };
 
   const handleJumpToMention = (e: React.MouseEvent, result: SearchResult) => {
@@ -134,6 +171,8 @@ export default function SearchOverlay({
     router.push(getArticleUrl(result, true));
     onClose();
     setQuery('');
+    setAiResponse(null);
+    setErrorMsg(null);
   };
 
   const backdropVariants = {
@@ -206,6 +245,11 @@ export default function SearchOverlay({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
+          {rateLimitSeconds > 0 && (
+            <span className="text-xs font-semibold text-red-500 bg-red-100 px-2 py-1 rounded mr-3 whitespace-nowrap animate-pulse">
+              Wait {rateLimitSeconds}s
+            </span>
+          )}
           <button
             onClick={onClose}
             className={`p-1 rounded-md transition ${closeBtnHover}`}
@@ -227,7 +271,7 @@ export default function SearchOverlay({
             </motion.div>
           )}
 
-          {!isLoading && query.trim().length > 0 && results.length === 0 && (
+          {!isLoading && query.trim().length > 0 && results.length === 0 && !errorMsg && (
             <motion.div
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
@@ -236,6 +280,30 @@ export default function SearchOverlay({
               <AlertCircle className="w-8 h-8 mx-auto mb-2 opacity-50" />
               <p className="text-sm font-medium">No publications match your query.</p>
               <p className="text-xs mt-1">Try searching constitutional law, privacy, or climate change.</p>
+            </motion.div>
+          )}
+
+          {errorMsg && (
+            <motion.div
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="px-4 py-3 mb-2 bg-red-50 text-red-600 border border-red-200 rounded-lg text-sm font-medium mx-2"
+            >
+              <AlertCircle className="w-5 h-5 inline mr-2" />
+              {errorMsg}
+            </motion.div>
+          )}
+
+          {aiResponse && !isLoading && (
+            <motion.div
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="px-4 py-4 mb-3 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-xl mx-2"
+            >
+              <div className="flex items-center mb-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">✨ AI Summary</span>
+              </div>
+              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{aiResponse}</p>
             </motion.div>
           )}
 
@@ -282,7 +350,7 @@ export default function SearchOverlay({
             </motion.div>
           )}
 
-          {!isLoading && results.length > 0 && (
+          {!isLoading && visibleResults.length > 0 && (
             <motion.div
               variants={listVariants}
               initial="hidden"
@@ -290,9 +358,9 @@ export default function SearchOverlay({
               className="space-y-1"
             >
               <div className="px-2 py-1 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                Publications found ({isBhoomijaPage ? results.filter(r => r.authorName.toLowerCase().includes('bhoomija')).length : results.length})
+                Publications found ({isBhoomijaPage ? visibleResults.filter(r => r.authorName.toLowerCase().includes('bhoomija')).length : visibleResults.length})
               </div>
-              {(isBhoomijaPage ? results.filter(r => r.authorName.toLowerCase().includes('bhoomija')) : results).map((result, idx) => (
+              {(isBhoomijaPage ? visibleResults.filter(r => r.authorName.toLowerCase().includes('bhoomija')) : visibleResults).map((result, idx) => (
                 <motion.div
                   key={result.slug}
                   variants={itemVariants}
@@ -305,37 +373,37 @@ export default function SearchOverlay({
                   {/* Main article row */}
                   <button
                     onClick={() => handleSelect(result)}
-                    className="w-full flex items-center justify-between p-3 text-left"
+                    className="w-full flex items-center justify-between p-4 sm:p-3 text-left min-h-[60px]"
                   >
                     <div className="min-w-0 flex-1">
                       <span className={`text-xs uppercase tracking-wider font-semibold ${categoryTextColor}`}>
                         {result.type} &bull; {result.category}
                       </span>
-                      <h4 className={`text-sm font-semibold truncate leading-snug mt-0.5 ${
+                      <h4 className={`text-[15px] sm:text-sm font-semibold truncate leading-snug mt-1 sm:mt-0.5 ${
                         idx === selectedIndex ? highlightText : 'text-slate-800 dark:text-slate-200'
                       }`}>
                         {result.title}
                       </h4>
-                      <span className="text-xs text-slate-400 dark:text-slate-500">
+                      <span className="text-[13px] sm:text-xs text-slate-500 dark:text-slate-500 mt-1 sm:mt-0 block sm:inline">
                         By {result.authorName} &bull; {new Date(result.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
                       </span>
                     </div>
-                    <BookOpen className="w-4 h-4 text-slate-400 opacity-60 ml-3 shrink-0" />
+                    <BookOpen className="w-5 h-5 sm:w-4 sm:h-4 text-slate-400 opacity-60 ml-3 shrink-0" />
                   </button>
 
                   {/* Jump to mention button — only shows when there's a search query */}
                   {query.trim().length >= 2 && (
-                    <div className="px-3 pb-2.5">
+                    <div className="px-4 sm:px-3 pb-3 sm:pb-2.5">
                       <button
                         onClick={(e) => handleJumpToMention(e, result)}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold
+                        className="inline-flex items-center gap-1.5 px-3 py-2 sm:px-2.5 sm:py-1 rounded-md text-xs sm:text-[11px] font-semibold
                           bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400
                           border border-amber-200/60 dark:border-amber-700/30
                           hover:bg-amber-100 dark:hover:bg-amber-900/40
-                          transition-all duration-150 group"
+                          transition-all duration-150 group min-h-[44px] sm:min-h-0"
                         title={`Jump to first mention of "${query}" in this article`}
                       >
-                        <Pin className="w-3 h-3 group-hover:scale-110 transition-transform" />
+                        <Pin className="w-3 h-3 sm:w-3 sm:h-3 group-hover:scale-110 transition-transform" />
                         Jump to &ldquo;{query.trim().length > 20 ? query.trim().slice(0, 20) + '…' : query.trim()}&rdquo; in article →
                       </button>
                     </div>

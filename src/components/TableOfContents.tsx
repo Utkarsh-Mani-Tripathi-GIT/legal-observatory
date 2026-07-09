@@ -42,7 +42,7 @@ export default function TableOfContents() {
       });
     });
 
-    setHeadings(headingList);
+    queueMicrotask(() => setHeadings(headingList));
 
     // IntersectionObserver to track scroll state
     const observerOptions = {

@@ -7,36 +7,35 @@ export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', subject: 'general', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.message) {
+    if (!form.name || !form.email || !(form as any).title || !(form as any).abstract || !form.message) {
       setStatus('error');
       return;
     }
 
-    setStatus('loading');
+    const { name, email, subject, message } = form;
+    const title = (form as any).title;
+    const abstract = (form as any).abstract;
+    const editorNotes = (form as any).editorNotes || 'None';
 
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(form),
-      });
+    const mailtoSubject = `NLO Submission: ${title} [${subject}]`;
+    const mailtoBody = `Name: ${name}
+Email: ${email}
+Category: ${subject}
+Title: ${title}
 
-      const result = await response.json();
+Abstract:
+${abstract}
 
-      if (response.ok && result.success) {
-        setStatus('success');
-        setForm({ name: '', email: '', subject: 'general', message: '' });
-      } else {
-        setStatus('error');
-      }
-    } catch (error) {
-      console.error('Submission failed:', error);
-      setStatus('error');
-    }
+Editor Notes:
+${editorNotes}
+
+Full Text Draft:
+${message}`;
+
+    setStatus('success');
+    window.location.href = `mailto:Nationallegalobservatory@gmail.com?subject=${encodeURIComponent(mailtoSubject)}&body=${encodeURIComponent(mailtoBody)}`;
   };
 
   return (
@@ -127,28 +126,64 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-1">
-              <label className="font-semibold text-slate-700 dark:text-slate-300">Subject Classification</label>
+              <label className="font-semibold text-slate-700 dark:text-slate-300">Article Title</label>
+              <input
+                type="text"
+                required
+                value={(form as any).title || ''}
+                onChange={(e) => setForm({ ...form, title: e.target.value } as any)}
+                placeholder="Title of your submission"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-3 py-2 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-semibold text-slate-700 dark:text-slate-300">Category</label>
               <select
                 value={form.subject}
                 onChange={(e) => setForm({ ...form, subject: e.target.value })}
                 className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-3 py-2 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 font-semibold"
               >
                 <option value="general">General Inquiry</option>
-                <option value="judgment-submission">Judgment Review Proposal</option>
-                <option value="policy-submission">Policy Evaluation Draft</option>
-                <option value="research-submission">Research Paper Submission</option>
-                <option value="correction">Request Correction</option>
+                <option value="judgment-submission">Judgment Review</option>
+                <option value="policy-submission">Policy Brief</option>
+                <option value="research-submission">Research Article</option>
+                <option value="essay">Essay</option>
+                <option value="blog-post">Blog Post</option>
               </select>
             </div>
 
             <div className="space-y-1">
-              <label className="font-semibold text-slate-700 dark:text-slate-300">Query Details / Abstract Draft</label>
+              <label className="font-semibold text-slate-700 dark:text-slate-300">Abstract</label>
               <textarea
                 required
-                rows={5}
+                rows={3}
+                value={(form as any).abstract || ''}
+                onChange={(e) => setForm({ ...form, abstract: e.target.value } as any)}
+                placeholder="A brief summary of your work (150-250 words)..."
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-3 py-2 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 leading-relaxed font-sans"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-semibold text-slate-700 dark:text-slate-300">Editor Notes (Optional)</label>
+              <textarea
+                rows={2}
+                value={(form as any).editorNotes || ''}
+                onChange={(e) => setForm({ ...form, editorNotes: e.target.value } as any)}
+                placeholder="Any special instructions or context for the editorial board..."
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-3 py-2 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 leading-relaxed font-sans"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-semibold text-slate-700 dark:text-slate-300">Paste Full Text Draft</label>
+              <textarea
+                required
+                rows={8}
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
-                placeholder="Paste your inquiry, citation clearance query, or article abstract summary here..."
+                placeholder="Paste the full text of your draft here..."
                 className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-3 py-2 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 leading-relaxed font-sans"
               />
             </div>
@@ -158,7 +193,7 @@ export default function ContactPage() {
               <div className="flex items-center space-x-2 text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/20 p-3 rounded-lg border border-emerald-100/30">
                 <CheckCircle className="w-5 h-5 shrink-0" />
                 <span className="font-semibold">
-                  Thank you! Your inquiry was transmitted to our editors. We will respond within 3-5 academic business days.
+                  Thank you! Your mail client should open with your submission details.
                 </span>
               </div>
             )}
@@ -182,7 +217,7 @@ export default function ContactPage() {
                 <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
               ) : (
                 <>
-                  <span>Transmit Query</span>
+                  <span>Prepare Submission Email</span>
                   <Send className="w-3.5 h-3.5" />
                 </>
               )}

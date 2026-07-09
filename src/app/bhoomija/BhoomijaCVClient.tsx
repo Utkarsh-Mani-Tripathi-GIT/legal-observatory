@@ -4,9 +4,6 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import Link from 'next/link';
 import './bhoomija.css';
 import BorderGlow from '@/components/reactbits/BorderGlow';
-import CurvedLoop from '@/components/reactbits/CurvedLoop';
-import OrbitImages from '@/components/reactbits/OrbitImages';
-import TargetCursor from '@/components/reactbits/TargetCursor';
 
 // ─── Data ──────────────────────────────────────────────────────────────────────
 
@@ -66,15 +63,6 @@ const EXPERIENCE = [
 
 const PUBLICATIONS = [
   {
-    type: 'Monthly Review',
-    title: 'Monthly Legal Review — Vol. 1 | Issue 1 | June 2026',
-    desc: 'The inaugural Monthly Legal Review covering Supreme Court AI Regulations, Online Gaming Ruling, and Delimitation Battles.',
-    href: '/publications/research/monthly-legal-review-june-2026',
-    tag: 'NLO Monthly Review · June 2026',
-    readOnline: true,
-    comingSoon: false,
-  },
-  {
     type: 'Research Article',
     title: 'Manufacturing Consent: How Political Narratives Are Engineered in India',
     desc: 'Examines the mechanisms through which political consent is manufactured in India — from historical propaganda techniques to modern algorithmic amplification.',
@@ -87,19 +75,10 @@ const PUBLICATIONS = [
     type: 'Research Paper',
     title: 'Gender, Propaganda and Patriarchal Power in Indian Democratic Politics',
     desc: 'A socio-legal analysis of gendered rhetoric, political exclusion, and patriarchal propaganda in Indian democratic institutions.',
-    href: '/publications/research/propaganda-patriarchy-democracy?source=bhoomija',
+    href: '/publications/research/propaganda-patriarchy-democracy',
     tag: 'NLO · 2025',
-    readOnline: true,
-    comingSoon: false,
-  },
-  {
-    type: 'Handbook',
-    title: 'Digital Self-Defence Handbook',
-    desc: 'Practical guidance on navigating digital safety, privacy, and self-defence in online spaces, authored and published by Bhoomija Khanna.',
-    href: 'https://media.licdn.com/dms/document/media/v2/D561FAQGL95AefM2ugw/feedshare-document-sanitized-pdf/B56Z6i.cRrJsA8-/0/1780850740601?e=1782990000&v=beta&t=QP1vhu-bMBBqCRfHDG9fcUc1E3Rb5Kqiit0Lve9GTWU',
-    tag: 'NLO · 2025',
-    readOnline: true,
-    comingSoon: false,
+    readOnline: false,
+    comingSoon: true,
   },
   {
     type: 'Founding Editorial',
@@ -327,7 +306,7 @@ export default function BhoomijaCVClient() {
         </div>
         <div className="bk-hero-right">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/bhoomija-desk.png" alt="Bhoomija Khanna — Legal Research Desk" className="bk-hero-photo" />
+          <img src="/BHOOMIJA DESK .png" alt="Bhoomija Khanna — Legal Research Desk" className="bk-hero-photo" />
         </div>
       </section>
 
@@ -347,7 +326,7 @@ export default function BhoomijaCVClient() {
         <div className="bk-about-grid">
           <div className="bk-about-photo-col">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/bhoomija-avatar.png" alt="Bhoomija Khanna" className="bk-about-photo" />
+            <img src="/bhoomija-avatar.png" alt="Bhoomija Khanna" className="bk-about-photo" />
           </div>
           <div className="bk-about-text-col">
             <h2 className="bk-about-heading">Hi, I&apos;m Bhoomija.</h2>
@@ -359,7 +338,7 @@ export default function BhoomijaCVClient() {
             </p>
             <p className="bk-about-body">
               Beyond the classroom, I founded the{' '}
-              <Link href="/" target="_blank" rel="noopener noreferrer" className="bk-inline-link">National Legal Observatory</Link> — an independent
+              <Link href="/" className="bk-inline-link">National Legal Observatory</Link> — an independent
               platform dedicated to tracking India&apos;s constitutional developments, judicial shifts, and
               digital policy. I believe rigorous, accessible legal writing is a democratic necessity, not a
               professional luxury.
@@ -524,9 +503,7 @@ export default function BhoomijaCVClient() {
                         ⏳ Publishing in progress
                       </span>
                     ) : (
-                      <Link href={pub.href} target="_blank" rel="noopener noreferrer" className="bk-pub-card-link">
-                        Read Online →
-                      </Link>
+                      <Link href={pub.href} className="bk-pub-card-link">Read Online →</Link>
                     )}
                   </div>
                 </div>
@@ -589,7 +566,7 @@ export default function BhoomijaCVClient() {
               <div 
                 className="bk-hover-image-reveal"
                 style={{ 
-                  backgroundImage: "url('/images/founding_note.jpg')",
+                  backgroundImage: "url('/founding_note.jpg')",
                 }}
               />
               <div className="bk-hover-content relative z-10">
@@ -599,7 +576,7 @@ export default function BhoomijaCVClient() {
                   An independent research platform dedicated to tracking India&apos;s constitutional law,
                   digital surveillance policies, and judicial updates with rigorous, primary-source analysis.
                 </p>
-                <Link href="/about" target="_blank" rel="noopener noreferrer" className="bk-research-link">View Founder&apos;s Note →</Link>
+                <Link href="/about" className="bk-research-link">View Founder&apos;s Note →</Link>
               </div>
             </div>
           </section>
@@ -639,7 +616,7 @@ export default function BhoomijaCVClient() {
               <div 
                 className="bk-hover-image-reveal"
                 style={{ 
-                  backgroundImage: "url('/images/propaganda.jpg')",
+                  backgroundImage: "url('/propaganda.jpg')",
                 }}
               />
               <div className="bk-hover-content relative z-10">

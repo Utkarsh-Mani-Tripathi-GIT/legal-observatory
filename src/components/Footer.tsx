@@ -3,13 +3,12 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Landmark, ArrowRight, Mail, HelpCircle } from 'lucide-react';
-import HelpDeskModal from './HelpDeskModal';
+import AuthorLink from './AuthorLink';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
-  const [helpDeskOpen, setHelpDeskOpen] = useState(false);
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,8 +43,7 @@ export default function Footer() {
   };
 
   return (
-    <>
-      <footer className="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 mt-20 transition-colors">
+    <footer className="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 mt-20 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           
@@ -60,7 +58,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-500">
-              An independent repository for LLB Students & Legal Authors, policymakers, and practitioners focusing on structural constitutionalism, judicial review analysis, and technological rights frameworks.
+              An independent repository for legal scholars, policymakers, and practitioners focusing on structural constitutionalism, judicial review analysis, and technological rights frameworks.
             </p>
             <div className="flex items-center space-x-3 text-slate-400 dark:text-slate-600">
               <a href="https://www.instagram.com/national.legal.observatory" target="_blank" rel="noopener noreferrer" className="relative group hover:text-indigo-600 dark:hover:text-indigo-400 transition" aria-label="Instagram">
@@ -79,7 +77,7 @@ export default function Footer() {
                   LinkedIn (Bhoomija Khanna)
                 </span>
               </a>
-              <a href="mailto:utkarshmanitripathi2006@gmail.com,Nationallegalobservatory@gmail.com?subject=Request%20Source%20Code%20Access" className="relative group hover:text-indigo-600 dark:hover:text-indigo-400 transition" aria-label="Request GitHub Access">
+              <a href="mailto:Nationallegalobservatory@gmail.com?subject=Request%20Source%20Code%20Access" className="relative group hover:text-indigo-600 dark:hover:text-indigo-400 transition" aria-label="Request GitHub Access">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z" />
                 </svg>
@@ -142,30 +140,22 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <a
-                  href="mailto:Nationallegalobservatory@gmail.com?subject=[Editorial%20Enquiry]%20National%20Legal%20Observatory"
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition block text-left"
-                >
+                <Link href="/contact" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition">
                   Contact Editorial
-                </a>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => setHelpDeskOpen(true)}
-                  className="flex items-center hover:text-indigo-600 dark:hover:text-indigo-400 transition"
-                >
+                <Link href="/contact" className="flex items-center hover:text-indigo-600 dark:hover:text-indigo-400 transition">
                   <HelpCircle className="w-3.5 h-3.5 mr-1" /> Help Desk
-                </button>
+                </Link>
               </li>
               <li>
-                <a
-                  href="https://utkarshmanitripathi.vercel.app/resume/OVERALL/full-resume.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <AuthorLink
+                  slug="utkarsh-mani-tripathi"
                   className="flex items-center gap-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
                 >
                   <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#C9A84C]"></span> The Tech Guy
-                </a>
+                </AuthorLink>
               </li>
             </ul>
           </div>
@@ -222,14 +212,12 @@ export default function Footer() {
 <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
   <p>&copy; {new Date().getFullYear()} National Legal Observatory Platform. All academic rights reserved.</p>
   <div className="flex space-x-4">
-    <a href="#" className="hover:underline">Privacy Policy</a>
-    <a href="#" className="hover:underline">Terms of Service</a>
-    <a href="#" className="hover:underline">Citation Permissions</a>
+    <Link href="/privacy" className="hover:underline">Privacy Policy</Link>
+    <Link href="/terms" className="hover:underline">Terms of Service</Link>
+    <Link href="/citation-permissions" className="hover:underline">Citation Permissions</Link>
   </div>
 </div>
       </div>
     </footer>
-    <HelpDeskModal isOpen={helpDeskOpen} onClose={() => setHelpDeskOpen(false)} />
-    </>
   );
 }

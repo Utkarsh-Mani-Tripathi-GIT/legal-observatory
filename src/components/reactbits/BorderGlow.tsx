@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useCallback, useEffect } from 'react';
+import { useRef, useCallback } from 'react';
 import './BorderGlow.css';
 
 function parseHSL(hslStr: string) {

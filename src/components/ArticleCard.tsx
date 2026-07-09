@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ArticleData } from '../lib/markdown';
 import { Calendar, Clock, User, ArrowUpRight, Pin } from 'lucide-react';
+import AuthorLink from './AuthorLink';
 
 export default function ArticleCard({ article, searchTerm }: { article: ArticleData; searchTerm?: string }) {
   // Map internal database folders to correct URL routes
@@ -14,11 +15,7 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
 
   const folder = typeMapping[article.type] || 'research';
   const articleUrl = `/publications/${folder}/${article.slug}`;
-
-  // Get first category details or fall back
-  const primaryCategory = article.categories[0] || 'general';
   
-  // Format dates beautifully
   const formattedDate = new Date(article.date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -27,15 +24,6 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
 
   return (
     <article className="group relative flex flex-col justify-between p-6 glass-card border border-slate-200/60 dark:border-slate-800/80 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
-      {article.coverImage ? (
-        <div className="overflow-hidden rounded-3xl mb-4">
-          <img
-            src={article.coverImage}
-            alt={article.title}
-            className="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        </div>
-      ) : null}
       <div>
         {/* Top Header Row */}
         <div className="flex items-center justify-between text-xs mb-3 text-slate-400 dark:text-slate-500">
@@ -76,22 +64,27 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
         {/* Footer Info Row */}
       <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-2">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2 text-xs">
+          <div className="flex items-center flex-wrap gap-x-3 gap-y-1 text-xs">
             {article.authorDetails?.avatar ? (
-              <Link href={article.author === 'bhoomija-khanna' ? '/bhoomija' : `/authors/${article.author}`} className="shrink-0">
-                <img
-                  src={article.authorDetails.avatar}
-                  alt={article.authorDetails.name}
-                  className="w-6 h-6 rounded-full object-cover border border-slate-200 dark:border-slate-700 hover:border-indigo-500 hover:scale-110 transition duration-200 cursor-pointer"
-                />
-              </Link>
+              <img
+                src={article.authorDetails.avatar}
+                alt={article.authorDetails.name}
+                className="w-6 h-6 rounded-full object-cover border border-slate-200 dark:border-slate-700"
+              />
             ) : (
               <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
                 <User className="w-3.5 h-3.5" />
               </div>
             )}
-            <span className="font-medium text-slate-700 dark:text-slate-300">
+            <AuthorLink
+              slug={article.author}
+              className="font-medium text-slate-700 dark:text-slate-300 hover:text-indigo-650 dark:hover:text-indigo-400 hover:underline"
+            >
               {article.authorDetails?.name || 'Observatory Editor'}
+            </AuthorLink>
+            <span className="inline-flex items-center gap-1 text-slate-400 dark:text-slate-500">
+              <Calendar className="w-3.5 h-3.5" />
+              {formattedDate}
             </span>
           </div>
 
