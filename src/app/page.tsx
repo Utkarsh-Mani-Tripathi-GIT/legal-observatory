@@ -100,78 +100,54 @@ export default async function Homepage() {
           {/* Left: Featured Paper (Span 2) */}
           {featuredArticle && (
             <div className="lg:col-span-2 flex">
-              <div className="flex flex-col justify-between overflow-hidden bg-white dark:bg-slate-900 border-[1.5px] border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md transition duration-300 relative group flex-grow">
-                {featuredArticle.coverImage && (
-                  <div className="relative w-full h-40 sm:h-52 overflow-hidden border-b border-slate-200/60 dark:border-slate-800">
-                    <img
-                      src={featuredArticle.coverImage}
-                      alt={featuredArticle.title}
-                      className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                    />
-                  </div>
-                )}
-                <div className="p-5 flex-grow flex flex-col justify-between">
-                  <div>
-                  <div className="flex items-center space-x-3 text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-widest font-bold mb-3">
-                    <span className="px-2.5 py-0.5 rounded bg-indigo-50 dark:bg-slate-800 text-[10px]">
-                      Featured {featuredArticle.type}
-                    </span>
-                    <span>&bull;</span>
-                    <span>{featuredArticle.readingTime}</span>
-                  </div>
-                  
-                  <h3 className="font-serif text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white leading-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                    <Link href={`/publications/${featuredArticle.type === 'judgment' ? 'judgments' : featuredArticle.type === 'policy' ? 'policies' : featuredArticle.type === 'research' ? 'research' : 'opinions'}/${featuredArticle.slug}`}>
-                      {featuredArticle.title}
-                    </Link>
-                  </h3>
-                  
-                  <p className="text-slate-500 dark:text-slate-400 mt-3 leading-relaxed text-sm line-clamp-2">
-                    {featuredArticle.abstract || featuredArticle.caseSummary || featuredArticle.policyOverview}
-                  </p>
+              <div className="flex flex-col bg-white dark:bg-slate-900 border-[1.5px] border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md transition duration-300 group flex-grow p-5">
 
-                  <div className="flex flex-wrap gap-1 mt-4">
-                    {featuredArticle.tags.slice(0, 3).map((tag) => (
-                      <span key={tag} className="text-[10px] uppercase font-semibold tracking-wider text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-800/80 px-2 py-0.5 rounded">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                {/* Badge + reading time */}
+                <div className="flex items-center gap-2.5 text-[10px] uppercase tracking-widest font-bold text-indigo-600 dark:text-indigo-400 mb-3">
+                  <span className="px-2 py-0.5 rounded bg-indigo-50 dark:bg-slate-800">Featured</span>
+                  <span className="text-slate-300 dark:text-slate-600">•</span>
+                  <span className="text-slate-400 dark:text-slate-500 font-medium normal-case tracking-normal">{featuredArticle.readingTime}</span>
                 </div>
 
-                <div className="flex items-center justify-between mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
-                  <div className="flex items-center space-x-2.5">
+                {/* Title */}
+                <h3 className="font-serif text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  <Link href={`/publications/${featuredArticle.type === 'judgment' ? 'judgments' : featuredArticle.type === 'policy' ? 'policies' : featuredArticle.type === 'research' ? 'research' : 'opinions'}/${featuredArticle.slug}`}>
+                    {featuredArticle.title}
+                  </Link>
+                </h3>
+
+                {/* Abstract */}
+                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mt-2.5 line-clamp-2">
+                  {featuredArticle.abstract || featuredArticle.caseSummary || featuredArticle.policyOverview}
+                </p>
+
+                {/* Spacer */}
+                <div className="flex-grow min-h-[1rem]" />
+
+                {/* Author + Button */}
+                <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800 mt-4">
+                  <div className="flex items-center gap-2.5">
                     {featuredArticle.authorDetails?.avatar && (
                       <img
                         src={featuredArticle.authorDetails.avatar}
                         alt={featuredArticle.authorDetails.name}
-                        className="w-8 h-8 rounded-full object-cover border border-slate-200 dark:border-slate-700"
+                        className="w-7 h-7 rounded-full object-cover border border-slate-200 dark:border-slate-700 shrink-0"
                       />
                     )}
-                    <div>
-                      <h4 className="text-xs font-semibold text-slate-800 dark:text-slate-200">
-                        <AuthorLink
-                          slug={featuredArticle.author}
-                          className="hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline"
-                        >
-                          {featuredArticle.authorDetails?.name}
-                        </AuthorLink>
-                      </h4>
-                      <p className="text-[11px] text-slate-400 dark:text-slate-500">
-                        {featuredArticle.authorDetails?.role}
-                      </p>
-                    </div>
+                    <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                      {featuredArticle.authorDetails?.name}
+                    </span>
                   </div>
                   <Link
                     href={`/publications/${featuredArticle.type === 'judgment' ? 'judgments' : featuredArticle.type === 'policy' ? 'policies' : featuredArticle.type === 'research' ? 'research' : 'opinions'}/${featuredArticle.slug}`}
-                    className="px-3.5 py-1.5 text-xs font-bold bg-indigo-600 hover:bg-indigo-750 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white dark:text-slate-950 rounded-lg shadow-sm transition"
+                    className="px-3.5 py-1.5 text-xs font-bold bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white rounded-lg shadow-sm transition shrink-0"
                   >
-                    Read Full Paper
+                    Read Article →
                   </Link>
                 </div>
+
               </div>
             </div>
-          </div>
           )}
 
           {/* Right: Recent Papers List */}
