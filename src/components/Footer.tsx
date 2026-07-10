@@ -4,11 +4,13 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Landmark, ArrowRight, Mail, HelpCircle } from 'lucide-react';
 import AuthorLink from './AuthorLink';
+import HelpDeskModal from './HelpDeskModal';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
+  const [helpDeskOpen, setHelpDeskOpen] = useState(false);
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,14 +45,15 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 mt-20 transition-colors">
+    <>
+      <footer className="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 mt-20 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           
-          {/* Column 1: Brand & Mission */}
-          <div className="space-y-4 md:col-span-1">
+          {/* Column 1: Brand & Description */}
+          <div className="space-y-4">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="p-1.5 bg-indigo-600 text-white rounded">
+              <div className="p-1.5 bg-[#7d1919] text-white rounded-lg">
                 <Landmark className="w-5 h-5" />
               </div>
               <span className="font-serif text-lg font-bold tracking-tight text-slate-900 dark:text-white">
@@ -58,16 +61,15 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-500">
-              An independent repository for legal scholars, policymakers, and practitioners focusing on structural constitutionalism, judicial review analysis, and technological rights frameworks.
+              An independent repository for LLB Students & Legal Authors, policymakers, and practitioners focusing on structural constitutionalism, judicial review analysis, and technological rights frameworks.
             </p>
             <div className="flex items-center space-x-3 text-slate-400 dark:text-slate-600">
               <a href="https://www.instagram.com/national.legal.observatory" target="_blank" rel="noopener noreferrer" className="relative group hover:text-indigo-600 dark:hover:text-indigo-400 transition" aria-label="Instagram">
-                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                 </svg>
-                <span className="absolute -top-8 left-1/2 -translate-x-1/2 scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-200 bg-slate-800 text-white text-[11px] px-2 py-1 rounded shadow-md whitespace-nowrap pointer-events-none z-10 font-medium">
-                  Instagram (@national.legal.observatory)
-                </span>
               </a>
               <a href="https://linkedin.com/in/bhoomija-khanna-268995368" target="_blank" rel="noopener noreferrer" className="relative group hover:text-indigo-600 dark:hover:text-indigo-400 transition" aria-label="LinkedIn">
                 <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -140,22 +142,30 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition">
+                <a
+                  href="mailto:Nationallegalobservatory@gmail.com?subject=[Editorial%20Enquiry]%20National%20Legal%20Observatory"
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 transition block text-left"
+                >
                   Contact Editorial
-                </Link>
+                </a>
               </li>
               <li>
-                <Link href="/contact" className="flex items-center hover:text-indigo-600 dark:hover:text-indigo-400 transition">
+                <button
+                  onClick={() => setHelpDeskOpen(true)}
+                  className="flex items-center hover:text-indigo-600 dark:hover:text-indigo-400 transition text-left cursor-pointer"
+                >
                   <HelpCircle className="w-3.5 h-3.5 mr-1" /> Help Desk
-                </Link>
+                </button>
               </li>
               <li>
-                <AuthorLink
-                  slug="utkarsh-mani-tripathi"
-                  className="flex items-center gap-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+                <a
+                  href="https://utkarshmanitripathi.vercel.app/resume/OVERALL/full-resume.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition font-medium"
                 >
                   <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#C9A84C]"></span> The Tech Guy
-                </AuthorLink>
+                </a>
               </li>
             </ul>
           </div>
@@ -219,5 +229,7 @@ export default function Footer() {
 </div>
       </div>
     </footer>
+    <HelpDeskModal isOpen={helpDeskOpen} onClose={() => setHelpDeskOpen(false)} />
+    </>
   );
 }

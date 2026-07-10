@@ -64,6 +64,15 @@ const EXPERIENCE = [
 
 const PUBLICATIONS = [
   {
+    type: 'Monthly Review',
+    title: 'Monthly Legal Review — Vol. 1 | Issue 1 | June 2026',
+    desc: 'The inaugural Monthly Legal Review covering Supreme Court AI Regulations, Online Gaming Ruling, and Delimitation Battles.',
+    href: '/publications/research/monthly-legal-review-june-2026',
+    tag: 'NLO Monthly Review · June 2026',
+    readOnline: true,
+    comingSoon: false,
+  },
+  {
     type: 'Research Article',
     title: 'Manufacturing Consent: How Political Narratives Are Engineered in India',
     desc: 'Examines the mechanisms through which political consent is manufactured in India — from historical propaganda techniques to modern algorithmic amplification.',
@@ -77,6 +86,15 @@ const PUBLICATIONS = [
     title: 'Gender, Propaganda and Patriarchal Power in Indian Democratic Politics',
     desc: 'A socio-legal analysis of gendered rhetoric, political exclusion, and patriarchal propaganda in Indian democratic institutions.',
     href: '/bhoomija/research/propaganda-patriarchy-democracy',
+    tag: 'NLO · 2025',
+    readOnline: true,
+    comingSoon: false,
+  },
+  {
+    type: 'Handbook',
+    title: 'Digital Self-Defence Handbook',
+    desc: 'Practical guidance on navigating digital safety, privacy, and self-defence in online spaces, authored and published by Bhoomija Khanna.',
+    href: 'https://media.licdn.com/dms/document/media/v2/D561FAQGL95AefM2ugw/feedshare-document-sanitized-pdf/B56Z6i.cRrJsA8-/0/1780850740601?e=1782990000&v=beta&t=QP1vhu-bMBBqCRfHDG9fcUc1E3Rb5Kqiit0Lve9GTWU',
     tag: 'NLO · 2025',
     readOnline: true,
     comingSoon: false,
@@ -490,26 +508,44 @@ export default function BhoomijaCVClient() {
           </div>
 
           <div className="bk-pub-grid">
-            {PUBLICATIONS.map((pub, i) => (
-              <BorderGlow key={i} className="bk-pub-card" glowColor="#7d1919" colors={['#a01e1e', '#c97a7a', '#7d1919']} backgroundColor="transparent">
-                <div className={`bk-pub-card-bg bk-pub-bg-${i + 1}`} />
-                <div className="bk-pub-card-overlay">
-                  <p className="bk-pub-card-type">{pub.type}</p>
-                  <h3 className="bk-pub-card-title">{pub.title}</h3>
-                  <p className="bk-pub-card-desc">{pub.desc}</p>
-                  <p className="bk-pub-card-tag">{pub.tag}</p>
-                  <div className="bk-pub-card-links">
-                    {pub.comingSoon ? (
-                      <span className="bk-pub-card-coming-soon">
-                        ⏳ Publishing in progress
-                      </span>
-                    ) : (
-                      <Link href={pub.href} className="bk-pub-card-link">Read Online →</Link>
-                    )}
+            {PUBLICATIONS.map((pub, i) => {
+              const cardContent = (
+                <>
+                  <div className={`bk-pub-card-bg bk-pub-bg-${i + 1}`} />
+                  <div className="bk-pub-card-overlay">
+                    <p className="bk-pub-card-type">{pub.type}</p>
+                    <h3 className="bk-pub-card-title">{pub.title}</h3>
+                    <p className="bk-pub-card-desc">{pub.desc}</p>
+                    <p className="bk-pub-card-tag">{pub.tag}</p>
+                    <div className="bk-pub-card-links">
+                      {pub.comingSoon ? (
+                        <span className="bk-pub-card-coming-soon">
+                          ⏳ Publishing in progress
+                        </span>
+                      ) : (
+                        <span className="bk-pub-card-link">Read Online →</span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </BorderGlow>
-            ))}
+                </>
+              );
+
+              if (pub.comingSoon) {
+                return (
+                  <BorderGlow key={i} className="bk-pub-card select-none" glowColor="#7d1919" colors={['#a01e1e', '#c97a7a', '#7d1919']} backgroundColor="transparent">
+                    {cardContent}
+                  </BorderGlow>
+                );
+              }
+
+              return (
+                <a key={i} href={pub.href} target="_blank" rel="noopener noreferrer" className="bk-pub-card-anchor block no-underline">
+                  <BorderGlow className="bk-pub-card cursor-pointer" glowColor="#7d1919" colors={['#a01e1e', '#c97a7a', '#7d1919']} backgroundColor="transparent">
+                    {cardContent}
+                  </BorderGlow>
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>
