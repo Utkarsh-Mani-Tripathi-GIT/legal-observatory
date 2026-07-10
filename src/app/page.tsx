@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { getArticles, getAuthors } from '../lib/content';
-import ArticleCard from '../components/ArticleCard';
 import UpcomingResearchTeaser from '../components/UpcomingResearchTeaser';
 import AuthorLink from '../components/AuthorLink';
 import { Landmark, Users, ArrowRight } from 'lucide-react';
@@ -150,14 +149,41 @@ export default async function Homepage() {
             </div>
           )}
 
-          {/* Right: Recent Papers List */}
-          <div className="flex flex-col gap-6">
+          {/* Right: Recent Submissions */}
+          <div className="flex flex-col gap-4">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block">
               Recent Submissions
             </span>
-            {recentArticles.map((art) => (
-              <ArticleCard key={art.slug} article={art} />
-            ))}
+            {recentArticles.map((art) => {
+              const folder = art.type === 'judgment' ? 'judgments' : art.type === 'policy' ? 'policies' : art.type === 'research' ? 'research' : 'opinions';
+              const url = `/publications/${folder}/${art.slug}`;
+              return (
+                <div key={art.slug} className="group flex flex-col bg-white dark:bg-slate-900 border-[1.5px] border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm hover:shadow-md transition duration-300">
+                  {/* Badge + reading time */}
+                  <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-indigo-600 dark:text-indigo-400 mb-2">
+                    <span className="px-2 py-0.5 rounded bg-indigo-50 dark:bg-slate-800">{art.type}</span>
+                    <span className="text-slate-300 dark:text-slate-600">•</span>
+                    <span className="text-slate-400 dark:text-slate-500 font-medium normal-case tracking-normal">{art.readingTime}</span>
+                  </div>
+                  {/* Title */}
+                  <h3 className="font-serif text-sm font-bold text-slate-900 dark:text-white leading-snug line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                    <Link href={url}>{art.title}</Link>
+                  </h3>
+                  {/* Author + Read link */}
+                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+                    <div className="flex items-center gap-2">
+                      {art.authorDetails?.avatar && (
+                        <img src={art.authorDetails.avatar} alt={art.authorDetails.name} className="w-5 h-5 rounded-full object-cover border border-slate-200 dark:border-slate-700 shrink-0" />
+                      )}
+                      <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-400">{art.authorDetails?.name}</span>
+                    </div>
+                    <Link href={url} className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline shrink-0">
+                      Read →
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
