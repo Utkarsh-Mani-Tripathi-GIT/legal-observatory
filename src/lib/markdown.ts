@@ -176,7 +176,7 @@ export async function getArticleBySlug(
       tags: data.tags || [],
       content: contentHtml,
       rawContent: content,
-      readingTime,
+      readingTime: data.readingTime || readingTime,
       coverImage: data.coverImage,
       
       // Judgment reviews
