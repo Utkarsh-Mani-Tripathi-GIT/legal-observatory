@@ -8,6 +8,7 @@ import HighlightMention from '../../../../components/HighlightMention';
 import ReadingProgressBar from '../../../../components/ReadingProgressBar';
 import AuthorLink from '../../../../components/AuthorLink';
 import Link from 'next/link';
+import Avatar from '../../../../components/Avatar';
 import { Calendar, Clock, User, ArrowLeft, FileText } from 'lucide-react';
 import CiteSection from './CiteSection';
 
@@ -344,13 +345,11 @@ export default async function ArticlePage(props: PageProps) {
             </div>
 
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3">
-              {article.authorDetails?.avatar && (
-                <img
-                  src={article.authorDetails.avatar}
-                  alt={article.authorDetails.name}
-                  className="w-12 h-12 rounded-full object-cover border border-slate-100 dark:border-slate-800"
-                />
-              )}
+              <Avatar
+                src={article.authorDetails?.avatar}
+                alt={article.authorDetails?.name || 'Author'}
+                className="w-12 h-12 rounded-full object-cover border border-slate-100 dark:border-slate-800"
+              />
               <div className="space-y-1">
                 <AuthorLink
                   slug={article.author}

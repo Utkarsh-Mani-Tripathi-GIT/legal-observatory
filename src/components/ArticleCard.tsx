@@ -1,8 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArticleData } from '../lib/markdown';
-import { Calendar, Clock, User, ArrowUpRight, Pin } from 'lucide-react';
+import { Calendar, Clock, ArrowUpRight, Pin } from 'lucide-react';
 import AuthorLink from './AuthorLink';
+import Avatar from './Avatar';
 
 export default function ArticleCard({ article, searchTerm }: { article: ArticleData; searchTerm?: string }) {
   // Map internal database folders to correct URL routes
@@ -65,17 +66,11 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
       <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center flex-wrap gap-x-3 gap-y-1 text-xs">
-            {article.authorDetails?.avatar ? (
-              <img
-                src={article.authorDetails.avatar}
-                alt={article.authorDetails.name}
-                className="w-6 h-6 rounded-full object-cover border border-slate-200 dark:border-slate-700"
-              />
-            ) : (
-              <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
-                <User className="w-3.5 h-3.5" />
-              </div>
-            )}
+            <Avatar
+              src={article.authorDetails?.avatar}
+              alt={article.authorDetails?.name || 'Author'}
+              className="w-6 h-6 rounded-full object-cover border border-slate-200 dark:border-slate-700"
+            />
             <AuthorLink
               slug={article.author}
               className="font-medium text-slate-700 dark:text-slate-300 hover:text-indigo-650 dark:hover:text-indigo-400 hover:underline"

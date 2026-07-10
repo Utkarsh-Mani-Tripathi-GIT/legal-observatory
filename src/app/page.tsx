@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getArticles, getAuthors } from '../lib/content';
 import UpcomingResearchTeaser from '../components/UpcomingResearchTeaser';
 import AuthorLink from '../components/AuthorLink';
+import Avatar from '../components/Avatar';
 import { Landmark, Users, ArrowRight } from 'lucide-react';
 
 export default async function Homepage() {
@@ -126,13 +127,11 @@ export default async function Homepage() {
                 {/* Author + Button */}
                 <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800 mt-4">
                   <div className="flex items-center gap-2.5">
-                    {featuredArticle.authorDetails?.avatar && (
-                      <img
-                        src={featuredArticle.authorDetails.avatar}
-                        alt={featuredArticle.authorDetails.name}
-                        className="w-7 h-7 rounded-full object-cover border border-slate-200 dark:border-slate-700 shrink-0"
-                      />
-                    )}
+                    <Avatar
+                      src={featuredArticle.authorDetails?.avatar}
+                      alt={featuredArticle.authorDetails?.name || 'Author'}
+                      className="w-7 h-7 rounded-full object-cover border border-slate-200 dark:border-slate-700 shrink-0"
+                    />
                     <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                       {featuredArticle.authorDetails?.name}
                     </span>
@@ -172,9 +171,11 @@ export default async function Homepage() {
                   {/* Author + Read link */}
                   <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100 dark:border-slate-800">
                     <div className="flex items-center gap-2">
-                      {art.authorDetails?.avatar && (
-                        <img src={art.authorDetails.avatar} alt={art.authorDetails.name} className="w-5 h-5 rounded-full object-cover border border-slate-200 dark:border-slate-700 shrink-0" />
-                      )}
+                      <Avatar
+                        src={art.authorDetails?.avatar}
+                        alt={art.authorDetails?.name || 'Author'}
+                        className="w-5 h-5 rounded-full object-cover border border-slate-200 dark:border-slate-700 shrink-0"
+                      />
                       <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-400">{art.authorDetails?.name}</span>
                     </div>
                     <Link href={url} className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline shrink-0">
@@ -237,7 +238,7 @@ export default async function Homepage() {
               key={author.slug}
               className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 p-6 bg-white dark:bg-slate-900 border-[1.5px] border-slate-200 dark:border-slate-800 rounded-xl"
             >
-              <img
+              <Avatar
                 src={author.avatar}
                 alt={author.name}
                 className="w-16 h-16 rounded-full object-cover border-2 border-slate-100 dark:border-slate-800 shrink-0"

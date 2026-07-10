@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mail, FileText, Users, Scale, Shield, Globe } from 'lucide-react';
 import Link from 'next/link';
+import Avatar from '../../components/Avatar';
 
 export const metadata = {
   title: 'About the Observatory',
@@ -95,7 +96,7 @@ export default function AboutPage() {
           </article>
 
           <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center gap-4">
-            <img
+            <Avatar
               src="/bhoomija-avatar.png"
               alt="Bhoomija Khanna"
               className="w-14 h-14 rounded-full object-cover border-2 border-white dark:border-slate-800 shadow-sm"
@@ -126,7 +127,7 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Board Member Card Placeholder */}
           <div className="flex items-center gap-4 p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-md transition">
-            <img src="/bhoomija-avatar.png" alt="Bhoomija Khanna" className="w-16 h-16 rounded-full object-cover" />
+            <Avatar src="/bhoomija-avatar.png" alt="Bhoomija Khanna" className="w-16 h-16 rounded-full object-cover" />
             <div>
               <h4 className="font-bold text-slate-900 dark:text-white">Bhoomija Khanna</h4>
               <p className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold mb-1">Editor-in-Chief</p>

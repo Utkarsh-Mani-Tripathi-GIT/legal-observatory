@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Shield, Cpu, ArrowRight } from 'lucide-react';
 import AuthorLink from '../../components/AuthorLink';
+import Avatar from '../../components/Avatar';
 
 export const metadata = {
   title: 'Observatory Contributors',
@@ -43,8 +44,8 @@ export default function AuthorsPage() {
 
             {/* Bhoomija Card */}
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 pt-2">
-              <img
-                src="/images/bhoomija-avatar.png"
+              <Avatar
+                src="/bhoomija-avatar.png"
                 alt="Bhoomija Khanna"
                 className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-[3px] border-slate-100 dark:border-slate-800 shrink-0 shadow-sm"
               />

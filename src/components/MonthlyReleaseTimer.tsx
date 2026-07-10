@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, Bell, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
+import Avatar from './Avatar';
 
 interface MonthlyReleaseTimerProps {
   targetHour?: number; // default 18 (6 PM)
@@ -156,7 +157,7 @@ export default function MonthlyReleaseTimer({
               <div className="flex items-center space-x-3">
                 {monthlyReviewArticle.authorDetails?.avatar && (
                   <Link href="/bhoomija" className="shrink-0">
-                    <img
+                    <Avatar
                       src={monthlyReviewArticle.authorDetails.avatar}
                       alt={monthlyReviewArticle.authorDetails.name}
                       className="w-8 h-8 rounded-full object-cover border border-slate-200 dark:border-slate-700 hover:border-indigo-500 hover:scale-105 transition duration-200 cursor-pointer"

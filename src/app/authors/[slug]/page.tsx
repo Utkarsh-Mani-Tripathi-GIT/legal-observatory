@@ -4,6 +4,7 @@ import { getAuthorBySlug, getArticles } from '../../../lib/content';
 import ArticleCard from '../../../components/ArticleCard';
 import Link from 'next/link';
 import { ArrowLeft, Globe, BookOpen } from 'lucide-react';
+import Avatar from '../../../components/Avatar';
 import AuthorInteractions from '../../../components/AuthorInteractions';
 
 interface PageProps {
@@ -50,7 +51,7 @@ export default async function AuthorProfilePage(props: PageProps) {
       {/* Author Info Panel */}
       <AuthorInteractions>
         <section className="p-8 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-2xl shadow-sm flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6">
-          <img
+          <Avatar
             src={author.avatar}
             alt={author.name}
             className="w-24 h-24 rounded-full object-cover border-2 border-slate-100 dark:border-slate-800 shadow-inner shrink-0"

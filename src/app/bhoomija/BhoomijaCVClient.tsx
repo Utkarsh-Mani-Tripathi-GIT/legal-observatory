@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 import Link from 'next/link';
+import Avatar from '../../components/Avatar';
 import './bhoomija.css';
 import BorderGlow from '@/components/reactbits/BorderGlow';
 
@@ -326,7 +327,7 @@ export default function BhoomijaCVClient() {
         <div className="bk-about-grid">
           <div className="bk-about-photo-col">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/bhoomija-avatar.png" alt="Bhoomija Khanna" className="bk-about-photo" />
+            <Avatar src="/bhoomija-avatar.png" alt="Bhoomija Khanna" className="bk-about-photo" />
           </div>
           <div className="bk-about-text-col">
             <h2 className="bk-about-heading">Hi, I&apos;m Bhoomija.</h2>
