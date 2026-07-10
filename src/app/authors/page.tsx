@@ -44,7 +44,7 @@ export default function AuthorsPage() {
             {/* Bhoomija Card */}
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 pt-2">
               <img
-                src="/bhoomija-avatar.png"
+                src="/images/bhoomija-avatar.png"
                 alt="Bhoomija Khanna"
                 className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-[3px] border-slate-100 dark:border-slate-800 shrink-0 shadow-sm"
               />
@@ -92,11 +92,12 @@ export default function AuthorsPage() {
 
             {/* Utkarsh Card */}
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 pt-2">
-            <img
-                src="/utkarsh-avatar.svg"
-                alt="Utkarsh Mani Tripathi"
-                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-[3px] border-slate-100 dark:border-slate-800 shrink-0 shadow-sm"
-              />
+              <div
+                aria-label="Utkarsh Mani Tripathi"
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-[3px] border-slate-100 dark:border-slate-800 shrink-0 shadow-sm bg-slate-950 dark:bg-slate-950 flex items-center justify-center select-none"
+              >
+                <span className="text-4xl sm:text-5xl leading-none" role="img" aria-label="spider">🕷️</span>
+              </div>
               <div className="space-y-2 text-center sm:text-left">
                 <div>
                   <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
