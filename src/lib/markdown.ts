@@ -59,6 +59,7 @@ export interface ArticleData {
   rawContent: string;
   readingTime: string;
   draft?: boolean; // if true, article is hidden from public listings
+  private?: boolean; // if true, only accessible from Bhoomija's profile reader
   
   // Type specific metadata
   caseSummary?: string;
@@ -193,6 +194,9 @@ export async function getArticleBySlug(
       // Research
       abstract: data.abstract,
       references: data.references,
+      // Access control
+      draft: data.draft || false,
+      private: data.private || false,
     };
   } catch (error) {
     console.error(`Error reading article ${typeFolder}/${slug}:`, error);
@@ -225,7 +229,7 @@ export async function getArticles(
     );
 
     allArticles = allArticles.concat(
-      articles.filter((art): art is ArticleData => art !== undefined && !art.draft)
+      articles.filter((art): art is ArticleData => art !== undefined && !art.draft && !art.private)
     );
   }
 

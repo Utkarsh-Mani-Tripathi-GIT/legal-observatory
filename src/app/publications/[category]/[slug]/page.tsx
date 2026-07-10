@@ -58,6 +58,8 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   };
 }
 
+import { redirect } from 'next/navigation';
+
 export default async function ArticlePage(props: PageProps) {
   const resolvedParams = await props.params;
   const folderMapping: Record<string, 'judgments' | 'policies' | 'research' | 'opinions'> = {
@@ -75,6 +77,11 @@ export default async function ArticlePage(props: PageProps) {
   const article = await getArticleBySlug(folder, resolvedParams.slug);
   if (!article) {
     return notFound();
+  }
+
+  // Private articles are only accessible from Bhoomija's profile reader
+  if (article.private) {
+    redirect('/bhoomija');
   }
 
   const related = await getRelatedArticles(article, 3);

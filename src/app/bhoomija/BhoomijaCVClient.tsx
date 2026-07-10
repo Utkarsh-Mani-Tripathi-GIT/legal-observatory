@@ -76,10 +76,10 @@ const PUBLICATIONS = [
     type: 'Research Paper',
     title: 'Gender, Propaganda and Patriarchal Power in Indian Democratic Politics',
     desc: 'A socio-legal analysis of gendered rhetoric, political exclusion, and patriarchal propaganda in Indian democratic institutions.',
-    href: '/publications/research/propaganda-patriarchy-democracy',
+    href: '/bhoomija/research/propaganda-patriarchy-democracy',
     tag: 'NLO · 2025',
-    readOnline: false,
-    comingSoon: true,
+    readOnline: true,
+    comingSoon: false,
   },
   {
     type: 'Founding Editorial',
@@ -307,7 +307,7 @@ export default function BhoomijaCVClient() {
         </div>
         <div className="bk-hero-right">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/BHOOMIJA DESK .png" alt="Bhoomija Khanna — Legal Research Desk" className="bk-hero-photo" />
+          <img src="/images/bhoomija-desk.png" alt="Bhoomija Khanna — Legal Research Desk" className="bk-hero-photo" />
         </div>
       </section>
 
@@ -327,7 +327,7 @@ export default function BhoomijaCVClient() {
         <div className="bk-about-grid">
           <div className="bk-about-photo-col">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <Avatar src="/bhoomija-avatar.png" alt="Bhoomija Khanna" className="bk-about-photo" />
+            <Avatar src="/images/bhoomija-avatar.png" alt="Bhoomija Khanna" className="bk-about-photo" />
           </div>
           <div className="bk-about-text-col">
             <h2 className="bk-about-heading">Hi, I&apos;m Bhoomija.</h2>
@@ -567,7 +567,7 @@ export default function BhoomijaCVClient() {
               <div 
                 className="bk-hover-image-reveal"
                 style={{ 
-                  backgroundImage: "url('/founding_note.jpg')",
+                  backgroundImage: "url('/images/founding_note.jpg')",
                 }}
               />
               <div className="bk-hover-content relative z-10">
@@ -617,7 +617,7 @@ export default function BhoomijaCVClient() {
               <div 
                 className="bk-hover-image-reveal"
                 style={{ 
-                  backgroundImage: "url('/propaganda.jpg')",
+                  backgroundImage: "url('/images/propaganda.jpg')",
                 }}
               />
               <div className="bk-hover-content relative z-10">
