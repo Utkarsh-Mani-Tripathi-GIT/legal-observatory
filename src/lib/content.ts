@@ -188,7 +188,7 @@ export async function getArticles(
                 categories: local.categories || mapped.categories,
                 tags: local.tags || mapped.tags,
                 citation: local.citation || mapped.citation,
-                references: local.references || mapped.references,
+                date: local.date || mapped.date,
                 authorDetails: local.authorDetails || mapped.authorDetails,
               };
             }
@@ -197,7 +197,9 @@ export async function getArticles(
           // Only show articles that exist in local content AND are not drafts
           .filter((art: ArticleData) => localArticlesMap.has(art.slug) && !art.draft);
 
-        return [...mappedDb, ...localOnlyArticles];
+        const combined = [...mappedDb, ...localOnlyArticles];
+        // Ensure final list is sorted by date (since local dates might override DB dates)
+        return combined.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       }
       console.warn('Supabase articles query error, falling back to local files:', error);
     }
