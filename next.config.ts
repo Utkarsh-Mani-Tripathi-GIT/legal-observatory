@@ -15,6 +15,14 @@ const cspHeader = `
 
 const nextConfig: NextConfig = {
   /* config options here */
+
+  // Bundle local markdown content into Vercel serverless functions.
+  // Without this, fs.readFileSync calls silently return nothing on Vercel,
+  // causing the local article list to be empty and articles to be filtered out.
+  outputFileTracingIncludes: {
+    '/**': ['./content/**/*'],
+  },
+
   async headers() {
     return [
       {
