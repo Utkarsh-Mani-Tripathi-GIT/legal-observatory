@@ -8,7 +8,7 @@ categories: ["international-law", "human-rights"]
 tags: ["human-rights", "geopolitics", "international-law", "sovereignty"]
 format: "Research Article"
 author: "bhoomija-khanna"
-date: "2026-07-09"
+date: "2026-07-13"
 readingTime: "25 min read"
 coverImage: "/images/weaponization/cover.png"
 abstract: "An examination of how international human rights frameworks are selectively applied as instruments of geopolitical strategy — and what this selective morality means for the people the system was designed to protect."
