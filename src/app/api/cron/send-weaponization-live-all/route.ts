@@ -87,7 +87,7 @@ export async function GET(request: Request) {
 
                 <div style="background: #eef2ff; padding: 16px 20px; border-radius: 8px; border-left: 4px solid #6366f1; margin: 0 0 24px 0;">
                   <p style="font-size: 12px; color: #4338ca; margin: 0; font-weight: 600;">
-                    Research Article · 25 min read · 9 JULY 2026 7PM
+                  Research Article · 25 min read · 9 JULY 2026 6PM IST
                   </p>
                 </div>
 
@@ -116,9 +116,10 @@ export async function GET(request: Request) {
           `,
         });
         sentCount++;
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error(`Failed to send to ${sub.email}:`, err);
-        errors.push(`Failed for ${sub.email}: ${err.message}`);
+        const message = err instanceof Error ? err.message : 'Unknown error';
+        errors.push(`Failed for ${sub.email}: ${message}`);
       }
     }
 
@@ -128,10 +129,11 @@ export async function GET(request: Request) {
       sent: sentCount,
       errors: errors.length > 0 ? errors : undefined,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Broadcast error:', err);
+    const message = err instanceof Error ? err.message : 'Unknown error';
     return NextResponse.json(
-      { success: false, message: 'Internal Server Error', error: err.message },
+      { success: false, message: 'Internal Server Error', error: message },
       { status: 500 }
     );
   }

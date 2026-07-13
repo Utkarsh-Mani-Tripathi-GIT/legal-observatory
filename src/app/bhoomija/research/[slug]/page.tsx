@@ -1,6 +1,6 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
-import { getArticleBySlug } from '../../../../lib/content';
+import { formatPublicationDate, getArticleBySlug } from '../../../../lib/content';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -23,6 +23,8 @@ export default async function PrivateArticleReader(props: PageProps) {
   if (!article || !article.private) {
     return notFound();
   }
+
+  const formattedDate = formatPublicationDate(article);
 
   return (
     <SecureReaderWrapper>
@@ -63,7 +65,7 @@ export default async function PrivateArticleReader(props: PageProps) {
 
             <p className="mt-4 text-xs text-slate-400 dark:text-slate-500 font-medium">
               By {article.authorDetails?.name || 'Bhoomija Khanna'} &mdash;{' '}
-              {new Date(article.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              {formattedDate}
             </p>
           </div>
 

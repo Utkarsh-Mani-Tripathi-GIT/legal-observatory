@@ -47,11 +47,20 @@ export const metadata: Metadata = {
     title: 'National Legal Observatory Platform',
     description: 'Independent Legal Research.',
     siteName: 'National Legal Observatory',
+    images: [
+      {
+        url: '/icon.png',
+        width: 1200,
+        height: 630,
+        alt: 'National Legal Observatory Logo',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'National Legal Observatory Platform',
     description: 'Independent Legal Research.',
+    images: ['/icon.png'],
   },
 };
 
@@ -70,7 +79,7 @@ export default function RootLayout({
         <ThemeProvider>
           <div className="flex flex-col min-h-screen">
             <Header />
-            <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
+            <main className="flex-grow max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 animate-fade-in">
               {children}
             </main>
             <Footer />

@@ -97,7 +97,7 @@ export default function Header() {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Publications', href: '/publications' },
-    { name: 'Authors', href: '/authors' },
+    { name: 'Contributors', href: '/authors' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -116,7 +116,7 @@ export default function Header() {
             : 'bg-white dark:bg-slate-950 border-b border-transparent py-4'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
           {/* Logo brand */}
           <Link
             href="/"
@@ -154,8 +154,8 @@ export default function Header() {
           {/* Expanded Search Bar — opens SearchOverlay on click */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="hidden md:flex flex-1 max-w-sm items-center gap-3 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-white dark:hover:bg-slate-800 transition-all duration-200 text-sm group"
-            title="Search (Cmd+K)"
+            className="hidden md:flex flex-1 max-w-md items-center gap-3 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-white dark:hover:bg-slate-800 transition-all duration-200 text-sm group"
+            title="Search or ask AI (Cmd+K)"
           >
             <Search className="w-4 h-4 shrink-0 group-hover:text-indigo-500 transition-colors" />
             <span className="flex-1 text-left text-[13px]">
@@ -172,7 +172,7 @@ export default function Header() {
             <button
               onClick={() => setIsSearchOpen(true)}
               className="md:hidden p-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
-              title="Search"
+              title="Search or ask AI"
             >
               <Search className="w-5 h-5" />
             </button>

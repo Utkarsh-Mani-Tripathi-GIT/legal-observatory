@@ -1,224 +1,345 @@
 import React from 'react';
 import Link from 'next/link';
-import { getArticles, getAuthors } from '../lib/content';
-import UpcomingResearchTeaser from '../components/UpcomingResearchTeaser';
-import AuthorLink from '../components/AuthorLink';
+import { ArrowRight, ArrowUpRight, BookOpen, Clock, Laptop, Landmark, Mail, Scale, Users } from 'lucide-react';
+import { getArticles } from '../lib/content';
+import type { ArticleData } from '../lib/markdown';
 import Avatar from '../components/Avatar';
-import { Landmark, Users, ArrowRight } from 'lucide-react';
 
-export default async function Homepage() {
-  const articles = await getArticles();
-  const authors = await getAuthors();
+function getPublicationPath(article: Pick<ArticleData, 'type' | 'slug'>) {
+  const folder =
+    article.type === 'judgment'
+      ? 'judgments'
+      : article.type === 'policy'
+      ? 'policies'
+      : article.type === 'research'
+      ? 'research'
+      : 'opinions';
 
-  // Pick first article as featured, next 3 as recent
-  const featuredArticle = articles[0];
-  const recentArticles = articles.slice(1, 5);
+  return `/publications/${folder}/${article.slug}`;
+}
+
+function getBadgeLabel(article: ArticleData) {
+  if (article.format === 'monthly-report') return 'RESEARCH';
+  if (article.type === 'opinion') return 'OPINION';
+  if (article.type === 'policy') return 'POLICY';
+  if (article.type === 'judgment') return 'JUDGMENT';
+  return 'RESEARCH';
+}
+
+function getExcerpt(article: ArticleData) {
+  return (
+    article.abstract ||
+    article.caseSummary ||
+    article.policyOverview ||
+    'Primary-source legal analysis from the National Legal Observatory.'
+  );
+}
+
+function HomeAvatar({
+  article,
+  className,
+}: {
+  article: ArticleData;
+  className: string;
+}) {
+  return (
+    <Avatar
+      src={article.authorDetails?.avatar}
+      alt={article.authorDetails?.name || 'Author'}
+      className={className}
+    />
+  );
+}
+
+function HeroSection() {
+  const pillClass =
+    'inline-flex items-center gap-2 rounded-full border border-slate-700 bg-[#2a2a2a]/95 px-4 py-3 text-sm sm:text-base font-medium text-slate-200 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] transition hover:border-amber-300/40 hover:bg-[#313131] hover:text-white';
 
   return (
-    <div className="space-y-8 py-2">
-      {/* 1. Hero Section */}
-      <section className="relative text-center py-8 md:py-14 rounded-2xl bg-gradient-to-b from-indigo-50/40 via-white to-transparent dark:from-indigo-950/10 dark:via-slate-950 dark:to-transparent border-2 border-slate-200 dark:border-slate-800/30 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.06),transparent)] dark:bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.15),transparent)]" />
-        <div className="relative max-w-3xl mx-auto space-y-4">
-        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100/60 dark:bg-indigo-950/50 text-indigo-800 dark:text-indigo-300 uppercase tracking-widest animate-fade-in">
-            Independent Legal Research
-          </span>
-          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-slate-900 dark:text-white animate-slide-up stagger-1">
-            National Legal Observatory
-          </h1>
-          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 font-serif leading-relaxed italic max-w-2xl mx-auto">
-            &ldquo;The National Legal Observatory is an attempt to address an observation gap.&rdquo;
-          </p>
+    <section className="relative overflow-hidden rounded-[30px] border border-[#2a2a2a] bg-[linear-gradient(180deg,#1e1e20_0%,#19191b_100%)] px-4 py-8 shadow-[0_24px_80px_rgba(0,0,0,0.3)] sm:px-6 sm:py-10">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(241,213,106,0.08),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(88,88,133,0.12),transparent_28%)]" />
+      <div className="relative mx-auto flex min-h-[470px] max-w-5xl flex-col items-center justify-center text-center sm:min-h-[520px]">
+        <span className="inline-flex items-center rounded-full bg-[#5a4b1f] px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.35em] text-[#f0d56a] sm:text-[11px]">
+          Independent Legal Research
+        </span>
 
-          {/* Quick Navigation Pills */}
-          <div className="pt-6 flex flex-wrap justify-center gap-3 animate-slide-up stagger-3">
-            <Link
-              href="/publications"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 text-sm font-medium shadow-sm hover:shadow-md hover:border-indigo-400 dark:hover:border-indigo-500 hover:-translate-y-0.5 transition-all duration-200"
-            >
-              <span className="text-base">📚</span> Browse Papers
-            </Link>
-            <Link
-              href="/publications?category=constitutional-law"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 text-sm font-medium shadow-sm hover:shadow-md hover:border-indigo-400 dark:hover:border-indigo-500 hover:-translate-y-0.5 transition-all duration-200"
-            >
-              <span className="text-base">⚖️</span> Constitutional Law
-            </Link>
-            <Link
-              href="/publications?category=technology-law"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 text-sm font-medium shadow-sm hover:shadow-md hover:border-indigo-400 dark:hover:border-indigo-500 hover:-translate-y-0.5 transition-all duration-200"
-            >
-              <span className="text-base">💻</span> Tech & Policy
-            </Link>
-            <Link
-              href="/authors"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 text-sm font-medium shadow-sm hover:shadow-md hover:border-indigo-400 dark:hover:border-indigo-500 hover:-translate-y-0.5 transition-all duration-200"
-            >
-              <span className="text-base">👩‍⚖️</span> Authors
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 text-sm font-medium shadow-sm hover:shadow-md hover:border-indigo-400 dark:hover:border-indigo-500 hover:-translate-y-0.5 transition-all duration-200"
-            >
-              <span className="text-base">✉️</span> Submit Research
-            </Link>
+        <h1 className="mt-8 font-serif text-4xl font-bold tracking-tight text-white sm:text-6xl lg:text-[72px]">
+          National Legal Observatory
+        </h1>
 
-          </div>
-        </div>
-      </section>
+        <p className="mt-5 max-w-4xl font-serif text-lg italic leading-relaxed text-slate-400 sm:text-2xl">
+          {"“The National Legal Observatory is an attempt to address an observation gap.”"}
+        </p>
 
-      {/* 2. Observatory Mission Statement */}
-      <section className="max-w-4xl mx-auto bg-indigo-50/20 dark:bg-slate-900/50 border-[1.5px] border-indigo-100 dark:border-slate-800 p-8 sm:p-10 rounded-2xl shadow-sm dark:shadow-xl flex flex-col md:flex-row items-center gap-6">
-        <div className="p-3 bg-white dark:bg-slate-800 rounded-xl text-indigo-600 dark:text-indigo-400 shrink-0 shadow-sm dark:shadow-none border border-indigo-100/40 dark:border-transparent">
-          <Landmark className="w-8 h-8" />
-        </div>
-        <div className="space-y-2 text-center md:text-left">
-          <h3 className="font-serif text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-            Our Editorial Directive
-          </h3>
-          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            Constitutional law, civil litigation, criminal justice, commercial and contract law, environmental law, labour law, family law, technology and policy; these are all territories this platform covers, with the same rigour and the same commitment to primary sources.
-          </p>
-        </div>
-      </section>
-
-      {/* 3. Featured & Recent Publications */}
-      <section className="space-y-8">
-        <div className="flex items-end justify-between border-b border-slate-200 dark:border-slate-900 pb-3">
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-            Current Publications
-          </h2>
-          <Link
-            href="/publications"
-            className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center"
-          >
-            All Papers <ArrowRight className="w-3.5 h-3.5 ml-1" />
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+          <Link href="/publications" className={pillClass}>
+            <BookOpen className="h-4 w-4 text-[#f0d56a]" />
+            Browse Papers
+          </Link>
+          <Link href="/publications?category=constitutional-law" className={pillClass}>
+            <Scale className="h-4 w-4 text-[#f0d56a]" />
+            Constitutional Law
+          </Link>
+          <Link href="/publications?category=technology-law" className={pillClass}>
+            <Laptop className="h-4 w-4 text-[#f0d56a]" />
+            Tech &amp; Policy
+          </Link>
+          <Link href="/authors" className={pillClass}>
+            <Users className="h-4 w-4 text-[#f0d56a]" />
+            Authors
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left: Featured Paper (Span 2) */}
-          {featuredArticle && (
-            <div className="lg:col-span-2 flex">
-              <div className="flex flex-col bg-white dark:bg-slate-900 border-[1.5px] border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md transition duration-300 group flex-grow p-5">
+        <div className="mt-4">
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-[#2a2a2a]/95 px-5 py-3 text-sm sm:text-base font-medium text-slate-200 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] transition hover:border-amber-300/40 hover:bg-[#313131] hover:text-white"
+          >
+            <Mail className="h-4 w-4 text-[#f0d56a]" />
+            Submit Research
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-                {/* Badge + reading time */}
-                <div className="flex items-center gap-2.5 text-[10px] uppercase tracking-widest font-bold text-indigo-600 dark:text-indigo-400 mb-3">
-                  <span className="px-2 py-0.5 rounded bg-indigo-50 dark:bg-slate-800">Featured</span>
-                  <span className="text-slate-300 dark:text-slate-600">•</span>
-                  <span className="text-slate-400 dark:text-slate-500 font-medium normal-case tracking-normal">{featuredArticle.readingTime}</span>
-                </div>
+function EditorialDirective() {
+  return (
+    <section className="mx-auto max-w-5xl rounded-[24px] border border-slate-800 bg-[#1f1f1f] px-5 py-7 shadow-[0_14px_40px_rgba(0,0,0,0.28)] sm:px-8 sm:py-8">
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-[#2a2a2a] text-[#f0d56a]">
+          <Landmark className="h-8 w-8" />
+        </div>
+        <div className="space-y-2">
+          <h2 className="font-serif text-2xl font-bold text-white sm:text-3xl">
+            Our Editorial Directive
+          </h2>
+          <p className="max-w-4xl text-sm leading-relaxed text-slate-400 sm:text-base sm:leading-7">
+            Constitutional law, civil litigation, criminal justice, commercial and contract law, environmental law, labour law, family law, technology and policy; these are all territories this platform covers, with the same rigour and the same commitment to primary sources.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-                {/* Title */}
-                <h3 className="font-serif text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                  <Link href={`/publications/${featuredArticle.type === 'judgment' ? 'judgments' : featuredArticle.type === 'policy' ? 'policies' : featuredArticle.type === 'research' ? 'research' : 'opinions'}/${featuredArticle.slug}`}>
-                    {featuredArticle.title}
-                  </Link>
-                </h3>
+function FeaturedPublicationCard({ article }: { article: ArticleData }) {
+  const href = getPublicationPath(article);
 
-                {/* Abstract */}
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mt-2.5 line-clamp-2">
-                  {featuredArticle.abstract || featuredArticle.caseSummary || featuredArticle.policyOverview}
-                </p>
+  return (
+    <article className="group relative overflow-hidden rounded-[30px] border border-white/6 bg-[#242424] p-5 sm:p-6 shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.04),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(211,172,43,0.08),transparent_30%)]" />
+      <div className="relative flex min-h-[520px] flex-col">
+        <div className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.35em] text-slate-400">
+          <span className="rounded-full bg-slate-800 px-3 py-1 text-amber-300">FEATURED</span>
+          <span>{article.readingTime}</span>
+        </div>
 
-                {/* Spacer */}
-                <div className="flex-grow min-h-[1rem]" />
+        <div className="mt-8 max-w-4xl space-y-4">
+          <h3 className="font-serif text-4xl sm:text-5xl lg:text-[56px] font-bold leading-[0.95] tracking-tight text-white group-hover:text-amber-200 transition-colors">
+            <Link href={href} className="focus:outline-none">
+              {article.title}
+            </Link>
+          </h3>
+          <p className="max-w-3xl text-base sm:text-lg leading-relaxed text-slate-300">
+            {getExcerpt(article)}
+          </p>
+        </div>
 
-                {/* Author + Button */}
-                <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800 mt-4">
-                  <div className="flex items-center gap-2.5">
-                    <Avatar
-                      src={featuredArticle.authorDetails?.avatar}
-                      alt={featuredArticle.authorDetails?.name || 'Author'}
-                      className="w-7 h-7 rounded-full object-cover border border-slate-200 dark:border-slate-700 shrink-0"
-                    />
-                    <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                      {featuredArticle.authorDetails?.name}
-                    </span>
-                  </div>
-                  <Link
-                    href={`/publications/${featuredArticle.type === 'judgment' ? 'judgments' : featuredArticle.type === 'policy' ? 'policies' : featuredArticle.type === 'research' ? 'research' : 'opinions'}/${featuredArticle.slug}`}
-                    className="px-3.5 py-1.5 text-xs font-bold bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white rounded-lg shadow-sm transition shrink-0"
-                  >
-                    Read Article →
-                  </Link>
-                </div>
+        <div className="flex-1" />
 
-              </div>
+        <div className="mt-8 flex flex-col gap-4 border-t border-white/6 pt-6 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex items-center gap-3">
+            <HomeAvatar article={article} className="h-10 w-10 rounded-full border border-white/10 object-cover" />
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-slate-200">
+                {article.authorDetails?.name || 'Observatory Scholar'}
+              </p>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-slate-500">
+                National Legal Observatory
+              </p>
             </div>
-          )}
+          </div>
 
-          {/* Right: Recent Submissions */}
-          <div className="flex flex-col gap-4">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block">
+          <Link
+            href={href}
+            className="inline-flex items-center gap-2 rounded-full bg-amber-400 px-4 py-2.5 text-sm font-bold text-slate-950 shadow-lg shadow-amber-400/20 transition hover:bg-amber-300 hover:-translate-y-0.5"
+          >
+            Read Article
+            <ArrowUpRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function SubmissionCard({ article }: { article: ArticleData }) {
+  const href = getPublicationPath(article);
+
+  return (
+    <article className="group flex min-h-[170px] flex-col overflow-hidden rounded-[22px] border border-white/6 bg-[#242424] p-5 shadow-[0_18px_60px_rgba(0,0,0,0.28)] transition-transform duration-300 hover:-translate-y-0.5">
+      <div className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.32em] text-slate-400">
+        <span className="rounded-full bg-slate-800 px-3 py-1 text-amber-300">
+          {getBadgeLabel(article)}
+        </span>
+        <span className="flex items-center gap-1">
+          <Clock className="h-3.5 w-3.5" />
+          {article.readingTime}
+        </span>
+      </div>
+
+      <h4 className="mt-5 max-w-2xl font-serif text-2xl sm:text-[28px] leading-tight font-bold tracking-tight text-white group-hover:text-amber-200 transition-colors">
+        <Link href={href} className="focus:outline-none">
+          {article.title}
+        </Link>
+      </h4>
+
+      <div className="mt-auto border-t border-white/6 pt-5">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-3">
+            <HomeAvatar article={article} className="h-6 w-6 rounded-full border border-white/10 object-cover" />
+            <p className="truncate text-sm font-medium text-slate-400">
+              {article.authorDetails?.name || 'Observatory Scholar'}
+            </p>
+          </div>
+
+          <Link
+            href={href}
+            className="inline-flex items-center gap-1 text-sm font-semibold text-amber-300 transition hover:text-amber-200"
+          >
+            Read
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function ResearchDeskCard({ article }: { article: ArticleData }) {
+  const href = getPublicationPath(article);
+
+  return (
+    <article className="group relative overflow-hidden rounded-[30px] border border-white/6 bg-[#242424] p-6 sm:p-8 shadow-[0_24px_80px_rgba(0,0,0,0.3)]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.08),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(211,172,43,0.05),transparent_35%)]" />
+      <div className="relative flex min-h-[380px] flex-col">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.34em] text-emerald-300">
+            Published Research
+          </span>
+          <span className="text-[10px] font-semibold uppercase tracking-[0.34em] text-slate-500">
+            Research Article
+          </span>
+        </div>
+
+        <div className="mt-10 max-w-4xl space-y-4">
+          <h3 className="font-serif text-4xl sm:text-5xl lg:text-[60px] font-bold leading-[0.94] tracking-tight text-white group-hover:text-emerald-200 transition-colors">
+            <Link href={href} className="focus:outline-none">
+              {article.title}
+            </Link>
+          </h3>
+          <p className="max-w-3xl text-base sm:text-lg leading-relaxed text-slate-300">
+            {getExcerpt(article)}
+          </p>
+        </div>
+
+        <div className="mt-auto flex flex-col gap-4 border-t border-white/6 pt-6 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex items-center gap-3">
+            <HomeAvatar article={article} className="h-8 w-8 rounded-full border border-white/10 object-cover" />
+            <div>
+              <p className="text-sm font-semibold text-slate-200">
+                {article.authorDetails?.name || 'Observatory Scholar'}
+              </p>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-slate-500">
+                National Legal Observatory Research Desk
+              </p>
+            </div>
+          </div>
+
+          <Link
+            href={href}
+            className="inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-4 py-2.5 text-sm font-semibold text-emerald-300 transition hover:bg-emerald-500/15"
+          >
+            Read Article
+            <ArrowUpRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export default async function Homepage() {
+  const articles = await getArticles();
+  const articleBySlug = new Map(articles.map((article) => [article.slug, article]));
+
+  const featuredArticle =
+    articleBySlug.get('the-weaponization-of-human-rights') ?? articles[0] ?? null;
+  const monthlyReviewArticle = articleBySlug.get('monthly-legal-review-june-2026') ?? null;
+  const manufacturingConsentArticle = articleBySlug.get('manufacturing-consent') ?? null;
+  const foundingEditorialArticle = articleBySlug.get('founding-editorial') ?? null;
+  const researchDeskArticle =
+    manufacturingConsentArticle ?? articles.find((article) => article.type === 'research') ?? featuredArticle;
+
+  const recentArticles = [
+    monthlyReviewArticle,
+    manufacturingConsentArticle,
+    foundingEditorialArticle,
+  ].filter(Boolean) as ArticleData[];
+
+  return (
+    <div className="space-y-12 py-4 sm:py-6">
+      <HeroSection />
+      <EditorialDirective />
+
+      <section className="space-y-5">
+        <div className="flex items-end justify-between gap-4 border-b border-slate-200/80 dark:border-slate-800 pb-3">
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-[3.35rem] font-bold tracking-tight text-slate-900 dark:text-white">
+            Current Publications
+          </h1>
+          <Link
+            href="/publications"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 dark:text-indigo-400 transition hover:text-indigo-500 dark:hover:text-indigo-300"
+          >
+            All Papers
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="grid gap-6 xl:grid-cols-[minmax(0,1.95fr)_minmax(360px,0.95fr)] items-start">
+          {featuredArticle && <FeaturedPublicationCard article={featuredArticle} />}
+
+          <div className="space-y-4">
+            <p className="text-xs font-bold uppercase tracking-[0.38em] text-slate-500 dark:text-slate-500">
               Recent Submissions
-            </span>
-            {recentArticles.map((art) => {
-              const folder = art.type === 'judgment' ? 'judgments' : art.type === 'policy' ? 'policies' : art.type === 'research' ? 'research' : 'opinions';
-              const url = `/publications/${folder}/${art.slug}`;
-              return (
-                <div key={art.slug} className="group flex flex-col bg-white dark:bg-slate-900 border-[1.5px] border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm hover:shadow-md transition duration-300">
-                  {/* Badge + reading time */}
-                  <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-indigo-600 dark:text-indigo-400 mb-2">
-                    <span className="px-2 py-0.5 rounded bg-indigo-50 dark:bg-slate-800">{art.type}</span>
-                    <span className="text-slate-300 dark:text-slate-600">•</span>
-                    <span className="text-slate-400 dark:text-slate-500 font-medium normal-case tracking-normal">{art.readingTime}</span>
-                  </div>
-                  {/* Title */}
-                  <h3 className="font-serif text-sm font-bold text-slate-900 dark:text-white leading-snug line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                    <Link href={url}>{art.title}</Link>
-                  </h3>
-                  {/* Author + Read link */}
-                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100 dark:border-slate-800">
-                    <div className="flex items-center gap-2">
-                      <Avatar
-                        src={art.authorDetails?.avatar}
-                        alt={art.authorDetails?.name || 'Author'}
-                        className="w-5 h-5 rounded-full object-cover border border-slate-200 dark:border-slate-700 shrink-0"
-                      />
-                      <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-400">{art.authorDetails?.name}</span>
-                    </div>
-                    <Link href={url} className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline shrink-0">
-                      Read →
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
+            </p>
+            <div className="space-y-4">
+              {recentArticles.map((article) => (
+                <SubmissionCard key={article.slug} article={article} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 4. Upcoming / Published Research */}
-      <section className="space-y-6">
-        <div className="flex items-end justify-between border-b border-slate-200 dark:border-slate-900 pb-3">
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+      <section className="space-y-5">
+        <div className="flex items-end justify-between gap-4 border-b border-slate-200/80 dark:border-slate-800 pb-3">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-[3.35rem] font-bold tracking-tight text-slate-900 dark:text-white">
             Research Desk
           </h2>
           <Link
             href="/publications?type=research"
-            className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 dark:text-indigo-400 transition hover:text-indigo-500 dark:hover:text-indigo-300"
           >
-            All Research <ArrowRight className="w-3.5 h-3.5 ml-1" />
+            All Research
+            <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
-        <UpcomingResearchTeaser
-          publishAt="2026-06-19T18:57:00+05:30"
-          article={{
-            title: "Manufacturing Consent: How Political Narratives Are Engineered in India",
-            slug: "manufacturing-consent",
-            category: "Research Article",
-            publisher: "National Legal Observatory Research Desk",
-            publication: "June 2026",
-            readingTime: "22 min read",
-            abstract: "This article examines the mechanisms through which political consent is manufactured in India, from historical propaganda techniques to modern algorithmic amplification. It analyses the constitutional tension between free speech and narrative manipulation, and proposes a framework for building democratic resilience.",
-            href: "/publications/research/manufacturing-consent",
-          }}
-        />
+        {researchDeskArticle && <ResearchDeskCard article={researchDeskArticle} />}
       </section>
-
-
     </div>
   );
 }

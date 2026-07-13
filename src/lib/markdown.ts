@@ -38,6 +38,13 @@ export interface AuthorData {
   content?: string;
 }
 
+export interface BibliographyEntry {
+  citation: string;
+  url?: string;
+  label?: string;
+  section?: string;
+}
+
 export interface CategoryData {
   slug: string;
   name: string;
@@ -74,7 +81,209 @@ export interface ArticleData {
   
   abstract?: string;
   references?: string[];
+  bibliography?: BibliographyEntry[];
   coverImage?: string;
+}
+
+const BANNED_BIBLIOGRAPHY_HOSTS = new Set([
+  'whatsapp.com',
+  'web.whatsapp.com',
+  'wa.me',
+  't.me',
+  'telegram.me',
+  'telegram.org',
+  'facebook.com',
+  'm.facebook.com',
+  'instagram.com',
+  'x.com',
+  'twitter.com',
+  'mobile.twitter.com',
+  'youtube.com',
+  'youtu.be',
+  'reddit.com',
+  'discord.com',
+  'tiktok.com',
+  'snapchat.com',
+]);
+
+const BANNED_BIBLIOGRAPHY_KEYWORDS = [
+  'whatsapp',
+  'telegram',
+  'facebook',
+  'instagram',
+  'twitter',
+  'x.com',
+  'youtube',
+  'reddit',
+  'discord',
+  'tiktok',
+  'snapchat',
+];
+
+function normalizeInlineText(value: string) {
+  return value.replace(/\s+/g, ' ').trim();
+}
+
+function sanitizeBibliographyUrl(url: string): string | undefined {
+  try {
+    const parsed = new URL(url);
+    if (!['http:', 'https:'].includes(parsed.protocol)) {
+      return undefined;
+    }
+
+    const host = parsed.hostname.replace(/^www\./i, '').toLowerCase();
+    if (BANNED_BIBLIOGRAPHY_HOSTS.has(host)) {
+      return undefined;
+    }
+
+    return parsed.toString();
+  } catch {
+    return undefined;
+  }
+}
+
+function containsBannedBibliographyKeyword(text: string): boolean {
+  const normalized = text.toLowerCase();
+  return BANNED_BIBLIOGRAPHY_KEYWORDS.some((keyword) => normalized.includes(keyword));
+}
+
+function extractFirstHttpUrl(text: string): string | undefined {
+  const match = text.match(/https?:\/\/[^\s<>"')\]]+/i);
+  if (!match?.[0]) {
+    return undefined;
+  }
+
+  return sanitizeBibliographyUrl(match[0].replace(/[).,;]+$/, ''));
+}
+
+function isBibliographyHeading(line: string): boolean {
+  const headingMatch = line.match(/^#{1,6}\s*(.+)$/);
+  if (!headingMatch?.[1]) {
+    return false;
+  }
+
+  return /^(references?|bibliograph(?:y|ies)|works cited|sources?)$/i.test(headingMatch[1].trim());
+}
+
+function parseBibliographyLine(line: string, section?: string): BibliographyEntry | undefined {
+  const trimmed = line.trim();
+  if (!trimmed || trimmed.startsWith('![')) {
+    return undefined;
+  }
+
+  const numberedLink = trimmed.match(
+    /^(?:[-*]|\d+\.)?\s*\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)(?:\s*[–—-]\s*(.+))?$/
+  );
+  if (numberedLink?.[2]) {
+    return {
+      label: normalizeInlineText(numberedLink[1] || numberedLink[3] || numberedLink[2]),
+      citation: normalizeInlineText(numberedLink[3] || numberedLink[1] || numberedLink[2]),
+      url: sanitizeBibliographyUrl(numberedLink[2]),
+      section,
+    };
+  }
+
+  const plainUrl = trimmed.match(/^(?:[-*]|\d+\.)?\s*(https?:\/\/\S+)$/);
+  if (plainUrl?.[1]) {
+    const url = sanitizeBibliographyUrl(plainUrl[1]);
+    return url
+      ? {
+          label: url,
+          citation: url,
+          url,
+          section,
+        }
+      : undefined;
+  }
+
+  const anchorLink = trimmed.match(/^(?:[-*]|\d+\.)?\s*<a[^>]+href=["']([^"']+)["'][^>]*>(.*?)<\/a>/i);
+  if (anchorLink?.[1]) {
+    const url = sanitizeBibliographyUrl(anchorLink[1]);
+    if (!url) {
+      return undefined;
+    }
+
+    const label = normalizeInlineText(anchorLink[2] || url);
+    return {
+      label,
+      citation: label,
+      url,
+      section,
+    };
+  }
+
+  return {
+    citation: normalizeInlineText(trimmed.replace(/^(?:[-*]|\d+\.)\s*/, '')),
+    section,
+  };
+}
+
+export function extractBibliographyEntries(
+  rawContent: string,
+  references: string[] = []
+): BibliographyEntry[] {
+  const entries: BibliographyEntry[] = [];
+  const seen = new Set<string>();
+
+  const addEntry = (entry: BibliographyEntry | undefined) => {
+    if (!entry || !entry.citation) {
+      return;
+    }
+
+    if (!entry.url && containsBannedBibliographyKeyword(entry.citation)) {
+      return;
+    }
+
+    const key = `${entry.url || ''}|${entry.citation}`;
+    if (seen.has(key)) {
+      return;
+    }
+
+    seen.add(key);
+    entries.push(entry);
+  };
+
+  for (const reference of references) {
+    const citation = normalizeInlineText(reference);
+    const url = extractFirstHttpUrl(citation);
+    addEntry({
+      citation,
+      url,
+      label: citation,
+      section: 'frontmatter',
+    });
+  }
+
+  const lines = rawContent.split(/\r?\n/);
+  let inBibliographySection = false;
+
+  for (const line of lines) {
+    if (isBibliographyHeading(line)) {
+      inBibliographySection = true;
+      continue;
+    }
+
+    if (!inBibliographySection) {
+      continue;
+    }
+
+    const trimmed = line.trim();
+    if (!trimmed) {
+      continue;
+    }
+
+    if (/^#{1,6}\s+/.test(trimmed) && !isBibliographyHeading(trimmed)) {
+      break;
+    }
+
+    const parsed = parseBibliographyLine(trimmed, 'markdown');
+    if (parsed?.url || parsed?.citation) {
+      addEntry(parsed);
+      continue;
+    }
+  }
+
+  return entries;
 }
 
 // Helper to calculate reading time
@@ -164,10 +373,12 @@ export async function getArticleBySlug(
 
     // Fetch author details
     const authorDetails = data.author ? getAuthorBySlug(data.author) : undefined;
+    const bibliography = extractBibliographyEntries(content, Array.isArray(data.references) ? data.references : []);
 
     return {
       slug: data.slug || slug,
       type: data.type || 'research',
+      format: data.format,
       title: data.title || '',
       author: data.author || '',
       authorDetails,
@@ -194,6 +405,7 @@ export async function getArticleBySlug(
       // Research
       abstract: data.abstract,
       references: data.references,
+      bibliography,
       // Access control
       draft: data.draft || false,
       private: data.private || false,

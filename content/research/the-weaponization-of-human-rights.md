@@ -8,7 +8,7 @@ categories: ["international-law", "human-rights"]
 tags: ["human-rights", "geopolitics", "international-law", "sovereignty"]
 format: "Research Article"
 author: "bhoomija-khanna"
-date: "2026-07-13"
+date: "2026-07-09"
 readingTime: "25 min read"
 coverImage: "/images/weaponization/cover.png"
 abstract: "An examination of how international human rights frameworks are selectively applied as instruments of geopolitical strategy — and what this selective morality means for the people the system was designed to protect."
@@ -130,4 +130,3 @@ Because the moment you can see the pattern, you stop being a passive recipient o
 Here's the question I keep circling back to, the one without a comfortable answer. If universal rights only ever apply universally in theory and selectively in practice, at what point does the selectivity become the real doctrine, and universality just the story told to make the selectivity feel acceptable.
 
 I don't know. I'm not sure anyone fully does. But I think it's worth sitting with, long after you've stopped reading this.
-

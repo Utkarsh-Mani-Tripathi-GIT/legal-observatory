@@ -139,20 +139,20 @@ export default function UpcomingResearchTeaser({ publishAt, article }: UpcomingR
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400 border border-amber-200/60 dark:border-amber-700/30">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400 animate-pulse" />
-                Upcoming Research
+                Research Launch
               </span>
             </div>
 
             {/* Headline */}
             <div className="space-y-2">
               <h3 className="font-serif text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">
-                Something is Cooking…
+                {article.title}
               </h3>
               <p className="text-sm text-slate-600 dark:text-slate-300 font-medium">
-                Our next research publication is almost ready.
+                {article.category}
               </p>
               <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed max-w-md">
-                A new National Legal Observatory research article will be published shortly.
+                {article.abstract}
               </p>
             </div>
 
@@ -204,7 +204,7 @@ export default function UpcomingResearchTeaser({ publishAt, article }: UpcomingR
                   >
                     <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300 font-medium">
                       <Bell className="w-3.5 h-3.5 text-indigo-500" />
-                      We&apos;ll email you at 7:00 PM when the article goes live.
+                      We&apos;ll email you the moment the article goes live.
                     </div>
 
                     <div className="flex gap-2">
@@ -248,13 +248,13 @@ export default function UpcomingResearchTeaser({ publishAt, article }: UpcomingR
             {/* Meta footer */}
             <div className="flex items-center gap-4 text-[11px] text-slate-400 dark:text-slate-500 pt-2 border-t border-slate-100 dark:border-slate-800/80">
               <span className="flex items-center gap-1">
-                <Calendar className="w-3 h-3" /> June 2026
+                <Calendar className="w-3 h-3" /> {article.publication}
               </span>
               <span className="flex items-center gap-1">
-                <BookOpen className="w-3 h-3" /> Research Article
+                <BookOpen className="w-3 h-3" /> {article.category}
               </span>
               <span className="flex items-center gap-1">
-                <User className="w-3 h-3" /> NLO Research Desk
+                <User className="w-3 h-3" /> {article.publisher}
               </span>
             </div>
           </div>
@@ -272,7 +272,7 @@ export default function UpcomingResearchTeaser({ publishAt, article }: UpcomingR
             {/* Labels */}
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-700/30">
-                Published Research
+                Now Live • {article.publication}
               </span>
               <span className="text-[10px] uppercase font-semibold text-slate-400 dark:text-slate-500 tracking-wider">
                 {article.category}
@@ -309,7 +309,7 @@ export default function UpcomingResearchTeaser({ publishAt, article }: UpcomingR
                 href={article.href}
                 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 flex items-center gap-0.5 group-hover:underline"
               >
-                Read Research Article <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                Read Article <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
             </div>
           </div>

@@ -93,12 +93,11 @@ export default function AuthorsPage() {
 
             {/* Utkarsh Card */}
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 pt-2">
-              <div
-                aria-label="Utkarsh Mani Tripathi"
-                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-[3px] border-slate-100 dark:border-slate-800 shrink-0 shadow-sm bg-slate-950 dark:bg-slate-950 flex items-center justify-center select-none"
-              >
-                <span className="text-4xl sm:text-5xl leading-none" role="img" aria-label="spider">🕷️</span>
-              </div>
+              <Avatar
+                src="/utkarsh-avatar.svg"
+                alt="Utkarsh Mani Tripathi"
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-[3px] border-slate-100 dark:border-slate-800 shrink-0 shadow-sm bg-slate-950"
+              />
               <div className="space-y-2 text-center sm:text-left">
                 <div>
                   <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
@@ -118,7 +117,7 @@ export default function AuthorsPage() {
           <div className="pt-6 border-t border-slate-100 dark:border-slate-850 flex justify-end">
             <AuthorLink
               slug="utkarsh-mani-tripathi"
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-indigo-600 hover:bg-indigo-750 rounded-lg transition-colors shadow-sm"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors shadow-sm"
             >
               View Profile & Publications <ArrowRight className="w-3.5 h-3.5" />
             </AuthorLink>

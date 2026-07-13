@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getArticleBySlug, getRelatedArticles } from '../../../../lib/content';
+import { formatPublicationDate, getArticleBySlug, getRelatedArticles } from '../../../../lib/content';
 import TableOfContents from '../../../../components/TableOfContents';
 import ArticleCard from '../../../../components/ArticleCard';
 import HighlightMention from '../../../../components/HighlightMention';
@@ -85,12 +85,7 @@ export default async function ArticlePage(props: PageProps) {
   }
 
   const related = await getRelatedArticles(article, 3);
-
-  const formattedDate = new Date(article.date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  const formattedDate = formatPublicationDate(article);
 
   return (
     <div className="space-y-10 py-4">
@@ -296,7 +291,7 @@ export default async function ArticlePage(props: PageProps) {
               <a
                 href="/NLO_Manufacturing_Consent.docx"
                 download
-                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-650 dark:text-indigo-400 transition"
+                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-600 dark:text-indigo-400 transition"
               >
                 <FileText className="w-4 h-4 mr-2" /> Download Draft (DOCX)
               </a>
@@ -313,7 +308,7 @@ export default async function ArticlePage(props: PageProps) {
               <a
                 href="/Gender_Propaganda_Patriarchal_Power_Research_Paper.docx"
                 download
-                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-650 dark:text-indigo-400 transition"
+                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-600 dark:text-indigo-400 transition"
               >
                 <FileText className="w-4 h-4 mr-2" /> Download Draft (DOCX)
               </a>
@@ -330,7 +325,7 @@ export default async function ArticlePage(props: PageProps) {
               <a
                 href="/NLO_Founding_Editorial.docx"
                 download
-                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-650 dark:text-indigo-400 transition"
+                className="w-full flex items-center justify-center px-4 py-2 border border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-slate-800 rounded-lg text-xs font-bold text-indigo-600 dark:text-indigo-400 transition"
               >
                 <FileText className="w-4 h-4 mr-2" /> Download Document (DOCX)
               </a>

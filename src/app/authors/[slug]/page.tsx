@@ -61,7 +61,7 @@ export default async function AuthorProfilePage(props: PageProps) {
               <h1 className="font-serif text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
                 {author.name}
               </h1>
-              <p className="text-sm text-indigo-650 dark:text-indigo-400 font-semibold mt-0.5">
+              <p className="text-sm text-indigo-600 dark:text-indigo-400 font-semibold mt-0.5">
                 {author.role}
               </p>
             </div>
@@ -110,7 +110,7 @@ export default async function AuthorProfilePage(props: PageProps) {
 
         {authorArticles.length === 0 ? (
           <div className="text-center py-12 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-xl text-slate-400 text-sm">
-            This author has not published any papers yet.
+            This contributor has not published any papers yet.
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

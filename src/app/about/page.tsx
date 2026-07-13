@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, FileText, Users, Scale, Shield, Globe } from 'lucide-react';
+import { FileText, Users, Scale, Shield } from 'lucide-react';
 import Link from 'next/link';
 import Avatar from '../../components/Avatar';
 
@@ -13,10 +13,12 @@ export default function AboutPage() {
     <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
       {/* Platform Header */}
       <header className="border-b border-slate-200 dark:border-slate-800 pb-10 text-center sm:text-left">
-        <div className="flex items-center justify-center sm:justify-start gap-x-0.5 sm:gap-x-2 text-[1.6vw] min-[400px]:text-[8px] sm:text-[10px] md:text-xs font-semibold uppercase tracking-tighter sm:tracking-wider text-slate-500 dark:text-slate-400 mb-6 whitespace-nowrap overflow-hidden w-full">
+        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-1 text-[1.6vw] min-[400px]:text-[8px] sm:text-[10px] md:text-xs font-semibold uppercase tracking-tighter sm:tracking-wider text-slate-500 dark:text-slate-400 mb-6 w-full">
           <span>NATIONAL LEGAL OBSERVATORY</span>
           <span className="text-slate-300 dark:text-slate-700">&bull;</span>
           <span>Independent Legal Research | India</span>
+          <span className="text-slate-300 dark:text-slate-700">&bull;</span>
+          <span>Founding Editorial | June 2026</span>
         </div>
 
         <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white leading-tight">
@@ -52,11 +54,11 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Founder's Note Section */}
+      {/* Founders' Note Section */}
       <section className="py-12 border-b border-slate-200 dark:border-slate-800">
         <div className="flex flex-col sm:flex-row items-center justify-between mb-8">
           <h2 className="font-serif text-3xl font-extrabold text-slate-900 dark:text-white">
-            Founder's Note
+            Founders&apos; Note
           </h2>
           <a
             href="/NLO_Founding_Editorial.docx"

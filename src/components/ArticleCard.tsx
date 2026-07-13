@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArticleData } from '../lib/markdown';
+import { formatPublicationDate } from '../lib/content';
 import { Calendar, Clock, ArrowUpRight, Pin } from 'lucide-react';
 import AuthorLink from './AuthorLink';
 import Avatar from './Avatar';
@@ -16,12 +17,8 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
 
   const folder = typeMapping[article.type] || 'research';
   const articleUrl = `/publications/${folder}/${article.slug}`;
-  
-  const formattedDate = new Date(article.date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  const formattedDate = formatPublicationDate(article);
+  const actionLabel = article.format === 'monthly-report' ? 'Open Issue' : 'Read Article';
 
   return (
     <article className="group relative flex flex-col justify-between p-6 glass-card border border-slate-200/60 dark:border-slate-800/80 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
@@ -73,7 +70,7 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
             />
             <AuthorLink
               slug={article.author}
-              className="font-medium text-slate-700 dark:text-slate-300 hover:text-indigo-650 dark:hover:text-indigo-400 hover:underline"
+              className="font-medium text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline"
             >
               {article.authorDetails?.name || 'Observatory Editor'}
             </AuthorLink>
@@ -87,7 +84,7 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
             href={articleUrl}
             className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 flex items-center group-hover:underline"
           >
-            Read Paper <ArrowUpRight className="w-3.5 h-3.5 ml-0.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            {actionLabel} <ArrowUpRight className="w-3.5 h-3.5 ml-0.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
         </div>
 
