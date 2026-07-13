@@ -218,53 +218,7 @@ export default async function Homepage() {
         />
       </section>
 
-      {/* 5. Contributor Section */}
-      <section id="contributors" className="space-y-8 scroll-mt-20">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-          <div className="inline-flex p-2 bg-indigo-50 dark:bg-slate-900 rounded-full text-indigo-500 mb-2">
-            <Users className="w-6 h-6" />
-          </div>
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-            Editorial Team
-          </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 leading-normal">
-            The platform is curated and maintained by the editorial and technology contributors behind the observatory.
-          </p>
-        </div>
 
-        <div className="max-w-2xl mx-auto pt-4">
-          {authors.map((author) => (
-            <div
-              key={author.slug}
-              className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 p-6 bg-white dark:bg-slate-900 border-[1.5px] border-slate-200 dark:border-slate-800 rounded-xl"
-            >
-              <Avatar
-                src={author.avatar}
-                alt={author.name}
-                className="w-16 h-16 rounded-full object-cover border-2 border-slate-100 dark:border-slate-800 shrink-0"
-              />
-              <div className="space-y-2">
-                <div>
-                  <h4 className="text-base font-bold text-slate-900 dark:text-white">
-                    {author.name}
-                  </h4>
-                  <p className="text-xs text-indigo-650 dark:text-indigo-400 font-semibold">
-                    {author.role}
-                  </p>
-                </div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-3">
-                  {author.bio}
-                </p>
-                <div className="pt-1 flex justify-center sm:justify-start gap-3 text-xs font-semibold text-indigo-650 dark:text-indigo-400 hover:underline">
-                  <AuthorLink slug={author.slug}>
-                    View Profile & Publications &rarr;
-                  </AuthorLink>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }
