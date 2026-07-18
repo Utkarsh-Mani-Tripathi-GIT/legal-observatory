@@ -192,13 +192,6 @@ export default function ContactPage() {
             </p>
           </div>
 
-          {/* Inline guidelines hint — portrait only */}
-          <div className="mt-4 border-l-2 border-oxblood/20 bg-surface-container-low/60 px-4 py-3 dark:border-primary/20 dark:bg-surface-container/50 lg:hidden">
-            <p className="font-technical-ui text-[10.5px] uppercase tracking-[0.15em] text-on-surface-variant/70 dark:text-on-background/45">
-              Accepted formats · Judgment Reviews 1,500–3,000 wds · Policy Briefs 2,000–3,500 wds · Research Articles 5,000–12,000 wds · Essays 1,000–3,000 wds · Blog Posts 500–1,200 wds · Original &amp; unpublished work only · Bluebook citations
-            </p>
-          </div>
-
           <form onSubmit={handleSubmit} className="mt-6 space-y-7 text-sm">
             <div className="space-y-4">
               <h3 className={sectionLabelClass}>1. Author Information</h3>
@@ -225,6 +218,21 @@ export default function ContactPage() {
                 </select>
                 <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-oxblood dark:text-primary" />
               </div>
+              
+              {form.category !== 'general' && (
+                <div className="mt-2 font-technical-ui text-[11px] uppercase tracking-wider text-on-surface-variant dark:text-on-background/60 flex items-center gap-2 animate-fade-in bg-surface-container-low/50 px-3 py-2 border-l border-oxblood dark:border-primary">
+                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-oxblood dark:bg-primary" />
+                  <span>
+                    Allowed length: <strong className="text-on-background dark:text-on-background">
+                      {form.category === 'judgment-review' && '1,500 - 3,000 words'}
+                      {form.category === 'policy-brief' && '2,000 - 3,500 words'}
+                      {form.category === 'research-article' && '5,000 - 12,000 words'}
+                      {form.category === 'essay' && '1,000 - 3,000 words'}
+                      {form.category === 'blog-post' && '500 - 1,200 words'}
+                    </strong>
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="animate-fade-in space-y-4 border-t border-outline-variant/35 pt-6 dark:border-primary/20">
