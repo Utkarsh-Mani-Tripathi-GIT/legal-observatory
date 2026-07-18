@@ -93,7 +93,7 @@ export default async function AuthorProfilePage(props: PageProps) {
                     rel="noopener noreferrer"
                     className="flex items-center hover:text-indigo-600 dark:hover:text-indigo-400 transition"
                   >
-                    <Globe className="w-4 h-4 mr-1" /> Profile Page
+                    <Globe className="w-4 h-4 mr-1" /> Portfolio
                   </a>
                 )}
               </div>

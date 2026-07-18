@@ -221,25 +221,27 @@
   --oxblood: #561922;
 
   /* Font Families - Light Theme */
-  --font-body-lg: "Source Serif 4", Georgia, serif;
-  --font-display-lg: "Playfair Display", Georgia, serif;
-  --font-headline-md: "Playfair Display", Georgia, serif;
-  --font-label-sm: "JetBrains Mono", monospace;
-  --font-body-md: "Source Serif 4", Georgia, serif;
-  --font-display-lg-mobile: "Playfair Display", Georgia, serif;
+  --foreground: var(--on-background);
+  --font-body-lg: var(--font-source-serif), "Source Serif 4", Georgia, serif;
+  --font-display-lg: var(--font-serif), "Playfair Display", Georgia, serif;
+  --font-headline-md: var(--font-serif), "Playfair Display", Georgia, serif;
+  --font-label-sm: var(--font-jetbrains-mono), "JetBrains Mono", monospace;
+  --font-body-md: var(--font-source-serif), "Source Serif 4", Georgia, serif;
+  --font-display-lg-mobile: var(--font-serif), "Playfair Display", Georgia, serif;
   
-  --font-technical-ui: "JetBrains Mono", monospace;
-  --font-body-reading: "Playfair Display", Georgia, serif;
-  --font-display-hero: "Playfair Display", Georgia, serif;
-  --font-headline-lg-mobile: "Playfair Display", Georgia, serif;
-  --font-headline-lg: "Playfair Display", Georgia, serif;
-  --font-body-reading-mobile: "Playfair Display", Georgia, serif;
-  --font-citation: "JetBrains Mono", monospace;
-  --font-label-caps: "JetBrains Mono", monospace;
+  --font-technical-ui: var(--font-jetbrains-mono), "JetBrains Mono", monospace;
+  --font-body-reading: var(--font-serif), "Playfair Display", Georgia, serif;
+  --font-display-hero: var(--font-serif), "Playfair Display", Georgia, serif;
+  --font-headline-lg-mobile: var(--font-serif), "Playfair Display", Georgia, serif;
+  --font-headline-lg: var(--font-serif), "Playfair Display", Georgia, serif;
+  --font-body-reading-mobile: var(--font-serif), "Playfair Display", Georgia, serif;
+  --font-citation: var(--font-jetbrains-mono), "JetBrains Mono", monospace;
+  --font-label-caps: var(--font-jetbrains-mono), "JetBrains Mono", monospace;
 }
 
 .dark {
   /* Colors - Dark Theme */
+  --foreground: var(--on-background);
   --on-tertiary-fixed-variant: #5d4201;
   --error: #ba1a1a;
   --tertiary-fixed-dim: #e9c176;
@@ -295,21 +297,21 @@
   --oxblood: #722f37;
 
   /* Font Families - Dark Theme */
-  --font-body-lg: "Source Serif 4", Georgia, serif;
-  --font-display-lg: "Playfair Display", Georgia, serif;
-  --font-headline-md: "Playfair Display", Georgia, serif;
-  --font-label-sm: "JetBrains Mono", monospace;
-  --font-body-md: "Source Serif 4", Georgia, serif;
-  --font-display-lg-mobile: "Playfair Display", Georgia, serif;
+  --font-body-lg: var(--font-source-serif), "Source Serif 4", Georgia, serif;
+  --font-display-lg: var(--font-serif), "Playfair Display", Georgia, serif;
+  --font-headline-md: var(--font-serif), "Playfair Display", Georgia, serif;
+  --font-label-sm: var(--font-jetbrains-mono), "JetBrains Mono", monospace;
+  --font-body-md: var(--font-source-serif), "Source Serif 4", Georgia, serif;
+  --font-display-lg-mobile: var(--font-serif), "Playfair Display", Georgia, serif;
   
-  --font-technical-ui: "JetBrains Mono", monospace;
-  --font-body-reading: "Playfair Display", Georgia, serif;
-  --font-display-hero: "Playfair Display", Georgia, serif;
-  --font-headline-lg-mobile: "Playfair Display", Georgia, serif;
-  --font-headline-lg: "Playfair Display", Georgia, serif;
-  --font-body-reading-mobile: "Playfair Display", Georgia, serif;
-  --font-citation: "JetBrains Mono", monospace;
-  --font-label-caps: "JetBrains Mono", monospace;
+  --font-technical-ui: var(--font-jetbrains-mono), "JetBrains Mono", monospace;
+  --font-body-reading: var(--font-serif), "Playfair Display", Georgia, serif;
+  --font-display-hero: var(--font-serif), "Playfair Display", Georgia, serif;
+  --font-headline-lg-mobile: var(--font-serif), "Playfair Display", Georgia, serif;
+  --font-headline-lg: var(--font-serif), "Playfair Display", Georgia, serif;
+  --font-body-reading-mobile: var(--font-serif), "Playfair Display", Georgia, serif;
+  --font-citation: var(--font-jetbrains-mono), "JetBrains Mono", monospace;
+  --font-label-caps: var(--font-jetbrains-mono), "JetBrains Mono", monospace;
 }
 
 body {

@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Search, X, BookOpen, AlertCircle, FileText, Compass, Pin, Sparkles, Loader2, Send } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useChat } from '@ai-sdk/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -40,10 +40,6 @@ function formatSearchResultDate(result: SearchResult): string {
         month: 'short',
       day: 'numeric',
       });
-}
-
-function formatCompactList(items: string[] = [], limit = 3) {
-  return items.slice(0, limit).join(' · ');
 }
 
 export default function SearchOverlay({
@@ -103,7 +99,7 @@ export default function SearchOverlay({
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const pathname = usePathname();
-  const isBhoomijaPage = pathname === '/bhoomija';
+  const isBhoomijaPage = pathname.startsWith('/bhoomija');
 
   useEffect(() => {
     fetch('/api/search/trending')
@@ -120,21 +116,22 @@ export default function SearchOverlay({
   const iconColor = isBhoomijaPage ? 'text-[#7d1919]' : 'text-primary';
   const categoryTextColor = isBhoomijaPage ? 'text-[#7d1919]' : 'text-primary';
   const highlightBorder = isBhoomijaPage ? 'border-[#7d1919]' : 'border-primary';
-  const activeBg = isBhoomijaPage ? 'bg-[#f5f0eb]' : 'bg-primary-container/10 dark:bg-slate-800/80';
-  const highlightText = isBhoomijaPage ? 'text-[#5c1212]' : 'text-slate-900 dark:text-white';
-  const spinnerBorder = isBhoomijaPage ? 'border-[#7d1919]' : 'border-primary';
-  const backdropBg = isBhoomijaPage ? 'bg-slate-900/60 dark:bg-black/80' : 'bg-slate-900/60 dark:bg-black/80';
-  const modalBg = isBhoomijaPage ? 'bg-[#f5f0eb]' : 'bg-white dark:bg-slate-900';
-  const modalBorder = isBhoomijaPage ? 'border-[#7d1919]/30' : 'border-slate-200 dark:border-slate-800';
-  const inputBorder = isBhoomijaPage ? 'border-[#7d1919]/20' : 'border-slate-100 dark:border-slate-800';
-  const inputText = isBhoomijaPage ? 'text-[#5c1212] placeholder-[#7d1919]/50' : 'text-slate-900 dark:text-white placeholder-slate-400';
-  const closeBtnHover = isBhoomijaPage ? 'hover:bg-[#7d1919]/10 hover:text-[#7d1919]' : 'hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-600';
-  const quickSearchBg = isBhoomijaPage ? 'hover:bg-[#7d1919]/10' : 'hover:bg-slate-50 dark:hover:bg-slate-800';
-  const quickSearchText = isBhoomijaPage ? 'text-[#7d1919]' : 'text-slate-400';
-  const resultHover = isBhoomijaPage ? 'hover:bg-[#7d1919]/10' : 'hover:bg-slate-50 dark:hover:bg-slate-800/50';
-  const footerBg = isBhoomijaPage ? 'bg-[#efebe8]' : 'bg-slate-50 dark:bg-slate-800/30';
-  const footerText = isBhoomijaPage ? 'text-[#7d1919]/70' : 'text-slate-400';
-  const kbdBorder = isBhoomijaPage ? 'border-[#7d1919]/30 bg-[#f5f0eb]' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800';
+  const activeBg = isBhoomijaPage ? 'bg-[#561922]/10 dark:bg-[#C5A059]/10' : 'bg-primary-container/10 dark:bg-slate-800/80';
+  const highlightText = isBhoomijaPage ? 'text-[#3c0610] dark:text-[#FDF6E3]' : 'text-slate-900 dark:text-white';
+  const spinnerBorder = isBhoomijaPage ? 'border-[#561922] dark:border-[#C5A059]' : 'border-primary';
+  const backdropBg = isBhoomijaPage ? 'bg-[#2c0a0a]/50 dark:bg-black/80' : 'bg-slate-900/60 dark:bg-black/80';
+  const modalBg = isBhoomijaPage ? 'bg-[#fff9eb]/95 dark:bg-[#0F1115]/95' : 'bg-white dark:bg-slate-900';
+  const modalBorder = isBhoomijaPage ? 'border-[#d8c1c2] dark:border-[#C5A059]/35' : 'border-slate-200 dark:border-slate-800';
+  const modalShape = isBhoomijaPage ? 'rounded-none shadow-[0_24px_80px_rgba(86,25,34,0.22)] dark:shadow-[0_24px_90px_rgba(0,0,0,0.55)]' : 'rounded-xl shadow-2xl';
+  const inputBorder = isBhoomijaPage ? 'border-[#d8c1c2]/80 dark:border-[#C5A059]/25' : 'border-slate-100 dark:border-slate-800';
+  const inputText = isBhoomijaPage ? 'text-[#1e1c10] dark:text-[#FDF6E3] placeholder-[#867273] dark:placeholder-[#C5A059]/50 font-serif' : 'text-slate-900 dark:text-white placeholder-slate-400';
+  const closeBtnHover = isBhoomijaPage ? 'hover:bg-[#561922]/10 hover:text-[#561922] dark:hover:bg-[#C5A059]/10 dark:hover:text-[#C5A059]' : 'hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-600';
+  const quickSearchBg = isBhoomijaPage ? 'border border-transparent hover:border-[#561922]/20 hover:bg-[#561922]/10 dark:hover:border-[#C5A059]/25 dark:hover:bg-[#C5A059]/10' : 'hover:bg-slate-50 dark:hover:bg-slate-800';
+  const quickSearchText = isBhoomijaPage ? 'text-[#534343] dark:text-[#FDF6E3]/70' : 'text-slate-400';
+  const resultHover = isBhoomijaPage ? 'hover:bg-[#561922]/10 dark:hover:bg-[#C5A059]/10' : 'hover:bg-slate-50 dark:hover:bg-slate-800/50';
+  const footerBg = isBhoomijaPage ? 'bg-[#f4eedb] dark:bg-[#15181E]' : 'bg-slate-50 dark:bg-slate-800/30';
+  const footerText = isBhoomijaPage ? 'text-[#534343] dark:text-[#FDF6E3]/55' : 'text-slate-400';
+  const kbdBorder = isBhoomijaPage ? 'border-[#d8c1c2] bg-[#fff9eb] text-[#561922] dark:border-[#C5A059]/30 dark:bg-[#1A1D23] dark:text-[#C5A059]' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800';
 
   const performSearch = async (
     searchQuery: string,
@@ -237,10 +234,17 @@ export default function SearchOverlay({
     }
   };
 
+  const scopedResults =
+    query.trim().length < 2
+      ? []
+      : isBhoomijaPage
+      ? results.filter((result) => result.authorName.toLowerCase().includes('bhoomija'))
+      : results;
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      if (!isAiMode) setSelectedIndex((prev) => (prev < results.length - 1 ? prev + 1 : prev));
+      if (!isAiMode) setSelectedIndex((prev) => (prev < scopedResults.length - 1 ? prev + 1 : prev));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (!isAiMode) setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
@@ -254,8 +258,8 @@ export default function SearchOverlay({
            sendMessage({ text: query.trim() });
            setQuery('');
          }
-      } else if (selectedIndex >= 0 && selectedIndex < results.length) {
-        handleSelect(results[selectedIndex]);
+      } else if (selectedIndex >= 0 && selectedIndex < scopedResults.length) {
+        handleSelect(scopedResults[selectedIndex]);
       }
     }
   };
@@ -271,8 +275,6 @@ export default function SearchOverlay({
     const base = `/publications/${folder}/${result.slug}`;
     return withHighlight && query.trim() ? `${base}?highlight=${encodeURIComponent(query.trim())}` : base;
   };
-
-  const visibleResults = query.trim().length < 2 ? [] : results;
 
   const handleSelect = (result: SearchResult) => {
     if (query.trim().length >= 2) {
@@ -359,12 +361,12 @@ export default function SearchOverlay({
     >
       <motion.div
         variants={modalVariants}
-        className={`w-full max-w-2xl ${modalBg} border ${modalBorder} rounded-xl shadow-2xl overflow-hidden glass-panel`}
+        className={`w-full max-w-2xl ${modalBg} border ${modalBorder} ${modalShape} overflow-hidden ${isBhoomijaPage ? 'backdrop-blur-md' : 'glass-panel'}`}
         onKeyDown={handleKeyDown}
       >
         {/* Search Input */}
         <div className={`flex items-center px-4 py-3 border-b ${inputBorder}`}>
-          <Search className={`w-5 h-5 ${isBhoomijaPage ? 'text-[#7d1919]/60' : 'text-slate-400'} mr-3 shrink-0`} />
+          <Search className={`w-5 h-5 ${isBhoomijaPage ? 'text-[#561922]/70 dark:text-[#C5A059]/70' : 'text-slate-400'} mr-3 shrink-0`} />
           <input
             ref={inputRef}
             type="text"
@@ -379,12 +381,12 @@ export default function SearchOverlay({
                    sendMessage({ text: query.trim() });
                    setQuery('');
                 }}
-                className={`p-1.5 mr-2 ml-2 rounded-md transition-colors ${isBhoomijaPage ? 'bg-[#7d1919] text-white hover:bg-[#5c1212]' : 'bg-primary text-on-primary hover:opacity-90'}`}
+                className={`p-1.5 mr-2 ml-2 transition-colors ${isBhoomijaPage ? 'rounded-none bg-[#561922] text-white hover:bg-[#3c0610] dark:bg-[#C5A059] dark:text-[#0F1115] dark:hover:bg-[#ffdea5]' : 'rounded-md bg-primary text-on-primary hover:opacity-90'}`}
              >
                 <Send className="w-4 h-4" />
              </button>
           )}
-          <div className="ml-1 flex items-center gap-3 shrink-0 border-l pl-3 border-slate-200 dark:border-slate-700">
+          <div className={`ml-1 flex items-center gap-3 shrink-0 border-l pl-3 ${isBhoomijaPage ? 'border-[#d8c1c2] dark:border-[#C5A059]/25' : 'border-slate-200 dark:border-slate-700'}`}>
             <div className="flex items-center gap-2">
               <span className={`text-[11px] hidden sm:inline-flex font-medium items-center gap-1 transition-colors ${
                 isAiMode
@@ -409,7 +411,7 @@ export default function SearchOverlay({
                 className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 ${
                   isAiMode 
                     ? isBhoomijaPage ? 'bg-[#7d1919]' : 'bg-primary'
-                    : 'bg-[#e5e5ea] dark:bg-[#39393d]'
+                    : isBhoomijaPage ? 'bg-[#e9e2d0] dark:bg-[#1A1D23]' : 'bg-[#e5e5ea] dark:bg-[#39393d]'
                 }`}
                 title="Toggle AI Search Mode (Ctrl/Cmd+Enter)"
               >
@@ -446,7 +448,11 @@ export default function SearchOverlay({
                 <div className="flex justify-end px-2">
                   <button 
                     onClick={clearChat}
-                    className="text-[11px] text-slate-400 hover:text-primary transition-colors underline decoration-dotted"
+                    className={`text-[11px] transition-colors underline decoration-dotted ${
+                      isBhoomijaPage
+                        ? 'text-[#867273] hover:text-[#561922] dark:text-[#FDF6E3]/45 dark:hover:text-[#C5A059]'
+                        : 'text-slate-400 hover:text-primary'
+                    }`}
                   >
                     Clear Conversation
                   </button>
@@ -454,8 +460,7 @@ export default function SearchOverlay({
               )}
               {messages.map((msg) => {
                           const isUser = (msg.role as string) === 'user';
-                          const textPart = msg.parts?.find(p => p.type === 'text') as any;
-                          const textContent = textPart ? textPart.text : '';
+                          const textContent = msg.parts?.find((part) => part.type === 'text')?.text ?? '';
                           return (
                 <div
                   key={msg.id}
@@ -464,14 +469,14 @@ export default function SearchOverlay({
                   }`}
                 >
                   <div
-                    className={`max-w-[85%] rounded-2xl px-4 py-3 ${
+                    className={`max-w-[85%] px-4 py-3 ${
                       isUser
                         ? isBhoomijaPage
-                          ? 'bg-[#7d1919] text-white'
-                          : 'bg-primary text-on-primary'
+                          ? 'rounded-none bg-[#561922] text-white dark:bg-[#C5A059] dark:text-[#0F1115]'
+                          : 'rounded-2xl bg-primary text-on-primary'
                         : isBhoomijaPage
-                        ? 'bg-white/80 border border-[#7d1919]/20 text-slate-800'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200'
+                        ? 'rounded-none bg-white/65 border border-[#d8c1c2] text-[#1e1c10] dark:bg-[#1A1D23] dark:border-[#C5A059]/25 dark:text-[#FDF6E3]'
+                        : 'rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200'
                     }`}
                   >
                   <div className="prose dark:prose-invert prose-sm max-w-none text-[13px] leading-relaxed break-words">
@@ -486,10 +491,10 @@ export default function SearchOverlay({
               {(status === 'streaming' || status === 'submitted') && (
                 <div className="flex justify-start">
                   <div
-                    className={`max-w-[85%] rounded-2xl px-4 py-3 ${
+                    className={`max-w-[85%] px-4 py-3 ${
                       isBhoomijaPage
-                        ? 'bg-white/80 border border-[#7d1919]/20 text-slate-800'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200'
+                        ? 'rounded-none bg-white/65 border border-[#d8c1c2] text-[#1e1c10] dark:bg-[#1A1D23] dark:border-[#C5A059]/25 dark:text-[#FDF6E3]'
+                        : 'rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200'
                     }`}
                   >
                     <Loader2 className={`w-4 h-4 animate-spin ${iconColor}`} />
@@ -503,22 +508,26 @@ export default function SearchOverlay({
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="flex items-center justify-center py-8 text-slate-400 space-x-2"
+                  className={`flex items-center justify-center py-8 space-x-2 ${isBhoomijaPage ? 'text-[#534343] dark:text-[#FDF6E3]/60' : 'text-slate-400'}`}
                 >
                   <div className={`w-5 h-5 border-2 ${spinnerBorder} border-t-transparent rounded-full animate-spin`}></div>
                   <span className="text-sm font-medium">Searching the observatory archive...</span>
                 </motion.div>
               )}
 
-              {!isLoading && query.trim().length > 0 && results.length === 0 && !errorMsg && (
+              {!isLoading && query.trim().length > 0 && scopedResults.length === 0 && !errorMsg && (
                 <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-center py-8 text-slate-400"
+                  className={`text-center py-8 ${isBhoomijaPage ? 'text-[#534343] dark:text-[#FDF6E3]/60' : 'text-slate-400'}`}
                 >
                   <AlertCircle className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                  <p className="text-sm font-medium">No site pages, profiles, or verified bibliography match your query.</p>
-                  <p className="text-xs mt-1">Try searching constitutional law, privacy, climate change, or an article title.</p>
+                  <p className="text-sm font-medium">
+                    {isBhoomijaPage ? 'No Bhoomija publications or drafts match your query.' : 'No site pages, profiles, or verified bibliography match your query.'}
+                  </p>
+                  <p className="text-xs mt-1">
+                    {isBhoomijaPage ? 'Try Founding Note, Manufacturing Consent, constitutional law, or drafting.' : 'Try searching constitutional law, privacy, climate change, or an article title.'}
+                  </p>
                 </motion.div>
               )}
 
@@ -526,7 +535,7 @@ export default function SearchOverlay({
                 <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="px-4 py-3 mb-2 bg-red-50 text-red-600 border border-red-200 rounded-lg text-sm font-medium mx-2"
+                  className={`px-4 py-3 mb-2 text-sm font-medium mx-2 ${isBhoomijaPage ? 'rounded-none bg-[#ffdad6] text-[#93000a] border border-[#93000a]/20' : 'rounded-lg bg-red-50 text-red-600 border border-red-200'}`}
                 >
                   <AlertCircle className="w-5 h-5 inline mr-2" />
                   {errorMsg}
@@ -541,7 +550,9 @@ export default function SearchOverlay({
               animate={{ opacity: 1, y: 0 }}
               className={`py-4 px-3 ${quickSearchText}`}
             >
-              <span className={`text-xs font-semibold uppercase tracking-wider block mb-2 ${isBhoomijaPage ? 'text-[#7d1919]/80' : 'text-slate-500'}`}>FAQs</span>
+              <span className={`text-xs font-semibold uppercase tracking-wider block mb-2 ${isBhoomijaPage ? 'font-mono text-[#561922] dark:text-[#C5A059]' : 'text-slate-500'}`}>
+                {isBhoomijaPage ? 'Bhoomija Index' : 'FAQs'}
+              </span>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 {isBhoomijaPage ? (
                   <>
@@ -584,7 +595,7 @@ export default function SearchOverlay({
             </motion.div>
           )}
 
-          {!isAiMode && !isLoading && visibleResults.length > 0 && (
+          {!isAiMode && !isLoading && scopedResults.length > 0 && (
             <motion.div
               variants={listVariants}
               initial="hidden"
@@ -592,9 +603,9 @@ export default function SearchOverlay({
               className="space-y-1"
             >
               <div className="px-2 py-1 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                Publications found ({isBhoomijaPage ? visibleResults.filter(r => r.authorName.toLowerCase().includes('bhoomija')).length : visibleResults.length})
+                Publications found ({scopedResults.length})
               </div>
-              {(isBhoomijaPage ? visibleResults.filter(r => r.authorName.toLowerCase().includes('bhoomija')) : visibleResults).map((result, idx) => (
+              {scopedResults.map((result, idx) => (
                 <motion.div
                   key={result.slug}
                   variants={itemVariants}
@@ -614,15 +625,23 @@ export default function SearchOverlay({
                         {result.type} &bull; {result.category}
                       </span>
                       <h4 className={`text-[15px] sm:text-sm font-semibold truncate leading-snug mt-1 sm:mt-0.5 ${
-                        idx === selectedIndex ? highlightText : 'text-slate-800 dark:text-slate-200'
+                        idx === selectedIndex
+                          ? highlightText
+                          : isBhoomijaPage
+                          ? 'text-[#1e1c10] dark:text-[#FDF6E3]'
+                          : 'text-slate-800 dark:text-slate-200'
                       }`}>
                         {result.title}
                       </h4>
-                      <span className="text-[13px] sm:text-xs text-slate-500 dark:text-slate-500 mt-1 sm:mt-0 block sm:inline">
+                      <span className={`text-[13px] sm:text-xs mt-1 sm:mt-0 block sm:inline ${
+                        isBhoomijaPage
+                          ? 'text-[#534343] dark:text-[#FDF6E3]/55'
+                          : 'text-slate-500 dark:text-slate-500'
+                      }`}>
                         By {result.authorName} &bull; {formatSearchResultDate(result)}
                       </span>
                     </div>
-                    <BookOpen className="w-5 h-5 sm:w-4 sm:h-4 text-slate-400 opacity-60 ml-3 shrink-0" />
+                    <BookOpen className={`w-5 h-5 sm:w-4 sm:h-4 opacity-60 ml-3 shrink-0 ${isBhoomijaPage ? 'text-[#561922] dark:text-[#C5A059]' : 'text-slate-400'}`} />
                   </button>
 
                   {/* Jump to mention button — only shows when there's a search query */}
@@ -630,11 +649,11 @@ export default function SearchOverlay({
                     <div className="px-4 sm:px-3 pb-3 sm:pb-2.5">
                       <button
                         onClick={(e) => handleJumpToMention(e, result)}
-                        className="inline-flex items-center gap-1.5 px-3 py-2 sm:px-2.5 sm:py-1 rounded-md text-xs sm:text-[11px] font-semibold
-                          bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400
-                          border border-amber-200/60 dark:border-amber-700/30
-                          hover:bg-amber-100 dark:hover:bg-amber-900/40
-                          transition-all duration-150 group min-h-[44px] sm:min-h-0"
+                        className={`inline-flex items-center gap-1.5 px-3 py-2 sm:px-2.5 sm:py-1 text-xs sm:text-[11px] font-semibold border transition-all duration-150 group min-h-[44px] sm:min-h-0 ${
+                          isBhoomijaPage
+                            ? 'rounded-none bg-[#561922]/10 text-[#561922] border-[#561922]/25 hover:bg-[#561922]/15 dark:bg-[#C5A059]/10 dark:text-[#C5A059] dark:border-[#C5A059]/25 dark:hover:bg-[#C5A059]/15'
+                            : 'rounded-md bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400 border-amber-200/60 dark:border-amber-700/30 hover:bg-amber-100 dark:hover:bg-amber-900/40'
+                        }`}
                         title={`Jump to first mention of "${query}" in this article`}
                       >
                         <Pin className="w-3 h-3 sm:w-3 sm:h-3 group-hover:scale-110 transition-transform" />

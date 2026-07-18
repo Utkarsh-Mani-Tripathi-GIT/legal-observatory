@@ -2,7 +2,7 @@ import React from 'react';
 import { getArticles, getCategories, getPageViewCount } from '../../lib/content';
 import ArticleCard from '../../components/ArticleCard';
 import Link from 'next/link';
-import { Search, ArrowUpDown, Tag, Landmark, AlertCircle, FileText } from 'lucide-react';
+import { AlertCircle, ArrowUpDown, FileText, Landmark, Search, Tag } from 'lucide-react';
 
 interface SearchParams {
   q?: string;
@@ -26,7 +26,6 @@ export const metadata = {
 };
 
 export default async function PublicationsPage(props: PageProps) {
-  // Await searchParams in Next.js 15/16
   const params = await props.searchParams;
   const query = params.q || '';
   const category = params.category || '';
@@ -39,11 +38,9 @@ export default async function PublicationsPage(props: PageProps) {
   const pageNum = parseInt(params.page || '1', 10);
   const itemsPerPage = 6;
 
-  // Retrieve base content data
   const rawArticles = await getArticles();
   const categories = await getCategories();
 
-  // 1. Filter Articles
   let filteredArticles = [...rawArticles];
 
   if (query.trim()) {
@@ -66,7 +63,7 @@ export default async function PublicationsPage(props: PageProps) {
   }
 
   if (activeTag) {
-    filteredArticles = filteredArticles.filter((art) => 
+    filteredArticles = filteredArticles.filter((art) =>
       art.tags.some((t) => t.toLowerCase() === activeTag.toLowerCase())
     );
   }
@@ -89,9 +86,7 @@ export default async function PublicationsPage(props: PageProps) {
     });
   }
 
-  // 2. Sort Articles
   if (sort === 'popularity') {
-    // Dynamically retrieve and map page view counts to sort
     const articlesWithViews = await Promise.all(
       filteredArticles.map(async (art) => {
         const views = await getPageViewCount(art.slug);
@@ -105,7 +100,6 @@ export default async function PublicationsPage(props: PageProps) {
   } else if (sort === 'shortest') {
     filteredArticles.sort((a, b) => parseInt(a.readingTime?.replace(/\D/g, '') || '0', 10) - parseInt(b.readingTime?.replace(/\D/g, '') || '0', 10));
   } else if (sort === 'relevance' && query.trim()) {
-    // Basic relevance sort by keyword match count
     const cleanQuery = query.toLowerCase().trim();
     filteredArticles.sort((a, b) => {
       const scoreA = (a.title.toLowerCase().match(new RegExp(cleanQuery, 'g'))?.length || 0) * 3 + (a.rawContent?.toLowerCase().match(new RegExp(cleanQuery, 'g'))?.length || 0);
@@ -113,40 +107,29 @@ export default async function PublicationsPage(props: PageProps) {
       return scoreB - scoreA;
     });
   } else {
-    // Default: Date Descending
     filteredArticles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }
 
-  // 3. Paginate
   const totalItems = filteredArticles.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (pageNum - 1) * itemsPerPage;
   const paginatedArticles = filteredArticles.slice(startIndex, startIndex + itemsPerPage);
 
-  // Collect all unique tags for suggestion pills
-  const allTags = Array.from(
-    new Set(rawArticles.flatMap((art) => art.tags))
-  ).slice(0, 8);
-
-  // Collect all unique years for year filter
+  const allTags = Array.from(new Set(rawArticles.flatMap((art) => art.tags))).slice(0, 8);
   const allYears = Array.from(
     new Set(rawArticles.map((art) => new Date(art.date).getFullYear().toString()))
   ).sort((a, b) => parseInt(b) - parseInt(a));
-
-  // Collect unique authors for author filter
   const allAuthors = Array.from(
     new Map(rawArticles.map((art) => [art.authorDetails?.slug || art.author, art.authorDetails?.name || art.author])).entries()
   );
 
-  // Helper to compile search href parameters
   const getHref = (updates: Partial<SearchParams>, isReset: boolean = false) => {
     const newParams = isReset ? {} : { q: query, category, type: activeType, tag: activeTag, author, year, readTime, sort, page: pageNum.toString() };
     const merged = { ...newParams, ...updates };
-    
-    // Clear empty parameters
+
     Object.keys(merged).forEach((key) => {
       const val = merged[key as keyof typeof merged];
-      if (!val || val === '1' && key === 'page' || val === 'date' && key === 'sort') {
+      if (!val || (val === '1' && key === 'page') || (val === 'date' && key === 'sort')) {
         delete merged[key as keyof typeof merged];
       }
     });
@@ -155,422 +138,304 @@ export default async function PublicationsPage(props: PageProps) {
     return `/publications${queryString ? `?${queryString}` : ''}`;
   };
 
+  const formatFilters = [
+    { slug: 'judgment', name: 'Judgment Reviews' },
+    { slug: 'policy', name: 'Policy Briefs' },
+    { slug: 'research', name: 'Research Articles' },
+    { slug: 'opinion', name: 'Essays & Opinions' },
+    { slug: 'blog', name: 'Blog Posts' },
+  ];
+  const readTimeFilters = [
+    { slug: 'short', name: 'Short (< 5 min)' },
+    { slug: 'medium', name: 'Medium (5-15 min)' },
+    { slug: 'long', name: 'Long (> 15 min)' },
+  ];
+  const sortOptions = [
+    { slug: 'date', name: 'Latest' },
+    ...(query ? [{ slug: 'relevance', name: 'Relevance' }] : []),
+    { slug: 'popularity', name: 'Popularity' },
+    { slug: 'longest', name: 'Longest' },
+  ];
+  const activeFilterCount = [query, category, activeType, activeTag, author, year, readTime].filter(Boolean).length;
+
+  const sideLinkClass = (isActive: boolean) =>
+    `block py-2 text-sm transition-colors ${
+      isActive
+        ? 'border-l-2 border-oxblood bg-oxblood/10 pl-3 font-semibold text-oxblood dark:border-primary dark:bg-primary/10 dark:text-primary'
+        : 'pl-3 text-on-surface-variant hover:text-oxblood dark:text-on-background/60 dark:hover:text-primary'
+    }`;
+
+  const chipClass = (isActive: boolean) =>
+    `border px-3 py-1.5 font-technical-ui text-[10px] font-bold uppercase tracking-[0.14em] transition-colors ${
+      isActive
+        ? 'border-oxblood bg-oxblood text-white dark:border-primary dark:bg-primary dark:text-background'
+        : 'border-outline-variant bg-surface text-on-surface-variant hover:border-oxblood hover:text-oxblood dark:border-primary/20 dark:bg-surface-container-low dark:text-on-background/55 dark:hover:border-primary dark:hover:text-primary'
+    }`;
+
   return (
-    <div className="space-y-8 py-4">
-      {/* Page Header */}
-      <div>
-        <h1 className="font-serif text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
-          Publications Archive
-        </h1>
-        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-normal">
-          Explore independent legal research publications and papers.
-        </p>
-      </div>
-
-      {/* Main Grid: Filters Sidebar + Content Grid + Categories Sidebar */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        
-        {/* Left Side: Formats & Tags Sidebar */}
-        <aside className="space-y-6 lg:col-span-1">
-          
-          {/* A. Inline Search Input Bar */}
-          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm glass-card">
-            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
-              <Search className="w-3.5 h-3.5 mr-1 text-indigo-500" /> Search Filter
-            </h3>
-            <form method="GET" action="/publications" className="relative">
-              {category && <input type="hidden" name="category" value={category} />}
-              {activeType && <input type="hidden" name="type" value={activeType} />}
-              {activeTag && <input type="hidden" name="tag" value={activeTag} />}
-              {author && <input type="hidden" name="author" value={author} />}
-              {year && <input type="hidden" name="year" value={year} />}
-              {readTime && <input type="hidden" name="readTime" value={readTime} />}
-              {sort && <input type="hidden" name="sort" value={sort} />}
-              <input
-                type="text"
-                name="q"
-                defaultValue={query}
-                placeholder="Keywords..."
-                className="w-full text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-3 py-2 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500"
-              />
-              <button type="submit" className="absolute right-2 top-2 text-slate-400 hover:text-slate-600">
-                <Search className="w-3.5 h-3.5" />
-              </button>
-            </form>
+    <div className="mx-auto max-w-screen-2xl py-6 sm:py-10">
+      <section className="border-b border-outline-variant/45 pb-8 dark:border-primary/20">
+        <span className="font-technical-ui text-xs font-bold uppercase tracking-[0.28em] text-oxblood dark:text-primary">
+          Archive Catalogue
+        </span>
+        <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-end">
+          <div>
+            <h1 className="font-serif text-5xl font-bold leading-tight text-on-background dark:text-on-background sm:text-6xl">
+              Publications Archive
+            </h1>
+            <p className="mt-4 max-w-3xl font-body-md text-lg leading-8 text-on-surface-variant dark:text-on-background/70">
+              Search, filter, and read the observatory repository of independent legal research papers.
+            </p>
           </div>
+          <div className="border border-outline-variant/45 bg-surface-container-low p-5 dark:border-primary/20 dark:bg-surface-container">
+            <p className="font-technical-ui text-[11px] font-bold uppercase tracking-[0.2em] text-on-surface-variant dark:text-on-background/45">
+              Records Matched
+            </p>
+            <p className="mt-2 font-serif text-5xl font-semibold text-oxblood dark:text-primary">
+              {totalItems}
+            </p>
+            <p className="mt-1 font-technical-ui text-xs text-on-surface-variant dark:text-on-background/50">
+              {activeFilterCount > 0 ? `${activeFilterCount} active filter${activeFilterCount > 1 ? 's' : ''}` : 'Unfiltered archive'}
+            </p>
+          </div>
+        </div>
 
-          {/* B. Formats Multi-List (Moved to top of left column) */}
-          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm glass-card">
-            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
-              <FileText className="w-3.5 h-3.5 mr-1 text-indigo-500" /> Formats
-            </h3>
-            <div className="flex flex-col space-y-1 text-xs">
-              <Link
-                href={getHref({ type: undefined, page: '1' })}
-                className={`py-1.5 px-2.5 rounded-md transition ${
-                  !activeType
-                    ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
-                    : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                All Formats
-              </Link>
-              {[
-                { slug: 'judgment', name: 'Judgment Reviews' },
-                { slug: 'policy', name: 'Policy Briefs' },
-                { slug: 'research', name: 'Research Articles' },
-                { slug: 'opinion', name: 'Essays & Opinions' },
-                { slug: 'blog', name: 'Blog Posts' },
-              ].map((fmt) => (
+        <div className="mt-8 flex flex-wrap items-center gap-3 border-t border-outline-variant/30 pt-5 font-technical-ui text-xs dark:border-primary/15">
+          <span className="font-bold uppercase tracking-[0.18em] text-on-background dark:text-on-background">
+            Filters:
+          </span>
+          {categories.slice(0, 4).map((cat) => (
+            <Link
+              key={cat.slug}
+              href={getHref({ category: category === cat.slug ? undefined : cat.slug, page: '1' })}
+              className={chipClass(category === cat.slug)}
+            >
+              {cat.name}
+            </Link>
+          ))}
+          {(query || category || activeType || activeTag || author || year || readTime) && (
+            <Link href={getHref({}, true)} className="ml-auto font-bold uppercase tracking-[0.18em] text-oxblood hover:text-on-background dark:text-primary dark:hover:text-on-background">
+              Clear Filters
+            </Link>
+          )}
+        </div>
+      </section>
+
+      <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-12">
+        <section className="lg:col-span-8">
+          <div className="mb-10 flex flex-col gap-4 border-b border-outline-variant/35 pb-5 dark:border-primary/20 sm:flex-row sm:items-center sm:justify-between">
+            <div className="font-technical-ui text-xs uppercase tracking-[0.18em] text-on-surface-variant dark:text-on-background/50">
+              Showing <span className="font-bold text-on-background dark:text-on-background">{filteredArticles.length}</span> publications
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="flex items-center gap-1.5 font-technical-ui text-xs uppercase tracking-[0.14em] text-on-surface-variant dark:text-on-background/50">
+                <ArrowUpDown className="h-3.5 w-3.5 text-oxblood dark:text-primary" />
+                Sort
+              </div>
+              {sortOptions.map((option) => (
                 <Link
-                  key={fmt.slug}
-                  href={getHref({ type: fmt.slug, page: '1' })}
-                  className={`py-1.5 px-2.5 rounded-md transition truncate ${
-                    activeType === fmt.slug
-                      ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
-                      : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
-                  }`}
-                  title={fmt.name}
+                  key={option.slug}
+                  href={getHref({ sort: option.slug, page: '1' })}
+                  className={chipClass(sort === option.slug)}
                 >
-                  {fmt.name}
+                  {option.name}
                 </Link>
               ))}
             </div>
           </div>
 
-          {/* C. Tags Pills */}
-          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm glass-card">
-            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
-              <Tag className="w-3.5 h-3.5 mr-1 text-indigo-500" /> Hot Tags
-            </h3>
-            <div className="flex flex-wrap gap-1.5">
-              {allTags.map((tag) => {
-                const isTagActive = activeTag.toLowerCase() === tag.toLowerCase();
-                return (
-                  <Link
-                    key={tag}
-                    href={getHref({ tag: isTagActive ? undefined : tag, page: '1' })}
-                    className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded border transition-colors ${
-                      isTagActive
-                        ? 'bg-indigo-600 border-indigo-600 text-white'
-                        : 'border-slate-200 dark:border-slate-800 text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300'
-                    }`}
-                  >
-                    {tag}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-
-        </aside>
-
-        {/* Center Section: Catalogue grid + Toolbar (col-span-2) */}
-        <section className="lg:col-span-2 space-y-6">
-          
-          {/* Header toolbar */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-xl shadow-sm text-xs gap-3 glass-card">
-            <div className="text-slate-400">
-              Showing <span className="font-semibold text-slate-700 dark:text-slate-300">{filteredArticles.length}</span> publications found
-            </div>
-            
-            {/* Sort options */}
-            <div className="flex items-center space-x-4 ml-auto sm:ml-0 shrink-0">
-              <div className="flex items-center space-x-1.5 text-slate-400">
-                <ArrowUpDown className="w-3.5 h-3.5 text-indigo-500" />
-                <span>Sort by:</span>
-              </div>
-              <div className="flex space-x-1 border border-slate-200 dark:border-slate-800 rounded bg-slate-50 dark:bg-slate-950 p-0.5">
-                <Link
-                  href={getHref({ sort: 'date' })}
-                  className={`px-2.5 py-1 rounded transition-colors font-semibold ${
-                    sort === 'date'
-                      ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm'
-                      : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
-                  }`}
-                >
-                  Latest
-                </Link>
-                {query && (
-                  <Link
-                    href={getHref({ sort: 'relevance' })}
-                    className={`px-2.5 py-1 rounded transition-colors font-semibold ${
-                      sort === 'relevance'
-                        ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm'
-                        : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
-                    }`}
-                  >
-                    Relevance
-                  </Link>
-                )}
-                <Link
-                  href={getHref({ sort: 'popularity' })}
-                  className={`px-2.5 py-1 rounded transition-colors font-semibold ${
-                    sort === 'popularity'
-                      ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm'
-                      : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
-                  }`}
-                >
-                  Popularity
-                </Link>
-                <Link
-                  href={getHref({ sort: 'longest' })}
-                  className={`hidden sm:block px-2.5 py-1 rounded transition-colors font-semibold ${
-                    sort === 'longest'
-                      ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm'
-                      : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
-                  }`}
-                >
-                  Longest
-                </Link>
-              </div>
-
-              {/* Reset filter button if active */}
-              {(query || category || activeType || activeTag || author || year || readTime) && (
-                <Link
-                  href={getHref({}, true)}
-                  className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline"
-                >
-                  Clear Filters
-                </Link>
-              )}
-            </div>
-          </div>
-
-          {/* Catalog grid list */}
           {paginatedArticles.length === 0 ? (
-            <div className="text-center py-16 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 rounded-2xl glass-card">
-              <AlertCircle className="w-12 h-12 mx-auto text-slate-300 dark:text-slate-700 mb-3" />
-              <h3 className="font-serif text-lg font-bold text-slate-800 dark:text-slate-200">
+            <div className="border border-outline-variant/45 bg-surface-container-lowest px-6 py-16 text-center dark:border-primary/20 dark:bg-surface-container">
+              <AlertCircle className="mx-auto mb-4 h-12 w-12 text-outline dark:text-primary/50" />
+              <h3 className="font-serif text-2xl font-semibold text-on-background dark:text-on-background">
                 {query ? (
-                  <React.Fragment>No results for &ldquo;<span className="text-indigo-650 dark:text-indigo-400 font-bold">{query}</span>&rdquo;</React.Fragment>
+                  <React.Fragment>No results for &ldquo;<span className="text-oxblood dark:text-primary">{query}</span>&rdquo;</React.Fragment>
                 ) : (
-                  "No publications found"
+                  'No publications found'
                 )}
               </h3>
-              <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 max-w-sm mx-auto">
-                {query ? (
-                  <React.Fragment>
-                    No articles match your search for <strong className="font-bold text-slate-700 dark:text-slate-300">&ldquo;{query}&rdquo;</strong>. Try adjusting your keywords or clearing the active filters.
-                  </React.Fragment>
-                ) : activeTag ? (
-                  <React.Fragment>
-                    No articles match the tag <strong className="font-bold text-slate-700 dark:text-slate-300">#{activeTag}</strong>. Try clearing the filter.
-                  </React.Fragment>
-                ) : (
-                  "No articles match your current active filters. Try adjusting your keywords or clearing the category selection."
-                )}
+              <p className="mx-auto mt-3 max-w-sm font-body-md text-sm leading-7 text-on-surface-variant dark:text-on-background/60">
+                Try adjusting your keywords or clearing the active filters.
               </p>
-              <div className="mt-4">
-                <Link
-                  href={getHref({}, true)}
-                  className="px-4 py-2 text-xs font-bold bg-indigo-600 hover:bg-indigo-750 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white dark:text-slate-950 rounded-lg shadow-sm transition inline-block"
-                >
-                  Reset All Filters
-                </Link>
-              </div>
+              <Link
+                href={getHref({}, true)}
+                className="mt-6 inline-flex border border-oxblood bg-oxblood px-5 py-3 font-technical-ui text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:bg-on-background dark:border-primary dark:bg-primary dark:text-background dark:hover:bg-tertiary-fixed"
+              >
+                Reset All Filters
+              </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-6">
-              {paginatedArticles.map((art, idx) => (
-                <div key={art.slug} className={`animate-slide-up stagger-${Math.min(idx + 1, 6)}`}>
+            <div className="space-y-10">
+              {paginatedArticles.map((art) => (
+                <div key={art.slug}>
                   <ArticleCard article={art} searchTerm={query || activeTag || undefined} />
                 </div>
               ))}
             </div>
           )}
 
-          {/* Pagination controls */}
           {totalPages > 1 && (
-            <div className="flex justify-center items-center space-x-1.5 pt-4 text-xs">
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-2 font-technical-ui text-xs">
               {pageNum > 1 ? (
-                <Link
-                  href={getHref({ page: (pageNum - 1).toString() })}
-                  className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 transition font-bold glass-card"
-                >
+                <Link href={getHref({ page: (pageNum - 1).toString() })} className={chipClass(false)}>
                   Previous
                 </Link>
               ) : (
-                <span className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800 text-slate-300 dark:text-slate-700 cursor-not-allowed glass-card">
+                <span className="border border-outline-variant/45 px-3 py-1.5 text-outline dark:border-primary/15 dark:text-on-background/25">
                   Previous
                 </span>
               )}
 
               {Array.from({ length: totalPages }).map((_, i) => {
                 const p = i + 1;
-                const isCurrent = p === pageNum;
                 return (
-                  <Link
-                    key={p}
-                    href={getHref({ page: p.toString() })}
-                    className={`px-3 py-1.5 rounded border font-semibold ${
-                      isCurrent
-                        ? 'bg-indigo-600 border-indigo-600 text-white'
-                        : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 glass-card'
-                    }`}
-                  >
+                  <Link key={p} href={getHref({ page: p.toString() })} className={chipClass(p === pageNum)}>
                     {p}
                   </Link>
                 );
               })}
 
               {pageNum < totalPages ? (
-                <Link
-                  href={getHref({ page: (pageNum + 1).toString() })}
-                  className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 transition font-bold glass-card"
-                >
+                <Link href={getHref({ page: (pageNum + 1).toString() })} className={chipClass(false)}>
                   Next
                 </Link>
               ) : (
-                <span className="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-800 text-slate-300 dark:text-slate-700 cursor-not-allowed glass-card">
+                <span className="border border-outline-variant/45 px-3 py-1.5 text-outline dark:border-primary/15 dark:text-on-background/25">
                   Next
                 </span>
               )}
             </div>
           )}
-
         </section>
 
-        {/* Right Side: Categories Sidebar (col-span-1) */}
-        <aside className="space-y-6 lg:col-span-1">
-          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm glass-card">
-            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
-              <Landmark className="w-3.5 h-3.5 mr-1 text-indigo-500" /> Categories
-            </h3>
-            <div className="flex flex-col space-y-1 text-xs">
-              <Link
-                href={getHref({ category: undefined, page: '1' })}
-                className={`py-1.5 px-2.5 rounded-md transition ${
-                  !category
-                    ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
-                    : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                All Categories
-              </Link>
-              {categories.map((cat) => (
-                <Link
-                  key={cat.slug}
-                  href={getHref({ category: cat.slug, page: '1' })}
-                  className={`py-1.5 px-2.5 rounded-md transition truncate ${
-                    category === cat.slug
-                      ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
-                      : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
-                  }`}
-                  title={cat.name}
-                >
-                  {cat.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-          
-          {/* Author Filter */}
-          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm glass-card">
-            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
-              <span className="mr-1 text-indigo-500">✍️</span> Author
-            </h3>
-            <div className="flex flex-col space-y-1 text-xs">
-              <Link
-                href={getHref({ author: undefined, page: '1' })}
-                className={`py-1.5 px-2.5 rounded-md transition ${
-                  !author
-                    ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
-                    : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                All Authors
-              </Link>
-              {allAuthors.map(([slug, name]) => (
-                <Link
-                  key={slug}
-                  href={getHref({ author: slug, page: '1' })}
-                  className={`py-1.5 px-2.5 rounded-md transition truncate ${
-                    author === slug
-                      ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
-                      : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
-                  }`}
-                  title={name}
-                >
-                  {name}
-                </Link>
-              ))}
-            </div>
-          </div>
+        <aside className="lg:col-span-4">
+          <div className="sticky top-28 space-y-8 border border-outline-variant/40 bg-surface-container-low p-6 dark:border-primary/20 dark:bg-surface-container">
+            <section>
+              <h2 className="mb-4 flex items-center border-b border-outline-variant/50 pb-3 font-technical-ui text-xs font-bold uppercase tracking-[0.2em] text-on-background dark:border-primary/20 dark:text-on-background">
+                <Search className="mr-2 h-4 w-4 text-oxblood dark:text-primary" />
+                Search Filter
+              </h2>
+              <form method="GET" action="/publications" className="relative">
+                {category && <input type="hidden" name="category" value={category} />}
+                {activeType && <input type="hidden" name="type" value={activeType} />}
+                {activeTag && <input type="hidden" name="tag" value={activeTag} />}
+                {author && <input type="hidden" name="author" value={author} />}
+                {year && <input type="hidden" name="year" value={year} />}
+                {readTime && <input type="hidden" name="readTime" value={readTime} />}
+                {sort && <input type="hidden" name="sort" value={sort} />}
+                <input
+                  type="text"
+                  name="q"
+                  defaultValue={query}
+                  placeholder="Keywords..."
+                  className="w-full border-0 border-b border-outline-variant bg-transparent px-0 py-3 font-technical-ui text-sm text-on-background placeholder:text-on-surface-variant focus:border-oxblood focus:outline-none dark:border-primary/25 dark:text-on-background dark:placeholder:text-on-background/35 dark:focus:border-primary"
+                />
+                <button type="submit" className="absolute right-0 top-3 text-oxblood hover:text-on-background dark:text-primary dark:hover:text-on-background" aria-label="Search publications">
+                  <Search className="h-4 w-4" />
+                </button>
+              </form>
+            </section>
 
-          {/* Year Filter */}
-          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm glass-card">
-            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
-              <span className="mr-1 text-indigo-500">📅</span> Year
-            </h3>
-            <div className="flex flex-wrap gap-1.5">
-              {allYears.map((y) => (
-                <Link
-                  key={y}
-                  href={getHref({ year: year === y ? undefined : y, page: '1' })}
-                  className={`text-[10px] font-bold px-2 py-0.5 rounded border transition-colors ${
-                    year === y
-                      ? 'bg-indigo-600 border-indigo-600 text-white'
-                      : 'border-slate-200 dark:border-slate-800 text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300'
-                  }`}
-                >
-                  {y}
+            <section>
+              <h2 className="mb-3 flex items-center border-b border-outline-variant/50 pb-3 font-technical-ui text-xs font-bold uppercase tracking-[0.2em] text-on-background dark:border-primary/20 dark:text-on-background">
+                <FileText className="mr-2 h-4 w-4 text-oxblood dark:text-primary" />
+                Formats
+              </h2>
+              <div className="space-y-1 font-technical-ui">
+                <Link href={getHref({ type: undefined, page: '1' })} className={sideLinkClass(!activeType)}>
+                  All Formats
                 </Link>
-              ))}
-            </div>
-          </div>
+                {formatFilters.map((fmt) => (
+                  <Link key={fmt.slug} href={getHref({ type: fmt.slug, page: '1' })} className={sideLinkClass(activeType === fmt.slug)}>
+                    {fmt.name}
+                  </Link>
+                ))}
+              </div>
+            </section>
 
-          {/* Read Time Filter */}
-          <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-xl shadow-sm glass-card">
-            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center text-slate-900 dark:text-white">
-              <span className="mr-1 text-indigo-500">⏳</span> Read Time
-            </h3>
-            <div className="flex flex-col space-y-1 text-xs">
-              <Link
-                href={getHref({ readTime: undefined, page: '1' })}
-                className={`py-1.5 px-2.5 rounded-md transition ${
-                  !readTime
-                    ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
-                    : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                Any Length
-              </Link>
-              <Link
-                href={getHref({ readTime: 'short', page: '1' })}
-                className={`py-1.5 px-2.5 rounded-md transition ${
-                  readTime === 'short'
-                    ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
-                    : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                Short (&lt; 5 min)
-              </Link>
-              <Link
-                href={getHref({ readTime: 'medium', page: '1' })}
-                className={`py-1.5 px-2.5 rounded-md transition ${
-                  readTime === 'medium'
-                    ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
-                    : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                Medium (5-15 min)
-              </Link>
-              <Link
-                href={getHref({ readTime: 'long', page: '1' })}
-                className={`py-1.5 px-2.5 rounded-md transition ${
-                  readTime === 'long'
-                    ? 'bg-indigo-50 dark:bg-slate-800/80 text-indigo-700 dark:text-indigo-400 font-semibold'
-                    : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                Long (&gt; 15 min)
-              </Link>
-            </div>
-          </div>
+            <section>
+              <h2 className="mb-3 flex items-center border-b border-outline-variant/50 pb-3 font-technical-ui text-xs font-bold uppercase tracking-[0.2em] text-on-background dark:border-primary/20 dark:text-on-background">
+                <Tag className="mr-2 h-4 w-4 text-oxblood dark:text-primary" />
+                Hot Tags
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {allTags.map((tag) => {
+                  const isTagActive = activeTag.toLowerCase() === tag.toLowerCase();
+                  return (
+                    <Link key={tag} href={getHref({ tag: isTagActive ? undefined : tag, page: '1' })} className={chipClass(isTagActive)}>
+                      {tag}
+                    </Link>
+                  );
+                })}
+              </div>
+            </section>
 
+            <section>
+              <h2 className="mb-3 flex items-center border-b border-outline-variant/50 pb-3 font-technical-ui text-xs font-bold uppercase tracking-[0.2em] text-on-background dark:border-primary/20 dark:text-on-background">
+                <Landmark className="mr-2 h-4 w-4 text-oxblood dark:text-primary" />
+                Categories
+              </h2>
+              <div className="space-y-1 font-technical-ui">
+                <Link href={getHref({ category: undefined, page: '1' })} className={sideLinkClass(!category)}>
+                  All Categories
+                </Link>
+                {categories.map((cat) => (
+                  <Link key={cat.slug} href={getHref({ category: cat.slug, page: '1' })} className={sideLinkClass(category === cat.slug)}>
+                    {cat.name}
+                  </Link>
+                ))}
+              </div>
+            </section>
+
+            <section>
+              <h2 className="mb-3 border-b border-outline-variant/50 pb-3 font-technical-ui text-xs font-bold uppercase tracking-[0.2em] text-on-background dark:border-primary/20 dark:text-on-background">
+                Authors
+              </h2>
+              <div className="space-y-1 font-technical-ui">
+                <Link href={getHref({ author: undefined, page: '1' })} className={sideLinkClass(!author)}>
+                  All Authors
+                </Link>
+                {allAuthors.map(([slug, name]) => (
+                  <Link key={slug} href={getHref({ author: slug, page: '1' })} className={sideLinkClass(author === slug)}>
+                    {name}
+                  </Link>
+                ))}
+              </div>
+            </section>
+
+            <section className="grid gap-8 sm:grid-cols-2 lg:grid-cols-1">
+              <div>
+                <h2 className="mb-3 border-b border-outline-variant/50 pb-3 font-technical-ui text-xs font-bold uppercase tracking-[0.2em] text-on-background dark:border-primary/20 dark:text-on-background">
+                  Year
+                </h2>
+                <div className="flex flex-wrap gap-2">
+                  {allYears.map((y) => (
+                    <Link key={y} href={getHref({ year: year === y ? undefined : y, page: '1' })} className={chipClass(year === y)}>
+                      {y}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h2 className="mb-3 border-b border-outline-variant/50 pb-3 font-technical-ui text-xs font-bold uppercase tracking-[0.2em] text-on-background dark:border-primary/20 dark:text-on-background">
+                  Read Time
+                </h2>
+                <div className="space-y-1 font-technical-ui">
+                  <Link href={getHref({ readTime: undefined, page: '1' })} className={sideLinkClass(!readTime)}>
+                    Any Length
+                  </Link>
+                  {readTimeFilters.map((item) => (
+                    <Link key={item.slug} href={getHref({ readTime: item.slug, page: '1' })} className={sideLinkClass(readTime === item.slug)}>
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </div>
         </aside>
-
       </div>
     </div>
   );

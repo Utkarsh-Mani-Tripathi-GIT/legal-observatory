@@ -21,11 +21,11 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
   const actionLabel = article.format === 'monthly-report' ? 'Open Issue' : 'Read Article';
 
   return (
-    <article className="group relative flex flex-col justify-between p-6 glass-card border border-slate-200/60 dark:border-slate-800/80 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
+    <article className="group border-b border-outline-variant/35 pb-10 transition-colors last:border-b-0 dark:border-primary/15">
       <div>
         {/* Top Header Row */}
-        <div className="flex items-center justify-between text-xs mb-3 text-slate-400 dark:text-slate-500">
-          <span className="px-2.5 py-0.5 rounded-full font-semibold bg-indigo-50 dark:bg-slate-800 text-indigo-700 dark:text-indigo-400 uppercase tracking-wider text-[10px]">
+        <div className="mb-4 flex flex-wrap items-center gap-4 font-technical-ui text-xs text-on-surface-variant dark:text-on-background/50">
+          <span className="bg-oxblood/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-oxblood dark:bg-primary/10 dark:text-primary">
             {article.type}
           </span>
           <div className="flex items-center space-x-1.5">
@@ -36,7 +36,7 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
 
         {/* Title */}
         <h3 
-          className="font-serif text-lg sm:text-xl font-bold leading-snug text-slate-900 dark:text-white mt-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors"
+          className="mt-1 font-serif text-3xl font-semibold leading-tight text-on-background transition-colors group-hover:text-oxblood dark:text-on-background dark:group-hover:text-primary sm:text-4xl"
           style={{ viewTransitionName: `article-title-${article.slug}` } as React.CSSProperties}
         >
           <Link href={articleUrl} className="focus:outline-none">
@@ -45,14 +45,14 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
         </h3>
 
         {/* Abstract / Summary */}
-        <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 line-clamp-3 leading-relaxed">
+        <p className="mt-4 font-body-md text-base leading-8 text-on-surface-variant line-clamp-3 dark:text-on-background/70 sm:text-lg">
           {article.abstract || article.caseSummary || article.policyOverview || 'Click to read full legal publication, including case summaries, legislative objectives, references, and citations.'}
         </p>
 
         {/* Categories / Tags badges */}
-        <div className="flex flex-wrap gap-1 mt-4">
+        <div className="mt-5 flex flex-wrap gap-1.5">
           {article.categories.map((cat) => (
-            <span key={cat} className="text-[10px] uppercase font-semibold text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-800 px-1.5 py-0.5 rounded">
+            <span key={cat} className="border border-outline-variant/65 px-2 py-0.5 font-technical-ui text-[10px] font-semibold uppercase tracking-[0.12em] text-on-surface-variant dark:border-primary/20 dark:text-on-background/45">
               #{cat.replace('-', ' ')}
             </span>
           ))}
@@ -60,21 +60,21 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
       </div>
 
         {/* Footer Info Row */}
-      <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 space-y-2">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center flex-wrap gap-x-3 gap-y-1 text-xs">
+      <div className="mt-7 space-y-3 border-t border-outline-variant/30 pt-5 dark:border-primary/15">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center flex-wrap gap-x-3 gap-y-1 font-technical-ui text-xs">
             <Avatar
               src={article.authorDetails?.avatar}
               alt={article.authorDetails?.name || 'Author'}
-              className="w-6 h-6 rounded-full object-cover border border-slate-200 dark:border-slate-700"
+              className="h-8 w-8 rounded-full border border-outline-variant object-cover grayscale dark:border-primary/25"
             />
             <AuthorLink
               slug={article.author}
-              className="font-medium text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline"
+              className="font-semibold uppercase tracking-[0.12em] text-on-background hover:text-oxblood dark:text-on-background dark:hover:text-primary"
             >
               {article.authorDetails?.name || 'Observatory Editor'}
             </AuthorLink>
-            <span className="inline-flex items-center gap-1 text-slate-400 dark:text-slate-500">
+            <span className="inline-flex items-center gap-1 text-on-surface-variant dark:text-on-background/45">
               <Calendar className="w-3.5 h-3.5" />
               {formattedDate}
             </span>
@@ -82,7 +82,7 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
 
           <Link
             href={articleUrl}
-            className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 flex items-center group-hover:underline"
+            className="flex items-center font-technical-ui text-xs font-bold uppercase tracking-[0.16em] text-oxblood transition hover:text-on-background group-hover:underline dark:text-primary dark:hover:text-on-background"
           >
             {actionLabel} <ArrowUpRight className="w-3.5 h-3.5 ml-0.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
@@ -92,10 +92,7 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
         {searchTerm && searchTerm.trim().length >= 2 && (
           <Link
             href={`${articleUrl}?highlight=${encodeURIComponent(searchTerm.trim())}`}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold
-              bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400
-              border border-amber-200/60 dark:border-amber-700/30
-              hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all duration-150 group/jump"
+            className="inline-flex items-center gap-1.5 border border-oxblood/25 bg-oxblood/10 px-2.5 py-1 font-technical-ui text-[11px] font-semibold text-oxblood transition-all duration-150 hover:bg-oxblood/15 dark:border-primary/25 dark:bg-primary/10 dark:text-primary dark:hover:bg-primary/15 group/jump"
             title={`Jump to first mention of "${searchTerm}" in this article`}
           >
             <Pin className="w-3 h-3 group-hover/jump:scale-110 transition-transform" />

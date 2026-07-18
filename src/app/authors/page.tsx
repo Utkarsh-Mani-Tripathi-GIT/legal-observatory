@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Shield, Cpu, ArrowRight } from 'lucide-react';
-import AuthorLink from '../../components/AuthorLink';
+import { ArrowRight, Cpu, ExternalLink, Shield } from 'lucide-react';
 import Avatar from '../../components/Avatar';
 
 export const metadata = {
@@ -11,116 +10,113 @@ export const metadata = {
 
 export default function AuthorsPage() {
   return (
-    <div className="max-w-6xl mx-auto py-12 px-4 sm:px-6 space-y-16">
-      
-      {/* Page Header */}
-      <header className="text-center max-w-3xl mx-auto space-y-4">
-        <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+    <div className="mx-auto max-w-6xl space-y-14 py-8 sm:py-12">
+      <header className="mx-auto max-w-3xl border-b border-outline-variant/45 pb-8 text-center dark:border-primary/20">
+        <p className="font-technical-ui text-xs font-bold uppercase tracking-[0.28em] text-oxblood dark:text-primary">
+          Contributor Registry
+        </p>
+        <h1 className="mt-5 font-serif text-4xl font-bold tracking-tight text-on-background dark:text-on-background sm:text-5xl lg:text-6xl">
           Observatory Contributors
         </h1>
-        <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 leading-relaxed">
+        <p className="mt-5 font-body-md text-base leading-8 text-on-surface-variant dark:text-on-background/70 sm:text-lg">
           The team powering the research, editorial standards, and digital infrastructure of the National Legal Observatory.
         </p>
       </header>
 
-      {/* Grid of Sections */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch">
-        
-        {/* Section 1: Legal / Editorial */}
-        <section className="space-y-6 flex flex-col justify-between p-8 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+      <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-2">
+        <section className="flex flex-col justify-between space-y-6 border border-outline-variant/45 bg-surface-container-lowest p-6 transition-colors hover:border-oxblood/60 dark:border-primary/20 dark:bg-surface-container dark:hover:border-primary/55 sm:p-8">
           <div className="space-y-6">
-            <div className="flex items-center space-x-3 text-[#7d1919] dark:text-[#c94c4c]">
-              <div className="p-2.5 bg-red-50 dark:bg-red-950/30 rounded-xl">
-                <Shield className="w-6 h-6" />
+            <div className="flex items-center gap-3 text-oxblood dark:text-primary">
+              <div className="flex h-12 w-12 items-center justify-center border border-oxblood/25 bg-oxblood/10 dark:border-primary/25 dark:bg-primary/10">
+                <Shield className="h-6 w-6" />
               </div>
-              <h2 className="font-serif text-xl sm:text-2xl font-bold text-slate-950 dark:text-white">
+              <h2 className="font-serif text-2xl font-bold text-on-background dark:text-on-background">
                 Legal & Editorial
               </h2>
             </div>
             
-            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed border-b border-slate-100 dark:border-slate-850 pb-4">
+            <p className="border-b border-outline-variant/35 pb-4 font-body-md text-sm leading-7 text-on-surface-variant dark:border-primary/20 dark:text-on-background/65">
               Directing academic inquiry, editing submissions, and ensuring all observations adhere to high constitutional scholarship.
             </p>
 
-            {/* Bhoomija Card */}
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 pt-2">
+            <div className="flex flex-col items-center gap-4 pt-2 text-center sm:flex-row sm:items-start sm:text-left">
               <Avatar
                 src="/images/bhoomija-avatar.png"
                 alt="Bhoomija Khanna"
-                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-[3px] border-slate-100 dark:border-slate-800 shrink-0 shadow-sm"
+                className="h-20 w-20 shrink-0 rounded-full border border-outline-variant object-cover grayscale dark:border-primary/25 sm:h-24 sm:w-24"
               />
               <div className="space-y-2 text-center sm:text-left">
                 <div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                  <h3 className="font-serif text-xl font-bold text-on-background dark:text-on-background">
                     Bhoomija Khanna
                   </h3>
-                  <p className="text-xs font-semibold text-[#7d1919] dark:text-[#c94c4c]">
+                  <p className="font-technical-ui text-xs font-bold uppercase tracking-[0.14em] text-oxblood dark:text-primary">
                     Founder & Chief Editor
                   </p>
                 </div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                <p className="font-body-md text-sm leading-7 text-on-surface-variant dark:text-on-background/65">
                   Focuses on constitutional law, public policy, and civil rights. Curates the observatory&apos;s research frameworks and publications.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="pt-6 border-t border-slate-100 dark:border-slate-850 flex justify-end">
+          <div className="flex justify-end border-t border-outline-variant/35 pt-6 dark:border-primary/20">
             <Link
               href="/bhoomija"
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-[#7d1919] hover:bg-[#5c1212] rounded-lg transition-colors shadow-sm"
+              className="inline-flex items-center gap-1.5 border border-oxblood bg-oxblood px-4 py-2.5 font-technical-ui text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:bg-on-background dark:border-primary dark:bg-primary dark:text-background dark:hover:bg-tertiary-fixed"
             >
-              View Profile & Publications <ArrowRight className="w-3.5 h-3.5" />
+              View Profile & Publications <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
         </section>
 
-        {/* Section 2: Technology */}
-        <section className="space-y-6 flex flex-col justify-between p-8 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+        <section className="flex flex-col justify-between space-y-6 border border-outline-variant/45 bg-surface-container-lowest p-6 transition-colors hover:border-oxblood/60 dark:border-primary/20 dark:bg-surface-container dark:hover:border-primary/55 sm:p-8">
           <div className="space-y-6">
-            <div className="flex items-center space-x-3 text-indigo-600 dark:text-indigo-400">
-              <div className="p-2.5 bg-indigo-50 dark:bg-indigo-950/30 rounded-xl">
-                <Cpu className="w-6 h-6" />
+            <div className="flex items-center gap-3 text-oxblood dark:text-primary">
+              <div className="flex h-12 w-12 items-center justify-center border border-oxblood/25 bg-oxblood/10 dark:border-primary/25 dark:bg-primary/10">
+                <Cpu className="h-6 w-6" />
               </div>
-              <h2 className="font-serif text-xl sm:text-2xl font-bold text-slate-950 dark:text-white">
+              <h2 className="font-serif text-2xl font-bold text-on-background dark:text-on-background">
                 Platform Technology
               </h2>
             </div>
 
-            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed border-b border-slate-100 dark:border-slate-850 pb-4">
+            <p className="border-b border-outline-variant/35 pb-4 font-body-md text-sm leading-7 text-on-surface-variant dark:border-primary/20 dark:text-on-background/65">
               Building standard-setting automation tools, managing database infrastructure, and maintaining premium web experiences.
             </p>
 
-            {/* Utkarsh Card */}
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 pt-2">
+            <div className="flex flex-col items-center gap-4 pt-2 text-center sm:flex-row sm:items-start sm:text-left">
               <Avatar
                 src="/utkarsh-avatar.svg"
                 alt="Utkarsh Mani Tripathi"
-                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-[3px] border-slate-100 dark:border-slate-800 shrink-0 shadow-sm bg-slate-950"
+                className="h-20 w-20 shrink-0 rounded-full border border-outline-variant bg-on-background object-cover dark:border-primary/25 sm:h-24 sm:w-24"
               />
               <div className="space-y-2 text-center sm:text-left">
                 <div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                  <h3 className="font-serif text-xl font-bold text-on-background dark:text-on-background">
                     Utkarsh Mani Tripathi
                   </h3>
-                  <p className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+                  <p className="font-technical-ui text-xs font-bold uppercase tracking-[0.14em] text-oxblood dark:text-primary">
                     Full Stack Product Builder & Tech Lead
                   </p>
                 </div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                <p className="font-body-md text-sm leading-7 text-on-surface-variant dark:text-on-background/65">
                   High-agency product builder entering 3rd year of CSE at GTB4CEC. Expert in database automation, voice production, and AI operations.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="pt-6 border-t border-slate-100 dark:border-slate-850 flex justify-end">
-            <AuthorLink
-              slug="utkarsh-mani-tripathi"
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors shadow-sm"
+          <div className="flex justify-end border-t border-outline-variant/35 pt-6 dark:border-primary/20">
+            <a
+              href="https://utkarshmanitripathi.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 border border-oxblood bg-oxblood px-4 py-2.5 font-technical-ui text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:bg-on-background dark:border-primary dark:bg-primary dark:text-background dark:hover:bg-tertiary-fixed"
             >
-              View Profile & Publications <ArrowRight className="w-3.5 h-3.5" />
-            </AuthorLink>
+              View Portfolio <ExternalLink className="h-3.5 w-3.5" />
+            </a>
           </div>
         </section>
 
