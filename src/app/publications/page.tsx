@@ -3,6 +3,7 @@ import { getArticles, getCategories, getPageViewCount } from '../../lib/content'
 import ArticleCard from '../../components/ArticleCard';
 import Link from 'next/link';
 import { AlertCircle, ArrowUpDown, FileText, Landmark, Search, Tag } from 'lucide-react';
+import FilterBar from '../../components/FilterBar';
 
 interface SearchParams {
   q?: string;
@@ -119,9 +120,10 @@ export default async function PublicationsPage(props: PageProps) {
   const allYears = Array.from(
     new Set(rawArticles.map((art) => new Date(art.date).getFullYear().toString()))
   ).sort((a, b) => parseInt(b) - parseInt(a));
+  
   const allAuthors = Array.from(
     new Map(rawArticles.map((art) => [art.authorDetails?.slug || art.author, art.authorDetails?.name || art.author])).entries()
-  );
+  ) as [string, string][];
 
   const getHref = (updates: Partial<SearchParams>, isReset: boolean = false) => {
     const newParams = isReset ? {} : { q: query, category, type: activeType, tag: activeTag, author, year, readTime, sort, page: pageNum.toString() };
@@ -174,7 +176,7 @@ export default async function PublicationsPage(props: PageProps) {
 
   return (
     <div className="mx-auto max-w-screen-2xl py-4 sm:py-10">
-      <section className="border-b border-outline-variant/45 pb-8 dark:border-primary/20">
+      <header className="border-b border-outline-variant/45 pb-8 dark:border-primary/20">
         <span className="font-technical-ui text-xs font-bold uppercase tracking-[0.28em] text-oxblood dark:text-primary">
           Archive Catalogue
         </span>
@@ -187,7 +189,7 @@ export default async function PublicationsPage(props: PageProps) {
               Search, filter, and read the observatory repository of independent legal research papers.
             </p>
           </div>
-          <div className="hidden border border-outline-variant/45 bg-surface-container-low p-5 dark:border-primary/20 dark:bg-surface-container sm:block">
+          <div className="hidden border border-outline-variant/45 bg-surface-container-low p-5 dark:border-primary/20 dark:bg-surface-container lg:block">
             <p className="font-technical-ui text-[11px] font-bold uppercase tracking-[0.2em] text-on-surface-variant dark:text-on-background/45">
               Records Matched
             </p>
@@ -200,7 +202,8 @@ export default async function PublicationsPage(props: PageProps) {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center gap-3 border-t border-outline-variant/30 pt-5 font-technical-ui text-xs dark:border-primary/15">
+        {/* Chips only for PC view */}
+        <div className="hidden lg:flex mt-8 flex-wrap items-center gap-3 border-t border-outline-variant/30 pt-5 font-technical-ui text-xs dark:border-primary/15">
           <span className="font-bold uppercase tracking-[0.18em] text-on-background dark:text-on-background">
             Filters:
           </span>
@@ -219,16 +222,28 @@ export default async function PublicationsPage(props: PageProps) {
             </Link>
           )}
         </div>
-      </section>
+      </header>
+
+      {/* Modern Horizontal Scrolling Dropdown Filter Bar — Mobile/Portrait Only */}
+      <div className="lg:hidden mt-6">
+        <FilterBar
+          categories={categories}
+          authors={allAuthors}
+          years={allYears}
+          totalItems={totalItems}
+        />
+      </div>
 
       <div className="mt-8 grid grid-cols-1 gap-8 sm:mt-12 sm:gap-12 lg:grid-cols-12">
         <section className="lg:col-span-8">
+          {/* Mobile indicator showing matches, but sort bar stays for desktop */}
           <div className="mb-10 flex flex-col gap-4 border-b border-outline-variant/35 pb-5 dark:border-primary/20 sm:flex-row sm:items-center sm:justify-between">
             <div className="font-technical-ui text-xs uppercase tracking-[0.18em] text-on-surface-variant dark:text-on-background/50">
               Showing <span className="font-bold text-on-background dark:text-on-background">{filteredArticles.length}</span> publications
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
+            {/* Desktop Sort Chips */}
+            <div className="hidden lg:flex flex-wrap items-center gap-2">
               <div className="flex items-center gap-1.5 font-technical-ui text-xs uppercase tracking-[0.14em] text-on-surface-variant dark:text-on-background/50">
                 <ArrowUpDown className="h-3.5 w-3.5 text-oxblood dark:text-primary" />
                 Sort
@@ -309,6 +324,7 @@ export default async function PublicationsPage(props: PageProps) {
           )}
         </section>
 
+        {/* Sidebar section — Desktop Only */}
         <aside className="hidden lg:col-span-4 lg:block">
           <div className="sticky top-28 space-y-8 border border-outline-variant/40 bg-surface-container-low p-6 dark:border-primary/20 dark:bg-surface-container">
             <section>
