@@ -61,7 +61,6 @@ export default function SearchOverlay({
   const [isAiMode, setIsAiMode] = useState(false);
   const [trendingQueries, setTrendingQueries] = useState<string[]>([]);
   const latestQueryRef = useRef('');
-
   const { messages, sendMessage, status, setMessages } = useChat({
     messages: [
       {
@@ -72,6 +71,34 @@ export default function SearchOverlay({
     ]
   });
 
+  // Persist chat history
+  useEffect(() => {
+    const saved = localStorage.getItem('nlo-ai-chat-messages');
+    if (saved) {
+      try {
+        setMessages(JSON.parse(saved));
+      } catch (e) {
+        console.error('Failed to load chat history:', e);
+      }
+    }
+  }, [setMessages]);
+
+  useEffect(() => {
+    if (messages.length > 1) {
+      localStorage.setItem('nlo-ai-chat-messages', JSON.stringify(messages));
+    }
+  }, [messages]);
+
+  const clearChat = () => {
+    localStorage.removeItem('nlo-ai-chat-messages');
+    setMessages([
+      {
+        id: 'welcome',
+        role: 'assistant',
+        parts: [{ type: 'text', text: 'Hi! I am the observatory AI assistant. You can ask me any question about our legal documents, cases, or procedures, and I will search our database to find the answer.' }]
+      }
+    ]);
+  };
 
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -90,12 +117,12 @@ export default function SearchOverlay({
   }, []);
   
   // Theme styling overrides
-  const iconColor = isBhoomijaPage ? 'text-[#7d1919]' : 'text-indigo-500';
-  const categoryTextColor = isBhoomijaPage ? 'text-[#7d1919]' : 'text-indigo-600 dark:text-indigo-400';
-  const highlightBorder = isBhoomijaPage ? 'border-[#7d1919]' : 'border-indigo-600';
-  const activeBg = isBhoomijaPage ? 'bg-[#f5f0eb]' : 'bg-indigo-50 dark:bg-slate-800/80';
-  const highlightText = isBhoomijaPage ? 'text-[#5c1212]' : 'text-indigo-950 dark:text-white';
-  const spinnerBorder = isBhoomijaPage ? 'border-[#7d1919]' : 'border-indigo-600';
+  const iconColor = isBhoomijaPage ? 'text-[#7d1919]' : 'text-primary';
+  const categoryTextColor = isBhoomijaPage ? 'text-[#7d1919]' : 'text-primary';
+  const highlightBorder = isBhoomijaPage ? 'border-[#7d1919]' : 'border-primary';
+  const activeBg = isBhoomijaPage ? 'bg-[#f5f0eb]' : 'bg-primary-container/10 dark:bg-slate-800/80';
+  const highlightText = isBhoomijaPage ? 'text-[#5c1212]' : 'text-slate-900 dark:text-white';
+  const spinnerBorder = isBhoomijaPage ? 'border-[#7d1919]' : 'border-primary';
   const backdropBg = isBhoomijaPage ? 'bg-slate-900/60 dark:bg-black/80' : 'bg-slate-900/60 dark:bg-black/80';
   const modalBg = isBhoomijaPage ? 'bg-[#f5f0eb]' : 'bg-white dark:bg-slate-900';
   const modalBorder = isBhoomijaPage ? 'border-[#7d1919]/30' : 'border-slate-200 dark:border-slate-800';
@@ -352,7 +379,7 @@ export default function SearchOverlay({
                    sendMessage({ text: query.trim() });
                    setQuery('');
                 }}
-                className={`p-1.5 mr-2 ml-2 rounded-md transition-colors ${isBhoomijaPage ? 'bg-[#7d1919] text-white hover:bg-[#5c1212]' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}
+                className={`p-1.5 mr-2 ml-2 rounded-md transition-colors ${isBhoomijaPage ? 'bg-[#7d1919] text-white hover:bg-[#5c1212]' : 'bg-primary text-on-primary hover:opacity-90'}`}
              >
                 <Send className="w-4 h-4" />
              </button>
@@ -361,7 +388,7 @@ export default function SearchOverlay({
             <div className="flex items-center gap-2">
               <span className={`text-[11px] hidden sm:inline-flex font-medium items-center gap-1 transition-colors ${
                 isAiMode
-                  ? isBhoomijaPage ? 'text-[#7d1919]' : 'text-emerald-500 dark:text-emerald-400'
+                  ? isBhoomijaPage ? 'text-[#7d1919]' : 'text-primary'
                   : 'text-slate-400'
               }`}>
                 {status === 'streaming' || status === 'submitted' ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
@@ -369,7 +396,7 @@ export default function SearchOverlay({
               </span>
               <span className={`text-[11px] sm:hidden inline-flex font-medium items-center gap-1 transition-colors ${
                 isAiMode
-                  ? isBhoomijaPage ? 'text-[#7d1919]' : 'text-emerald-500 dark:text-emerald-400'
+                  ? isBhoomijaPage ? 'text-[#7d1919]' : 'text-primary'
                   : 'text-slate-400'
               }`}>
                 {status === 'streaming' || status === 'submitted' ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
@@ -381,7 +408,7 @@ export default function SearchOverlay({
                 disabled={status === 'streaming' || status === 'submitted'}
                 className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 ${
                   isAiMode 
-                    ? isBhoomijaPage ? 'bg-[#7d1919]' : 'bg-[#34c759]'
+                    ? isBhoomijaPage ? 'bg-[#7d1919]' : 'bg-primary'
                     : 'bg-[#e5e5ea] dark:bg-[#39393d]'
                 }`}
                 title="Toggle AI Search Mode (Ctrl/Cmd+Enter)"
@@ -392,12 +419,12 @@ export default function SearchOverlay({
                 <span className={`absolute left-[6px] flex h-full items-center justify-center transition-opacity duration-200 ${isAiMode ? 'opacity-100' : 'opacity-0'}`}>
                   <div className="h-2 w-[1.5px] rounded-sm bg-white" />
                 </span>
-
+ 
                 {/* OFF icon (circle outline) */}
                 <span className={`absolute right-[5px] flex h-full items-center justify-center transition-opacity duration-200 ${isAiMode ? 'opacity-0' : 'opacity-100'}`}>
                   <div className="h-[9px] w-[9px] rounded-full border-[1.5px] border-[#8e8e93] dark:border-[#98989d]" />
                 </span>
-
+ 
                 {/* Thumb */}
                 <span className={`pointer-events-none inline-flex h-4 w-4 transform rounded-full bg-white shadow-[0_2px_4px_rgba(0,0,0,0.2)] ring-0 transition duration-200 ease-in-out ${isAiMode ? 'translate-x-[18px]' : 'translate-x-[2px]'}`} />
               </button>
@@ -410,11 +437,21 @@ export default function SearchOverlay({
             <X className="w-5 h-5" />
           </button>
         </div>
-
+ 
         {/* Results / Chat Body */}
         <div className="max-h-[28rem] overflow-y-auto p-2">
           {isAiMode ? (
             <div className="flex flex-col space-y-4 py-2 px-2 h-full">
+              {messages.length > 1 && (
+                <div className="flex justify-end px-2">
+                  <button 
+                    onClick={clearChat}
+                    className="text-[11px] text-slate-400 hover:text-primary transition-colors underline decoration-dotted"
+                  >
+                    Clear Conversation
+                  </button>
+                </div>
+              )}
               {messages.map((msg) => {
                           const isUser = (msg.role as string) === 'user';
                           const textPart = msg.parts?.find(p => p.type === 'text') as any;
@@ -431,7 +468,7 @@ export default function SearchOverlay({
                       isUser
                         ? isBhoomijaPage
                           ? 'bg-[#7d1919] text-white'
-                          : 'bg-indigo-600 text-white'
+                          : 'bg-primary text-on-primary'
                         : isBhoomijaPage
                         ? 'bg-white/80 border border-[#7d1919]/20 text-slate-800'
                         : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200'
