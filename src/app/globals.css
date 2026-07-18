@@ -5,42 +5,311 @@
 @theme {
   --font-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
   --font-serif: var(--font-serif), Georgia, Cambria, "Times New Roman", Times, serif;
+
+  /* Theme color mapping to CSS variables */
+  --color-on-tertiary-fixed-variant: var(--on-tertiary-fixed-variant);
+  --color-error: var(--error);
+  --color-tertiary-fixed-dim: var(--tertiary-fixed-dim);
+  --color-primary-container: var(--primary-container);
+  --color-surface-variant: var(--surface-variant);
+  --color-on-error: var(--on-error);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-primary: var(--primary);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-on-primary-container: var(--on-primary-container);
+  --color-tertiary-fixed: var(--tertiary-fixed);
+  --color-surface-bright: var(--surface-bright);
+  --color-surface-dim: var(--surface-dim);
+  --color-on-secondary-fixed: var(--on-secondary-fixed);
+  --color-secondary-fixed-dim: var(--secondary-fixed-dim);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-primary-fixed-dim: var(--primary-fixed-dim);
+  --color-on-surface: var(--on-surface);
+  --color-on-error-container: var(--on-error-container);
+  --color-outline-variant: var(--outline-variant);
+  --color-on-secondary: var(--on-secondary);
+  --color-surface-container: var(--surface-container);
+  --color-secondary: var(--secondary);
+  --color-inverse-primary: var(--inverse-primary);
+  --color-surface-tint: var(--surface-tint);
+  --color-tertiary: var(--tertiary);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-on-tertiary: var(--on-tertiary);
+  --color-error-container: var(--error-container);
+  --color-secondary-container: var(--secondary-container);
+  --color-outline: var(--outline);
+  --color-on-primary-fixed-variant: var(--on-primary-fixed-variant);
+  --color-on-tertiary-fixed: var(--on-tertiary-fixed);
+  --color-on-tertiary-container: var(--on-tertiary-container);
+  --color-inverse-surface: var(--inverse-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-on-secondary-fixed-variant: var(--on-secondary-fixed-variant);
+  --color-background: var(--background);
+  --color-tertiary-container: var(--tertiary-container);
+  --color-surface: var(--surface);
+  --color-secondary-fixed: var(--secondary-fixed);
+  --color-on-background: var(--on-background);
+  --color-on-primary: var(--on-primary);
+  --color-inverse-on-surface: var(--inverse-on-surface);
+  --color-primary-fixed: var(--primary-fixed);
+  --color-on-primary-fixed: var(--on-primary-fixed);
+  --color-on-secondary-container: var(--on-secondary-container);
+
+  /* Special light-mode/dark-mode theme custom colors */
+  --color-ink-black: var(--ink-black);
+  --color-slate-gray: var(--slate-gray);
+  --color-deep-navy: var(--deep-navy);
+  --color-manilla-legal: var(--manilla-legal);
+  --color-oxblood: var(--oxblood);
+
+  /* Custom Font Families */
+  --font-body-lg: var(--font-body-lg);
+  --font-display-lg: var(--font-display-lg);
+  --font-headline-md: var(--font-headline-md);
+  --font-label-sm: var(--font-label-sm);
+  --font-body-md: var(--font-body-md);
+  --font-display-lg-mobile: var(--font-display-lg-mobile);
   
-  /* Map indigo utility classes to the custom gold color #D3AC2B */
-  --color-indigo-50: #fefdf6;
-  --color-indigo-100: #fcf6d6;
-  --color-indigo-200: #faf0b4;
-  --color-indigo-300: #f6e480;
-  --color-indigo-400: #f0d553;
-  --color-indigo-500: #d3ac2b;
-  --color-indigo-600: #d3ac2b;
-  --color-indigo-700: #b59021;
-  --color-indigo-800: #947416;
-  --color-indigo-900: #765a0e;
-  --color-indigo-950: #493605;
-  
-  /* Warm charcoal dark palette — no blue tint */
-  --color-slate-50:  #f5f6f8;
-  --color-slate-100: #eaecf1;
-  --color-slate-200: #d5d8e2;
-  --color-slate-300: #b9becd;
-  --color-slate-400: #98a0b5;
-  --color-slate-500: #7a839d;
-  --color-slate-600: #5d6781;
-  --color-slate-700: #3b475c;
-  --color-slate-800: #2a2a2a; /* warm charcoal surface */
-  --color-slate-900: #222222; /* warm charcoal elevated */
-  --color-slate-950: #1a1a1a; /* warm charcoal base */
+  --font-technical-ui: var(--font-technical-ui);
+  --font-body-reading: var(--font-body-reading);
+  --font-display-hero: var(--font-display-hero);
+  --font-headline-lg-mobile: var(--font-headline-lg-mobile);
+  --font-headline-lg: var(--font-headline-lg);
+  --font-body-reading-mobile: var(--font-body-reading-mobile);
+  --font-citation: var(--font-citation);
+  --font-label-caps: var(--font-label-caps);
+
+  /* Font Sizes */
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+  --text-body-lg--font-weight: 400;
+
+  --text-display-lg: 56px;
+  --text-display-lg--line-height: 64px;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg--font-weight: 700;
+
+  --text-headline-md: 32px;
+  --text-headline-md--line-height: 40px;
+  --text-headline-md--font-weight: 600;
+
+  --text-label-sm: 12px;
+  --text-label-sm--line-height: 16px;
+  --text-label-sm--letter-spacing: 0.05em;
+  --text-label-sm--font-weight: 600;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+  --text-body-md--font-weight: 400;
+
+  --text-display-lg-mobile: 36px;
+  --text-display-lg-mobile--line-height: 44px;
+  --text-display-lg-mobile--letter-spacing: -0.01em;
+  --text-display-lg-mobile--font-weight: 700;
+
+  --text-technical-ui: 14px;
+  --text-technical-ui--line-height: 1.4;
+  --text-technical-ui--font-weight: 400;
+
+  --text-body-reading: 20px;
+  --text-body-reading--line-height: 1.7;
+  --text-body-reading--font-weight: 400;
+
+  --text-display-hero: 64px;
+  --text-display-hero--line-height: 1.1;
+  --text-display-hero--letter-spacing: -0.02em;
+  --text-display-hero--font-weight: 700;
+
+  --text-headline-lg-mobile: 32px;
+  --text-headline-lg-mobile--line-height: 1.2;
+  --text-headline-lg-mobile--font-weight: 700;
+
+  --text-headline-lg: 48px;
+  --text-headline-lg--line-height: 1.2;
+  --text-headline-lg--font-weight: 700;
+
+  --text-body-reading-mobile: 18px;
+  --text-body-reading-mobile--line-height: 1.6;
+  --text-body-reading-mobile--font-weight: 400;
+
+  --text-citation: 13px;
+  --text-citation--line-height: 1.4;
+  --text-citation--font-weight: 400;
+
+  --text-label-caps: 12px;
+  --text-label-caps--line-height: 1;
+  --text-label-caps--letter-spacing: 0.1em;
+  --text-label-caps--font-weight: 600;
+
+  /* Custom Spacings */
+  --spacing-margin-page: 5vw;
+  --spacing-gutter-grid: 2rem;
+  --spacing-block-gap: 4rem;
+  --spacing-inline-sm: 0.5rem;
+  --spacing-inline-md: 1rem;
+  --spacing-unit: 8px;
+  --spacing-container-max: 1140px;
+  --spacing-gutter: 24px;
+  --spacing-margin-desktop: 64px;
+  --spacing-margin-mobile: 16px;
+
+  /* Custom border-radius: Functional Authority requires sharp (0px) roundedness by default */
+  --radius-DEFAULT: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-full: 9999px;
 }
 
 :root {
-  --background: #f8fafc;
-  --foreground: #293040;
+  /* Colors - Light Theme */
+  --on-tertiary-fixed-variant: #574425;
+  --error: #ba1a1a;
+  --tertiary-fixed-dim: #dec29a;
+  --primary-container: #131b2e;
+  --surface-variant: #e4e2e4;
+  --on-error: #ffffff;
+  --surface-container-highest: #e4e2e4;
+  --primary: #000000;
+  --surface-container-low: #f6f3f5;
+  --on-primary-container: #7c839b;
+  --tertiary-fixed: #fcdeb5;
+  --surface-bright: #fcf8fa;
+  --surface-dim: #dcd9db;
+  --on-secondary-fixed: #1c1c19;
+  --secondary-fixed-dim: #c8c6c2;
+  --surface-container-high: #eae7e9;
+  --primary-fixed-dim: #bec6e0;
+  --on-surface: #1b1b1d;
+  --on-error-container: #93000a;
+  --outline-variant: #c6c6cd;
+  --on-secondary: #ffffff;
+  --surface-container: #f0edef;
+  --secondary: #5f5e5b;
+  --inverse-primary: #bec6e0;
+  --surface-tint: #565e74;
+  --tertiary: #000000;
+  --surface-container-lowest: #ffffff;
+  --on-tertiary: #ffffff;
+  --error-container: #ffdad6;
+  --secondary-container: #e5e2dd;
+  --outline: #76777d;
+  --on-primary-fixed-variant: #3f465c;
+  --on-tertiary-fixed: #271901;
+  --on-tertiary-container: #98805d;
+  --inverse-surface: #303032;
+  --on-surface-variant: #45464d;
+  --on-secondary-fixed-variant: #474743;
+  --background: #fcf8fa;
+  --tertiary-container: #271901;
+  --surface: #fcf8fa;
+  --secondary-fixed: #e5e2dd;
+  --on-background: #1b1b1d;
+  --on-primary: #ffffff;
+  --inverse-on-surface: #f3f0f2;
+  --primary-fixed: #dae2fd;
+  --on-primary-fixed: #131b2e;
+  --on-secondary-container: #656461;
+
+  --ink-black: #020617;
+  --slate-gray: #64748B;
+  --deep-navy: #0F172A;
+  --manilla-legal: #F8F5F0;
+  --oxblood: #7F1D1D;
+
+  /* Font Families - Light Theme */
+  --font-body-lg: "Source Serif 4", Georgia, serif;
+  --font-display-lg: "Playfair Display", Georgia, serif;
+  --font-headline-md: "Playfair Display", Georgia, serif;
+  --font-label-sm: "Inter", sans-serif;
+  --font-body-md: "Source Serif 4", Georgia, serif;
+  --font-display-lg-mobile: "Playfair Display", Georgia, serif;
+  
+  --font-technical-ui: "IBM Plex Sans", sans-serif;
+  --font-body-reading: "Playfair Display", Georgia, serif;
+  --font-display-hero: "Playfair Display", Georgia, serif;
+  --font-headline-lg-mobile: "Playfair Display", Georgia, serif;
+  --font-headline-lg: "Playfair Display", Georgia, serif;
+  --font-body-reading-mobile: "Playfair Display", Georgia, serif;
+  --font-citation: "IBM Plex Sans", sans-serif;
+  --font-label-caps: "IBM Plex Sans", sans-serif;
 }
 
 .dark {
-  --background: #1a1a1a; /* warm charcoal — not deep blue */
-  --foreground: #f0ece4;  /* warm off-white, not cold white */
+  /* Colors - Dark Theme */
+  --on-tertiary-fixed-variant: #00504d;
+  --error: #ffb4ab;
+  --tertiary-fixed-dim: #66d8d2;
+  --primary-container: #e0e3e5;
+  --surface-variant: #2e3447;
+  --on-error: #690005;
+  --surface-container-highest: #2e3447;
+  --primary: #ffffff;
+  --surface-container-low: #151b2d;
+  --on-primary-container: #626567;
+  --tertiary-fixed: #84f5ee;
+  --surface-bright: #33394c;
+  --surface-dim: #0c1324;
+  --on-secondary-fixed: #0d1c2d;
+  --secondary-fixed-dim: #b9c8de;
+  --surface-container-high: #23293c;
+  --primary-fixed-dim: #c4c7c9;
+  --on-surface: #dce1fb;
+  --on-error-container: #ffdad6;
+  --outline-variant: #444749;
+  --on-secondary: #233143;
+  --surface-container: #191f31;
+  --secondary: #b9c8de;
+  --inverse-primary: #5c5f61;
+  --surface-tint: #c4c7c9;
+  --tertiary: #ffffff;
+  --surface-container-lowest: #070d1f;
+  --on-tertiary: #003735;
+  --error-container: #93000a;
+  --secondary-container: #39485a;
+  --outline: #8e9193;
+  --on-primary-fixed-variant: #444749;
+  --on-tertiary-fixed: #00201e;
+  --on-tertiary-container: #00716c;
+  --inverse-surface: #dce1fb;
+  --on-surface-variant: #c4c7c9;
+  --on-secondary-fixed-variant: #39485a;
+  --background: #0c1324;
+  --tertiary-container: #84f5ee;
+  --surface: #0c1324;
+  --secondary-fixed: #d4e4fa;
+  --on-background: #dce1fb;
+  --on-primary: #2d3133;
+  --inverse-on-surface: #2a3043;
+  --primary-fixed: #e0e3e5;
+  --on-primary-fixed: #191c1e;
+  --on-secondary-container: #a7b6cc;
+
+  --ink-black: #0c1324;
+  --slate-gray: #8e9193;
+  --deep-navy: #070d1f;
+  --manilla-legal: #151b2d;
+  --oxblood: #ffb4ab;
+
+  /* Font Families - Dark Theme */
+  --font-body-lg: "Source Serif 4", Georgia, serif;
+  --font-display-lg: "Playfair Display", Georgia, serif;
+  --font-headline-md: "Playfair Display", Georgia, serif;
+  --font-label-sm: "Inter", sans-serif;
+  --font-body-md: "Source Serif 4", Georgia, serif;
+  --font-display-lg-mobile: "Playfair Display", Georgia, serif;
+  
+  --font-technical-ui: "IBM Plex Sans", sans-serif;
+  --font-body-reading: "Playfair Display", Georgia, serif;
+  --font-display-hero: "Playfair Display", Georgia, serif;
+  --font-headline-lg-mobile: "Playfair Display", Georgia, serif;
+  --font-headline-lg: "Playfair Display", Georgia, serif;
+  --font-body-reading-mobile: "Playfair Display", Georgia, serif;
+  --font-citation: "IBM Plex Sans", sans-serif;
+  --font-label-caps: "IBM Plex Sans", sans-serif;
 }
 
 body {

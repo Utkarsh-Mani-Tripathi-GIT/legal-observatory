@@ -1,9 +1,12 @@
 'use client';
 
 import React, { useEffect, useState, useRef } from 'react';
-import { Search, X, BookOpen, AlertCircle, FileText, Compass, Pin, Sparkles, Loader2 } from 'lucide-react';
+import { Search, X, BookOpen, AlertCircle, FileText, Compass, Pin, Sparkles, Loader2, Send } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useChat } from '@ai-sdk/react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface SearchResult {
   slug: string;
@@ -16,122 +19,7 @@ interface SearchResult {
   excerpt?: string;
 }
 
-interface SearchScope {
-  site: string;
-  searchedFields: string[];
-  matched: {
-    publications: number;
-    authorProfiles: number;
-    bibliographies?: number;
-    webPages?: number;
-  };
-  bibliographySources?: string[];
-  profileSources?: string[];
-  webSources?: string[];
-  summary: string;
-}
 
-interface AiCitationSource {
-  articleSlug: string;
-  articleTitle: string;
-  reference: string;
-  url?: string;
-  host?: string;
-  kind?: 'bibliography';
-  authorName?: string;
-}
-
-interface AiWebSource {
-  url: string;
-  host: string;
-  title: string;
-  description: string;
-  sourceReference: string;
-}
-
-interface AiProfileSource {
-  slug: string;
-  name: string;
-  role: string;
-  bio: string;
-  excerpt: string;
-}
-
-interface AiSourcePack {
-  nloArticles: SearchResult[];
-  profiles: AiProfileSource[];
-  citations: AiCitationSource[];
-  webPages: AiWebSource[];
-}
-
-interface AiAnswerBlock {
-  label?: string;
-  text: string;
-}
-
-function normalizeAiResponse(text: string) {
-  return text
-    .replace(/\r/g, '')
-    .replace(/\u00a0/g, ' ')
-    .replace(/^\s*(answer|response|summary)\s*:\s*/i, '')
-    .replace(/\n{3,}/g, '\n\n')
-  .replace(/[ \t]+\n/g, '\n')
-  .trim();
-}
-
-function parseAiResponseBlocks(text: string): AiAnswerBlock[] {
-  const lines = normalizeAiResponse(text)
-    .split('\n')
-    .map((line) => line.trim())
-    .filter(Boolean);
-
-  const blocks: AiAnswerBlock[] = [];
-  let currentBlock: AiAnswerBlock | null = null;
-
-  for (const line of lines) {
-    const match = line.match(/^(NLO|PROFILE|BIB|CITATION|WEB|NOTE)\s*[:\-–]\s*(.+)$/i);
-    if (match?.[2]) {
-      if (currentBlock) {
-        blocks.push(currentBlock);
-      }
-      currentBlock = {
-        label: match[1]?.toUpperCase(),
-        text: match[2].trim(),
-      };
-      continue;
-    }
-
-    if (!currentBlock) {
-      currentBlock = { text: line };
-    } else {
-      currentBlock.text = `${currentBlock.text} ${line}`.trim();
-    }
-  }
-
-  if (currentBlock) {
-    blocks.push(currentBlock);
-  }
-
-  return blocks;
-}
-
-function getAnswerBlockTone(label?: string) {
-  switch (label) {
-    case 'NLO':
-      return 'border-amber-200/70 dark:border-amber-700/30 bg-amber-50/50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-200';
-    case 'PROFILE':
-      return 'border-violet-200/70 dark:border-violet-800/30 bg-violet-50/50 dark:bg-violet-950/20 text-violet-800 dark:text-violet-200';
-    case 'BIB':
-    case 'CITATION':
-      return 'border-sky-200/70 dark:border-sky-800/30 bg-sky-50/50 dark:bg-sky-950/20 text-sky-800 dark:text-sky-200';
-    case 'WEB':
-      return 'border-emerald-200/70 dark:border-emerald-800/30 bg-emerald-50/50 dark:bg-emerald-950/20 text-emerald-800 dark:text-emerald-200';
-    case 'NOTE':
-      return 'border-slate-200/70 dark:border-slate-700/30 bg-slate-50/70 dark:bg-slate-900/30 text-slate-700 dark:text-slate-300';
-    default:
-      return 'border-slate-200/70 dark:border-slate-700/30 bg-white/60 dark:bg-slate-900/30 text-slate-700 dark:text-slate-300';
-  }
-}
 
 function formatSearchResultDate(result: SearchResult): string {
   const date = new Date(result.date);
@@ -167,38 +55,39 @@ export default function SearchOverlay({
 }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
-  const [aiResponse, setAiResponse] = useState<string | null>(null);
-  const [aiScope, setAiScope] = useState<SearchScope | null>(null);
-  const [aiSources, setAiSources] = useState<AiSourcePack | null>(null);
-  const [showSources, setShowSources] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [aiRateLimitSeconds, setAiRateLimitSeconds] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [isAiLoading, setIsAiLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isAiMode, setIsAiMode] = useState(false);
+  const [trendingQueries, setTrendingQueries] = useState<string[]>([]);
   const latestQueryRef = useRef('');
 
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (aiRateLimitSeconds > 0) {
-      timer = setInterval(() => {
-        setAiRateLimitSeconds((prev) => {
-          if (prev <= 1) {
-             setErrorMsg(null);
-             return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(timer);
-  }, [aiRateLimitSeconds]);
+  const { messages, sendMessage, status, setMessages } = useChat({
+    messages: [
+      {
+        id: 'welcome',
+        role: 'assistant',
+        parts: [{ type: 'text', text: 'Hi! I am the observatory AI assistant. You can ask me any question about our legal documents, cases, or procedures, and I will search our database to find the answer.' }]
+      }
+    ]
+  });
+
 
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const pathname = usePathname();
   const isBhoomijaPage = pathname === '/bhoomija';
+
+  useEffect(() => {
+    fetch('/api/search/trending')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.queries && data.queries.length > 0) {
+          setTrendingQueries(data.queries);
+        }
+      })
+      .catch((err) => console.error('Failed to fetch trending queries:', err));
+  }, []);
   
   // Theme styling overrides
   const iconColor = isBhoomijaPage ? 'text-[#7d1919]' : 'text-indigo-500';
@@ -222,52 +111,16 @@ export default function SearchOverlay({
 
   const performSearch = async (
     searchQuery: string,
-    includeAi: boolean,
     signal?: AbortSignal
   ) => {
-    if (includeAi) {
-      setIsAiLoading(true);
-    } else {
-      setIsLoading(true);
-    }
+    setIsLoading(true);
 
     try {
       const res = await fetch(
-        `/api/search?q=${encodeURIComponent(searchQuery)}${includeAi ? '&ai=1' : ''}`,
+        `/api/search?q=${encodeURIComponent(searchQuery)}`,
         signal ? { signal } : undefined
       );
       const data = await res.json().catch(() => ({}));
-
-      if (includeAi) {
-        if (res.ok) {
-          if (latestQueryRef.current !== searchQuery) {
-            return;
-          }
-          setResults(data.results || []);
-          setAiResponse(data.aiResponse || null);
-          setAiScope(data.scope || null);
-          setAiSources(data.sources || null);
-          setShowSources(false);
-          setErrorMsg(data.aiError || null);
-          setSelectedIndex(-1);
-        } else if (res.status === 429) {
-          setErrorMsg(data.error || 'AI search limit reached.');
-          setAiResponse(null);
-          setAiScope(data.scope || null);
-          setAiSources(data.sources || null);
-          setShowSources(false);
-          if (data.remaining) {
-            setAiRateLimitSeconds(data.remaining);
-          }
-        } else {
-          setErrorMsg(data.aiError || data.error || 'AI search failed.');
-          setAiResponse(null);
-          setAiScope(data.scope || null);
-          setAiSources(data.sources || null);
-          setShowSources(false);
-        }
-        return;
-      }
 
       if (res.ok) {
         if (latestQueryRef.current !== searchQuery) {
@@ -275,31 +128,19 @@ export default function SearchOverlay({
         }
         setResults(data.results || []);
         setSelectedIndex(-1);
-        setAiScope(null);
-        setAiSources(null);
-        setShowSources(false);
         setErrorMsg(null);
       } else {
         setResults([]);
-        setAiResponse(null);
-        setAiScope(null);
-        setAiSources(null);
-        setShowSources(false);
         setErrorMsg(data.error || 'An error occurred during search.');
       }
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') {
         return;
       }
-
       console.error('Search error:', err);
-      setErrorMsg(includeAi ? 'Failed to connect to the AI search service.' : 'Failed to connect to the search service.');
+      setErrorMsg('Failed to connect to the search service.');
     } finally {
-      if (includeAi) {
-        setIsAiLoading(false);
-      } else {
-        setIsLoading(false);
-      }
+      setIsLoading(false);
     }
   };
 
@@ -328,13 +169,13 @@ export default function SearchOverlay({
     latestQueryRef.current = trimmedQuery;
     const controller = new AbortController();
 
+    if (isAiMode) {
+      return;
+    }
+
     if (trimmedQuery.length < 2) {
       const clearTimer = window.setTimeout(() => {
         setResults([]);
-        setAiResponse(null);
-        setAiScope(null);
-        setAiSources(null);
-        setShowSources(false);
         setErrorMsg(null);
         setSelectedIndex(-1);
         setIsLoading(false);
@@ -347,15 +188,9 @@ export default function SearchOverlay({
     }
 
     const delayDebounce = window.setTimeout(() => {
-      if (!isAiMode) {
-        setAiResponse(null);
-        setAiScope(null);
-        setAiSources(null);
-        setShowSources(false);
-      }
       setSelectedIndex(-1);
-      void performSearch(trimmedQuery, isAiMode, controller.signal);
-    }, isAiMode ? 750 : 250);
+      void performSearch(trimmedQuery, controller.signal);
+    }, 250);
 
     return () => {
       clearTimeout(delayDebounce);
@@ -364,40 +199,35 @@ export default function SearchOverlay({
   }, [query, isAiMode]);
 
   const toggleAiMode = async () => {
-    if (isAiLoading || aiRateLimitSeconds > 0) return;
     const newMode = !isAiMode;
     setIsAiMode(newMode);
     
     const trimmedQuery = query.trim();
     latestQueryRef.current = trimmedQuery;
 
-    if (newMode && trimmedQuery.length >= 2) {
-      setAiScope(null);
-      setAiSources(null);
-      setShowSources(false);
-      await performSearch(trimmedQuery, true);
-    } else if (!newMode && trimmedQuery.length >= 2) {
-      setAiResponse(null);
-      setAiScope(null);
-      setAiSources(null);
-      setShowSources(false);
-      await performSearch(trimmedQuery, false);
+    if (!newMode && trimmedQuery.length >= 2) {
+      await performSearch(trimmedQuery);
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setSelectedIndex((prev) => (prev < results.length - 1 ? prev + 1 : prev));
+      if (!isAiMode) setSelectedIndex((prev) => (prev < results.length - 1 ? prev + 1 : prev));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+      if (!isAiMode) setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
     } else if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
       e.preventDefault();
       void toggleAiMode();
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      if (selectedIndex >= 0 && selectedIndex < results.length) {
+      if (isAiMode) {
+         if (query.trim()) {
+           sendMessage({ text: query.trim() });
+           setQuery('');
+         }
+      } else if (selectedIndex >= 0 && selectedIndex < results.length) {
         handleSelect(results[selectedIndex]);
       }
     }
@@ -418,25 +248,31 @@ export default function SearchOverlay({
   const visibleResults = query.trim().length < 2 ? [] : results;
 
   const handleSelect = (result: SearchResult) => {
+    if (query.trim().length >= 2) {
+      fetch('/api/search/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: query.trim() }),
+      }).catch(console.error);
+    }
     router.push(getArticleUrl(result));
     onClose();
     setQuery('');
-    setAiResponse(null);
-    setAiScope(null);
-    setAiSources(null);
-    setShowSources(false);
     setErrorMsg(null);
   };
 
   const handleJumpToMention = (e: React.MouseEvent, result: SearchResult) => {
     e.stopPropagation();
+    if (query.trim().length >= 2) {
+      fetch('/api/search/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: query.trim() }),
+      }).catch(console.error);
+    }
     router.push(getArticleUrl(result, true));
     onClose();
     setQuery('');
-    setAiResponse(null);
-    setAiScope(null);
-    setAiSources(null);
-    setShowSources(false);
     setErrorMsg(null);
   };
 
@@ -506,18 +342,29 @@ export default function SearchOverlay({
             ref={inputRef}
             type="text"
             className={`w-full bg-transparent ${inputText} focus:outline-none text-base`}
-            placeholder={isBhoomijaPage ? "Search Bhoomija's publications, drafts, and research..." : "Search judgments, policies, research, tags, authors..."}
+            placeholder={isAiMode ? "Ask the AI assistant anything..." : (isBhoomijaPage ? "Search Bhoomija's publications, drafts, and research..." : "Search judgments, policies, research, tags, authors...")}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <div className="ml-3 flex items-center gap-3 shrink-0">
+          {isAiMode && query.trim().length > 0 && (
+             <button
+                onClick={() => {
+                   sendMessage({ text: query.trim() });
+                   setQuery('');
+                }}
+                className={`p-1.5 mr-2 ml-2 rounded-md transition-colors ${isBhoomijaPage ? 'bg-[#7d1919] text-white hover:bg-[#5c1212]' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}
+             >
+                <Send className="w-4 h-4" />
+             </button>
+          )}
+          <div className="ml-1 flex items-center gap-3 shrink-0 border-l pl-3 border-slate-200 dark:border-slate-700">
             <div className="flex items-center gap-2">
               <span className={`text-[11px] hidden sm:inline-flex font-medium items-center gap-1 transition-colors ${
                 isAiMode
                   ? isBhoomijaPage ? 'text-[#7d1919]' : 'text-emerald-500 dark:text-emerald-400'
                   : 'text-slate-400'
               }`}>
-                {isAiLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+                {status === 'streaming' || status === 'submitted' ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
                 AI Search
               </span>
               <span className={`text-[11px] sm:hidden inline-flex font-medium items-center gap-1 transition-colors ${
@@ -525,13 +372,13 @@ export default function SearchOverlay({
                   ? isBhoomijaPage ? 'text-[#7d1919]' : 'text-emerald-500 dark:text-emerald-400'
                   : 'text-slate-400'
               }`}>
-                {isAiLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+                {status === 'streaming' || status === 'submitted' ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
                 AI
               </span>
               
               <button
                 onClick={() => void toggleAiMode()}
-                disabled={isAiLoading || aiRateLimitSeconds > 0}
+                disabled={status === 'streaming' || status === 'submitted'}
                 className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 ${
                   isAiMode 
                     ? isBhoomijaPage ? 'bg-[#7d1919]' : 'bg-[#34c759]'
@@ -555,11 +402,6 @@ export default function SearchOverlay({
                 <span className={`pointer-events-none inline-flex h-4 w-4 transform rounded-full bg-white shadow-[0_2px_4px_rgba(0,0,0,0.2)] ring-0 transition duration-200 ease-in-out ${isAiMode ? 'translate-x-[18px]' : 'translate-x-[2px]'}`} />
               </button>
             </div>
-            {aiRateLimitSeconds > 0 && (
-              <span className="text-[11px] font-medium text-red-500 whitespace-nowrap animate-pulse">
-                Wait {aiRateLimitSeconds}s
-              </span>
-            )}
           </div>
           <button
             onClick={onClose}
@@ -569,310 +411,100 @@ export default function SearchOverlay({
           </button>
         </div>
 
-        {/* Results Body */}
+        {/* Results / Chat Body */}
         <div className="max-h-[28rem] overflow-y-auto p-2">
-          {isLoading && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex items-center justify-center py-8 text-slate-400 space-x-2"
-            >
-              <div className={`w-5 h-5 border-2 ${spinnerBorder} border-t-transparent rounded-full animate-spin`}></div>
-              <span className="text-sm font-medium">Searching the observatory archive...</span>
-            </motion.div>
-          )}
-
-          {!isLoading && query.trim().length > 0 && results.length === 0 && !errorMsg && !aiResponse && (
-            <motion.div
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center py-8 text-slate-400"
-            >
-              <AlertCircle className="w-8 h-8 mx-auto mb-2 opacity-50" />
-              <p className="text-sm font-medium">No site pages, profiles, or verified bibliography match your query.</p>
-              <p className="text-xs mt-1">Try searching constitutional law, privacy, climate change, or an article title.</p>
-            </motion.div>
-          )}
-
-          {errorMsg && (
-            <motion.div
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="px-4 py-3 mb-2 bg-red-50 text-red-600 border border-red-200 rounded-lg text-sm font-medium mx-2"
-            >
-              <AlertCircle className="w-5 h-5 inline mr-2" />
-              {errorMsg}
-            </motion.div>
-          )}
-
-          {aiResponse && !isLoading && (
-            <motion.div
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="px-4 py-4 mb-3 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-xl mx-2"
-            >
-              <div className="flex items-start gap-3 mb-3">
-                <div className="space-y-1">
-                  <span className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-300">
-                    Answer
-                  </span>
-                  <p className="text-[11px] uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">
-                    Priority: site content · profiles · verified bibliography · web previews
-                  </p>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                {parseAiResponseBlocks(aiResponse).map((block, index) => (
+          {isAiMode ? (
+            <div className="flex flex-col space-y-4 py-2 px-2 h-full">
+              {messages.map((msg) => {
+                          const isUser = (msg.role as string) === 'user';
+                          const textPart = msg.parts?.find(p => p.type === 'text') as any;
+                          const textContent = textPart ? textPart.text : '';
+                          return (
+                <div
+                  key={msg.id}
+                  className={`flex ${
+                    isUser ? 'justify-end' : 'justify-start'
+                  }`}
+                >
                   <div
-                    key={`${block.label || 'answer'}-${index}`}
-                    className={`rounded-xl border px-3 py-3 ${getAnswerBlockTone(block.label)}`}
+                    className={`max-w-[85%] rounded-2xl px-4 py-3 ${
+                      isUser
+                        ? isBhoomijaPage
+                          ? 'bg-[#7d1919] text-white'
+                          : 'bg-indigo-600 text-white'
+                        : isBhoomijaPage
+                        ? 'bg-white/80 border border-[#7d1919]/20 text-slate-800'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200'
+                    }`}
                   >
-                    <div className="flex items-center justify-between gap-3 mb-2">
-                      <span className={`inline-flex items-center rounded-full border px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] ${
-                        block.label === 'NLO'
-                          ? 'border-amber-300/60 bg-amber-100/80 text-amber-800 dark:border-amber-700/40 dark:bg-amber-950/50 dark:text-amber-200'
-                          : block.label === 'PROFILE'
-                            ? 'border-violet-300/60 bg-violet-100/80 text-violet-800 dark:border-violet-700/40 dark:bg-violet-950/50 dark:text-violet-200'
-                            : block.label === 'BIB' || block.label === 'CITATION'
-                            ? 'border-sky-300/60 bg-sky-100/80 text-sky-800 dark:border-sky-700/40 dark:bg-sky-950/50 dark:text-sky-200'
-                            : block.label === 'WEB'
-                              ? 'border-emerald-300/60 bg-emerald-100/80 text-emerald-800 dark:border-emerald-700/40 dark:bg-emerald-950/50 dark:text-emerald-200'
-                              : block.label === 'NOTE'
-                                ? 'border-slate-300/60 bg-slate-100/80 text-slate-700 dark:border-slate-700/40 dark:bg-slate-900/50 dark:text-slate-300'
-                                : 'border-slate-300/60 bg-white/80 text-slate-700 dark:border-slate-700/40 dark:bg-slate-900/50 dark:text-slate-300'
-                      }`}>
-                        {block.label || 'Answer'}
-                      </span>
-                    </div>
-                    <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-wrap">
-                      {block.text}
-                    </p>
+                  <div className="prose dark:prose-invert prose-sm max-w-none text-[13px] leading-relaxed break-words">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {textContent}
+                        </ReactMarkdown>
                   </div>
-                ))}
-              </div>
-
-              {aiScope && aiSources && (
-                <div className="mt-4 space-y-3">
-                  <div className="rounded-xl border border-slate-200/70 dark:border-slate-800/70 bg-white/50 dark:bg-slate-950/20 px-3 py-3 space-y-3">
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
-                        Scope used
-                      </p>
-                      <button
-                        onClick={() => setShowSources((prev) => !prev)}
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.26em] transition ${
-                          isBhoomijaPage
-                            ? 'border-[#7d1919]/20 bg-[#f5f0eb] text-[#7d1919] hover:bg-[#7d1919]/10'
-                            : 'border-amber-200/60 bg-amber-50 text-amber-700 hover:bg-amber-100 dark:border-amber-700/30 dark:bg-amber-950/30 dark:text-amber-300 dark:hover:bg-amber-900/40'
-                        }`}
-                      >
-                        {showSources ? 'Hide Details' : 'Show Details'}
-                      </button>
-                    </div>
-                    <p className="text-sm text-slate-600 dark:text-slate-300">
-                      {aiScope.site}
-                    </p>
-                    <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
-                      {aiScope.summary}
-                    </p>
-                    <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
-                      Searched: {aiScope.searchedFields.join(' · ')}
-                    </p>
-                    <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
-                      Profiles: {formatCompactList(aiScope.profileSources) || 'none'}
-                    </p>
-                    <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
-                      Bibliography: {formatCompactList(aiScope.bibliographySources) || 'none'}
-                    </p>
-                    <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
-                      Web: {formatCompactList(aiScope.webSources) || 'none'}
-                    </p>
-                    <div className="space-y-2">
-                      {aiSources.profiles.slice(0, 2).map((profile) => (
-                        <div key={`visible-profile-${profile.slug}`} className="rounded-lg border border-violet-200/70 dark:border-violet-700/30 bg-violet-50/60 dark:bg-violet-950/20 px-3 py-2">
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-violet-700 dark:text-violet-300">
-                            Profile
-                          </p>
-                          <p className="mt-1 text-sm font-semibold text-slate-800 dark:text-slate-100">
-                            {profile.name}
-                          </p>
-                          <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-                            {profile.role}
-                          </p>
-                        </div>
-                      ))}
-                      {aiSources.nloArticles.slice(0, 2).map((article) => (
-                        <div key={`visible-nlo-${article.slug}-${article.date}`} className="rounded-lg border border-amber-200/70 dark:border-amber-700/30 bg-amber-50/60 dark:bg-amber-950/20 px-3 py-2">
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-700 dark:text-amber-300">
-                            NLO
-                          </p>
-                          <p className="mt-1 text-sm font-semibold text-slate-800 dark:text-slate-100">
-                            {article.title}
-                          </p>
-                          <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-                            {article.authorName} · {article.category} · {formatSearchResultDate(article)}
-                          </p>
-                        </div>
-                      ))}
-                      {aiSources.citations.slice(0, 2).map((citation) => (
-                        <div key={`visible-citation-${citation.articleSlug}-${citation.reference}`} className="rounded-lg border border-sky-200/70 dark:border-sky-700/30 bg-sky-50/60 dark:bg-sky-950/20 px-3 py-2">
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-sky-700 dark:text-sky-300">
-                            BIB
-                          </p>
-                          <p className="mt-1 text-sm font-semibold text-slate-800 dark:text-slate-100">
-                            {citation.articleTitle}
-                          </p>
-                          <p className="mt-1 text-[12px] leading-relaxed text-slate-600 dark:text-slate-300">
-                            {citation.reference}
-                          </p>
-                        </div>
-                      ))}
-                      {aiSources.webPages.slice(0, 2).map((page) => (
-                        <div key={`visible-web-${page.url}-${page.sourceReference}`} className="rounded-lg border border-emerald-200/70 dark:border-emerald-700/30 bg-emerald-50/60 dark:bg-emerald-950/20 px-3 py-2">
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-700 dark:text-emerald-300">
-                            Web
-                          </p>
-                          <p className="mt-1 text-sm font-semibold text-slate-800 dark:text-slate-100">
-                            {page.title}
-                          </p>
-                          <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-                            {page.host}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
                   </div>
-
-                  {showSources && (
-                    <div className="rounded-xl border border-slate-200/70 dark:border-slate-800/70 bg-white/50 dark:bg-slate-950/20 px-3 py-3 space-y-4">
-                      <div className="space-y-1">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
-                          Scope Details
-                        </p>
-                        <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
-                          Matches: {aiScope.matched.publications} publication{aiScope.matched.publications === 1 ? '' : 's'}, {aiScope.matched.authorProfiles} author profile{aiScope.matched.authorProfiles === 1 ? '' : 's'}
-                          {typeof aiScope.matched.bibliographies === 'number' && (
-                            <>
-                              , {aiScope.matched.bibliographies} verified bibliography entr{aiScope.matched.bibliographies === 1 ? 'y' : 'ies'}
-                            </>
-                          )}
-                          {typeof aiScope.matched.webPages === 'number' && (
-                            <>
-                              , {aiScope.matched.webPages} cited page{aiScope.matched.webPages === 1 ? '' : 's'}
-                            </>
-                          )}
-                        </p>
-                      </div>
-
-                      {aiSources.profiles.length > 0 && (
-                        <div className="space-y-2">
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-violet-600 dark:text-violet-300">
-                            Profiles
-                          </p>
-                          <div className="space-y-2">
-                            {aiSources.profiles.map((profile) => (
-                              <div key={profile.slug} className="rounded-lg border border-violet-200/70 dark:border-violet-700/30 bg-violet-50/60 dark:bg-violet-950/20 px-3 py-2">
-                                <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
-                                  {profile.name}
-                                </p>
-                                <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-                                  {profile.role}
-                                </p>
-                                <p className="mt-2 text-[12px] leading-relaxed text-slate-600 dark:text-slate-300">
-                                  {profile.excerpt || profile.bio || 'No bio available.'}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {aiSources.nloArticles.length > 0 && (
-                        <div className="space-y-2">
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-600 dark:text-amber-300">
-                            NLO
-                          </p>
-                          <div className="space-y-2">
-                            {aiSources.nloArticles.map((article) => (
-                              <div key={`${article.slug}-${article.date}`} className="rounded-lg border border-amber-200/70 dark:border-amber-700/30 bg-amber-50/60 dark:bg-amber-950/20 px-3 py-2">
-                                <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
-                                  {article.title}
-                                </p>
-                                <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-                                  {article.authorName} · {article.category} · {formatSearchResultDate(article)}
-                                </p>
-                                <p className="mt-2 text-[12px] leading-relaxed text-slate-600 dark:text-slate-300">
-                                  {article.excerpt || 'No excerpt available.'}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {aiSources.citations.length > 0 && (
-                        <div className="space-y-2">
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-sky-600 dark:text-sky-300">
-                            Verified Bibliography
-                          </p>
-                          <div className="space-y-2">
-                            {aiSources.citations.map((citation) => (
-                              <div key={`${citation.articleSlug}-${citation.reference}`} className="rounded-lg border border-sky-200/70 dark:border-sky-700/30 bg-sky-50/60 dark:bg-sky-950/20 px-3 py-2">
-                                <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
-                                  {citation.articleTitle}
-                                </p>
-                                <p className="mt-1 text-[12px] leading-relaxed text-slate-600 dark:text-slate-300">
-                                  {citation.reference}
-                                </p>
-                                <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-                                  {citation.kind || 'bibliography'}{citation.authorName ? ` · ${citation.authorName}` : ''}{citation.host ? ` · ${citation.host}` : ''}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {aiSources.webPages.length > 0 && (
-                        <div className="space-y-2">
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-600 dark:text-emerald-300">
-                            Web Results
-                          </p>
-                          <div className="space-y-2">
-                            {aiSources.webPages.map((page) => (
-                              <div key={`${page.url}-${page.sourceReference}`} className="rounded-lg border border-emerald-200/70 dark:border-emerald-700/30 bg-emerald-50/60 dark:bg-emerald-950/20 px-3 py-2">
-                                <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
-                                  {page.title}
-                                </p>
-                                <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-                                  {page.host}
-                                </p>
-                                <p className="mt-2 text-[12px] leading-relaxed text-slate-600 dark:text-slate-300">
-                                  {page.description}
-                                </p>
-                                <p className="mt-2 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
-                                  Source: {page.sourceReference}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                </div>
+              )})}
+              
+              {(status === 'streaming' || status === 'submitted') && (
+                <div className="flex justify-start">
+                  <div
+                    className={`max-w-[85%] rounded-2xl px-4 py-3 ${
+                      isBhoomijaPage
+                        ? 'bg-white/80 border border-[#7d1919]/20 text-slate-800'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200'
+                    }`}
+                  >
+                    <Loader2 className={`w-4 h-4 animate-spin ${iconColor}`} />
+                  </div>
                 </div>
               )}
-            </motion.div>
+            </div>
+          ) : (
+            <>
+              {isLoading && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex items-center justify-center py-8 text-slate-400 space-x-2"
+                >
+                  <div className={`w-5 h-5 border-2 ${spinnerBorder} border-t-transparent rounded-full animate-spin`}></div>
+                  <span className="text-sm font-medium">Searching the observatory archive...</span>
+                </motion.div>
+              )}
+
+              {!isLoading && query.trim().length > 0 && results.length === 0 && !errorMsg && (
+                <motion.div
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-center py-8 text-slate-400"
+                >
+                  <AlertCircle className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                  <p className="text-sm font-medium">No site pages, profiles, or verified bibliography match your query.</p>
+                  <p className="text-xs mt-1">Try searching constitutional law, privacy, climate change, or an article title.</p>
+                </motion.div>
+              )}
+
+              {errorMsg && (
+                <motion.div
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="px-4 py-3 mb-2 bg-red-50 text-red-600 border border-red-200 rounded-lg text-sm font-medium mx-2"
+                >
+                  <AlertCircle className="w-5 h-5 inline mr-2" />
+                  {errorMsg}
+                </motion.div>
+              )}
+            </>
           )}
 
-          {!isLoading && query.trim().length === 0 && (
+          {!isAiMode && !isLoading && query.trim().length === 0 && (
             <motion.div
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
               className={`py-4 px-3 ${quickSearchText}`}
             >
-              <span className={`text-xs font-semibold uppercase tracking-wider block mb-2 ${isBhoomijaPage ? 'text-[#7d1919]/80' : 'text-slate-500'}`}>Quick Searches</span>
+              <span className={`text-xs font-semibold uppercase tracking-wider block mb-2 ${isBhoomijaPage ? 'text-[#7d1919]/80' : 'text-slate-500'}`}>FAQs</span>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 {isBhoomijaPage ? (
                   <>
@@ -889,6 +521,12 @@ export default function SearchOverlay({
                       <FileText className={`w-4 h-4 ${iconColor} mr-2`} /> Constitutional Law
                     </button>
                   </>
+                ) : trendingQueries.length > 0 ? (
+                  trendingQueries.map((tq, i) => (
+                    <button key={i} onClick={() => setQuery(tq)} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150 capitalize">
+                      <Search className="w-4 h-4 text-indigo-500 mr-2" /> {tq}
+                    </button>
+                  ))
                 ) : (
                   <>
                     <button onClick={() => setQuery('Constitutional')} className="flex items-center p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-left transition-colors duration-150">
@@ -909,7 +547,7 @@ export default function SearchOverlay({
             </motion.div>
           )}
 
-          {!isLoading && visibleResults.length > 0 && (
+          {!isAiMode && !isLoading && visibleResults.length > 0 && (
             <motion.div
               variants={listVariants}
               initial="hidden"

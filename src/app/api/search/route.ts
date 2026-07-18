@@ -195,6 +195,18 @@ function extractTextSnippet(text: string, cleanQuery: string) {
   return text.slice(start, end).trim();
 }
 
+const STOP_WORDS = new Set([
+  'tell', 'me', 'about', 'abt', 'what', 'is', 'who', 'show', 'the', 'a', 'an', 'in', 'of', 'for', 'and', 'or', 'to', 'on', 'with', 'at', 'by', 'from', 'why', 'how', 'does', 'it', 'are', 'were', 'was', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'did', 'done', 'tell-me-abt', 'tell-me-about'
+]);
+
+function getSearchTerms(query: string): string[] {
+  return query
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, ' ')
+    .split(/\s+/)
+    .filter((term) => term.length > 1 && !STOP_WORDS.has(term));
+}
+
 function scoreCandidateText(candidateText: string, cleanQuery: string) {
   if (!cleanQuery) {
     return 0;
@@ -204,59 +216,44 @@ function scoreCandidateText(candidateText: string, cleanQuery: string) {
   if (lower === cleanQuery) return 6;
   if (lower.includes(cleanQuery)) return 4;
 
-  const tokens = cleanQuery.split(/\s+/).filter(Boolean);
-  const tokenHits = tokens.filter((token) => lower.includes(token)).length;
+  const terms = getSearchTerms(cleanQuery);
+  if (terms.length === 0) return 0;
+
+  const tokenHits = terms.filter((token) => lower.includes(token)).length;
   return tokenHits;
 }
 
 function getArticleMatchScore(article: ArticleRecord, cleanQuery: string) {
-  const titleMatch = article.title.toLowerCase().includes(cleanQuery);
-  const contentMatch = article.rawContent?.toLowerCase().includes(cleanQuery);
-  const htmlContentMatch = article.content?.toLowerCase().includes(cleanQuery);
-  const tagMatch = article.tags.some((tag) => tag.toLowerCase().includes(cleanQuery));
-  const categoryMatch = article.categories.some((cat) => cat.toLowerCase().includes(cleanQuery));
-  const authorMatch = article.authorDetails?.name.toLowerCase().includes(cleanQuery);
-  const caseMatch = article.caseSummary?.toLowerCase().includes(cleanQuery) || false;
-  const policyMatch = article.policyOverview?.toLowerCase().includes(cleanQuery) || false;
-  const statuteMatch =
-    article.statutesReferenced?.some((statute) => statute.toLowerCase().includes(cleanQuery)) ||
-    false;
-  const referenceMatch =
-    article.references?.some((reference) => reference.toLowerCase().includes(cleanQuery)) || false;
-  const bibliographyMatch =
-    article.bibliography?.some((entry) =>
-      [entry.citation, entry.label, entry.url]
-        .filter((value): value is string => typeof value === 'string')
-        .some((value) => value.toLowerCase().includes(cleanQuery))
-    ) || false;
-  const yearMatch = new Date(article.date).getFullYear().toString().includes(cleanQuery);
+  const terms = getSearchTerms(cleanQuery);
+  if (terms.length === 0) {
+    return { matched: false };
+  }
+
+  // An article matches if any of the clean terms are found in title, content, author, tags, etc.
+  const titleMatch = terms.some((term) => article.title.toLowerCase().includes(term));
+  const contentMatch = terms.some((term) => article.rawContent?.toLowerCase().includes(term));
+  const htmlContentMatch = terms.some((term) => article.content?.toLowerCase().includes(term));
+  const authorMatch = article.authorDetails?.name ? terms.some((term) => article.authorDetails!.name.toLowerCase().includes(term)) : false;
+  const tagMatch = article.tags.some((tag) => terms.some((term) => tag.toLowerCase().includes(term)));
+  const categoryMatch = article.categories.some((cat) => terms.some((term) => cat.toLowerCase().includes(term)));
+  const caseMatch = article.caseSummary ? terms.some((term) => article.caseSummary!.toLowerCase().includes(term)) : false;
+  const policyMatch = article.policyOverview ? terms.some((term) => article.policyOverview!.toLowerCase().includes(term)) : false;
+  const referenceMatch = article.references ? article.references.some((ref) => terms.some((term) => ref.toLowerCase().includes(term))) : false;
 
   return {
     matched:
       titleMatch ||
       contentMatch ||
       htmlContentMatch ||
+      authorMatch ||
       tagMatch ||
       categoryMatch ||
-      authorMatch ||
       caseMatch ||
       policyMatch ||
-      statuteMatch ||
-      referenceMatch ||
-      bibliographyMatch ||
-      yearMatch,
+      referenceMatch,
     titleMatch,
     contentMatch,
-    htmlContentMatch,
-    tagMatch,
-    categoryMatch,
     authorMatch,
-    caseMatch,
-    policyMatch,
-    statuteMatch,
-    referenceMatch,
-    bibliographyMatch,
-    yearMatch,
   };
 }
 
@@ -281,10 +278,15 @@ function buildSearchResults(cleanQuery: string, articles: ArticleRecord[]) {
 }
 
 function buildAuthorResults(cleanQuery: string, authors: Awaited<ReturnType<typeof getAuthors>>) {
+  const terms = getSearchTerms(cleanQuery);
+  if (terms.length === 0) return [];
+
   return authors
     .filter((author) => {
       const searchableFields = [author.name, author.role, author.bio, author.content];
-      return searchableFields.some((field) => field?.toLowerCase().includes(cleanQuery));
+      return searchableFields.some((field) => 
+        field && terms.some((term) => field.toLowerCase().includes(term))
+      );
     })
     .map<AuthorSearchResult>((author) => ({
       slug: author.slug,
@@ -505,36 +507,30 @@ ${index + 1}. ${result.title}
     .join('\n');
 
   return [
-    'CAVEMAN[COMPACT]',
-    'You are a strict legal research assistant for the National Legal Observatory.',
-    'Use only the provided website content, author profiles, and verified bibliography entries.',
-    'If a fact is missing, say: Information not found in the observatory database.',
-    'Never invent sources, URLs, or platforms.',
-    'Never reference casual platforms like WhatsApp, Telegram, social media, or any unverified domain.',
-    'Do not print raw URLs unless they appear in the verified bibliography context below.',
-    'Output at most 4 short lines.',
-    'Use only these labels when relevant: NLO:, PROFILE:, BIB:, WEB:, NOTE:.',
-    'Keep each line to one sentence. No extra prose.',
-    `Scope searched: ${scope.searchedFields.join(', ')}.`,
+    'System: You are a helpful legal research assistant for the National Legal Observatory. Answer the user\'s query based ONLY on the provided Context.',
+    'Strict formatting rules:',
+    '1. Output at most 4 short lines.',
+    '2. Each line must start with one of these labels: PROFILE: (for author profiles), NLO: (for site/publication facts), BIB: (for bibliography facts), WEB: (for cited web pages), NOTE: (for other/empty notices).',
+    '3. Provide a complete, helpful sentence after the label using facts from the context.',
+    '4. If no relevant information is found in the context, output exactly: "NOTE: Information not found in the observatory database."',
+    '5. Do not include any intro, outro, headers, bullet points (*), markdown bolding (**) or extra commentary. Start directly with the label.',
     '',
-    `User query: ${query}`,
+    'Context:',
+    '=== Publications ===',
+    publicationContext || 'None',
     '',
-    `Matched publications: ${scope.matched.publications}`,
-    `Matched author profiles: ${scope.matched.authorProfiles}`,
-    `Matched verified bibliography entries: ${scope.matched.bibliographies}`,
-    `Matched cited web pages: ${scope.matched.webPages}`,
+    '=== Authors ===',
+    authorContext || 'None',
     '',
-    'Publication context:',
-    publicationContext || 'No matching publication context found.',
+    '=== Bibliography ===',
+    bibliographyContext || 'None',
     '',
-    'Author profile context:',
-    authorContext || 'No matching author profile context found.',
+    '=== Cited Web Previews ===',
+    webContext || 'None',
     '',
-    'Verified bibliography context:',
-    bibliographyContext || 'No matching bibliography entries found.',
+    `User Query: ${query}`,
     '',
-    'Cited web page context:',
-    webContext || 'No fetchable cited web pages found.',
+    'Answer:'
   ].join('\n');
 }
 
@@ -603,8 +599,9 @@ export async function GET(request: Request) {
       });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY?.trim();
-    if (!apiKey) {
+    const rawApiKey = process.env.GEMINI_API_KEY?.trim();
+    const apiKeys = rawApiKey ? rawApiKey.split(',').map(k => k.trim()).filter(Boolean) : [];
+    if (apiKeys.length === 0) {
       return NextResponse.json({
         aiResponse: null,
         aiError: 'AI search is not configured on this server yet.',
@@ -665,49 +662,61 @@ export async function GET(request: Request) {
     let aiError: string | null = null;
 
     try {
-      const geminiRes = await fetch(
-        'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-goog-api-key': apiKey,
-          },
-          body: JSON.stringify({
-            contents: [
+      const promptText = buildAnswerPrompt(
+        query,
+        filtered,
+        authorResults,
+        referenceResults,
+        webPreviews,
+        scope
+      );
+      const requestBody = JSON.stringify({
+        contents: [
+          {
+            parts: [
               {
-                parts: [
-                  {
-                    text: buildAnswerPrompt(
-                      query,
-                      filtered,
-                      authorResults,
-                      referenceResults,
-                      webPreviews,
-                      scope
-                    ),
-                  },
-                ],
+                text: promptText,
               },
             ],
-            generationConfig: {
-              temperature: 0.1,
-              maxOutputTokens: 180,
-            },
-          }),
-        }
-      );
+          },
+        ],
+        generationConfig: {
+          temperature: 0.1,
+          maxOutputTokens: 8000,
+        },
+      });
 
-      if (geminiRes.ok) {
-        const data = await geminiRes.json();
-        const rawResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
-        aiResponse = rawResponse ? formatCompactAiResponse(rawResponse) : null;
-      } else {
-        console.error('AI search API error:', await geminiRes.text());
-        aiError = 'AI summary temporarily unavailable.';
+      for (const key of apiKeys) {
+        try {
+          const geminiRes = await fetch(
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent',
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-goog-api-key': key,
+              },
+              body: requestBody,
+            }
+          );
+
+          if (geminiRes.ok) {
+            const data = await geminiRes.json();
+            const rawResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
+            aiResponse = rawResponse ? formatCompactAiResponse(rawResponse) : null;
+            aiError = null;
+            break;
+          } else {
+            console.error('AI search API error with a key:', await geminiRes.text());
+            aiError = 'AI summary temporarily unavailable.';
+          }
+        } catch (geminiError) {
+          console.error('Failed to fetch AI summary with a key:', geminiError);
+          aiError = 'AI summary temporarily unavailable.';
+        }
       }
-    } catch (geminiError) {
-      console.error('Failed to fetch AI summary:', geminiError);
+    } catch (e) {
+      console.error('Failed to construct AI request:', e);
       aiError = 'AI summary temporarily unavailable.';
     }
 

@@ -124,3 +124,32 @@ CREATE POLICY "Allow public insert to article_reminders" ON article_reminders FO
 CREATE POLICY "Allow admin read to article_reminders" ON article_reminders FOR SELECT USING (true);
 CREATE POLICY "Allow admin update to article_reminders" ON article_reminders FOR UPDATE USING (true);
 
+-- 8. Search Queries Table
+CREATE TABLE IF NOT EXISTS search_queries (
+  query TEXT PRIMARY KEY,
+  count INTEGER DEFAULT 1,
+  last_searched_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE search_queries ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read to search_queries" ON search_queries FOR SELECT USING (true);
+CREATE POLICY "Allow public upsert to search_queries" ON search_queries FOR ALL WITH CHECK (true);
+
+-- 9. Atomic Increment RPC Function for Search Queries
+CREATE OR REPLACE FUNCTION increment_search_query(query_text TEXT)
+RETURNS INTEGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  new_count INTEGER;
+BEGIN
+  INSERT INTO search_queries (query, count, last_searched_at)
+  VALUES (query_text, 1, NOW())
+  ON CONFLICT (query)
+  DO UPDATE SET count = search_queries.count + 1, last_searched_at = NOW()
+  RETURNING count INTO new_count;
+  
+  RETURN new_count;
+END;
+$$;
