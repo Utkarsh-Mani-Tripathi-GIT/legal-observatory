@@ -140,7 +140,8 @@ export default function ContactPage() {
       </header>
 
       <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start">
-        <aside className="space-y-6 lg:sticky lg:top-28 lg:col-span-4">
+        {/* Sidebar — pushed below form on portrait, stays left on desktop */}
+        <aside className="order-last space-y-6 lg:order-first lg:sticky lg:top-28 lg:col-span-4">
           <section className="border border-outline-variant/45 bg-surface-container-lowest p-5 dark:border-primary/20 dark:bg-surface-container">
             <h2 className="border-b border-outline-variant/40 pb-3 font-technical-ui text-xs font-bold uppercase tracking-[0.2em] text-on-background dark:border-primary/20 dark:text-on-background">
               Observatory Office
@@ -180,13 +181,21 @@ export default function ContactPage() {
           </section>
         </aside>
 
-        <section className="border border-outline-variant/45 bg-surface-container-lowest p-5 dark:border-primary/20 dark:bg-surface-container sm:p-8 lg:col-span-8">
+        {/* Form — appears first on portrait, right column on desktop */}
+        <section className="order-first border border-outline-variant/45 bg-surface-container-lowest p-5 dark:border-primary/20 dark:bg-surface-container sm:p-8 lg:order-last lg:col-span-8">
           <div className="border-b border-outline-variant/40 pb-5 dark:border-primary/20">
             <h2 className="font-serif text-3xl font-bold text-on-background dark:text-on-background">
               Editorial Submission Portal
             </h2>
             <p className="mt-2 font-technical-ui text-xs text-on-surface-variant dark:text-on-background/50">
               Select a category below to view the relevant submission fields.
+            </p>
+          </div>
+
+          {/* Inline guidelines hint — portrait only */}
+          <div className="mt-4 border-l-2 border-oxblood/20 bg-surface-container-low/60 px-4 py-3 dark:border-primary/20 dark:bg-surface-container/50 lg:hidden">
+            <p className="font-technical-ui text-[10.5px] uppercase tracking-[0.15em] text-on-surface-variant/70 dark:text-on-background/45">
+              Accepted formats · Judgment Reviews 1,500–3,000 wds · Policy Briefs 2,000–3,500 wds · Research Articles 5,000–12,000 wds · Essays 1,000–3,000 wds · Blog Posts 500–1,200 wds · Original &amp; unpublished work only · Bluebook citations
             </p>
           </div>
 
@@ -304,6 +313,13 @@ export default function ContactPage() {
                   </>
                 )}
               </button>
+            </div>
+
+            {/* Below-form guidelines reminder — portrait only */}
+            <div className="mt-6 border-t border-dashed border-outline-variant/30 pt-5 dark:border-primary/15 lg:hidden">
+              <p className="font-technical-ui text-[10px] uppercase tracking-[0.18em] text-on-surface-variant/55 dark:text-on-background/35">
+                Submissions must be original, unpublished work not under simultaneous review. All citations must conform to Bluebook format. Full guidelines and word-count requirements are listed below.
+              </p>
             </div>
           </form>
         </section>

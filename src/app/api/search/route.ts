@@ -688,7 +688,7 @@ export async function GET(request: Request) {
 
       for (const key of apiKeys) {
         try {
-          const geminiRes = await fetch(
+          const aiRes = await fetch(
             'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent',
             {
               method: 'POST',
@@ -700,18 +700,18 @@ export async function GET(request: Request) {
             }
           );
 
-          if (geminiRes.ok) {
-            const data = await geminiRes.json();
+          if (aiRes.ok) {
+            const data = await aiRes.json();
             const rawResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
             aiResponse = rawResponse ? formatCompactAiResponse(rawResponse) : null;
             aiError = null;
             break;
           } else {
-            console.error('AI search API error with a key:', await geminiRes.text());
+            console.error('AI search API error with a key:', await aiRes.text());
             aiError = 'AI summary temporarily unavailable.';
           }
-        } catch (geminiError) {
-          console.error('Failed to fetch AI summary with a key:', geminiError);
+        } catch (fetchError) {
+          console.error('Failed to fetch AI summary with a key:', fetchError);
           aiError = 'AI summary temporarily unavailable.';
         }
       }

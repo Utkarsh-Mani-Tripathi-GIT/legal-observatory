@@ -173,21 +173,21 @@ export default async function PublicationsPage(props: PageProps) {
     }`;
 
   return (
-    <div className="mx-auto max-w-screen-2xl py-6 sm:py-10">
+    <div className="mx-auto max-w-screen-2xl py-4 sm:py-10">
       <section className="border-b border-outline-variant/45 pb-8 dark:border-primary/20">
         <span className="font-technical-ui text-xs font-bold uppercase tracking-[0.28em] text-oxblood dark:text-primary">
           Archive Catalogue
         </span>
         <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-end">
           <div>
-            <h1 className="font-serif text-5xl font-bold leading-tight text-on-background dark:text-on-background sm:text-6xl">
+            <h1 className="font-serif text-3xl font-bold leading-tight text-on-background dark:text-on-background sm:text-5xl lg:text-6xl">
               Publications Archive
             </h1>
-            <p className="mt-4 max-w-3xl font-body-md text-lg leading-8 text-on-surface-variant dark:text-on-background/70">
+            <p className="mt-3 max-w-3xl font-body-md text-sm leading-7 text-on-surface-variant dark:text-on-background/70 sm:text-lg sm:leading-8">
               Search, filter, and read the observatory repository of independent legal research papers.
             </p>
           </div>
-          <div className="border border-outline-variant/45 bg-surface-container-low p-5 dark:border-primary/20 dark:bg-surface-container">
+          <div className="hidden border border-outline-variant/45 bg-surface-container-low p-5 dark:border-primary/20 dark:bg-surface-container sm:block">
             <p className="font-technical-ui text-[11px] font-bold uppercase tracking-[0.2em] text-on-surface-variant dark:text-on-background/45">
               Records Matched
             </p>
@@ -221,7 +221,7 @@ export default async function PublicationsPage(props: PageProps) {
         </div>
       </section>
 
-      <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-12">
+      <div className="mt-8 grid grid-cols-1 gap-8 sm:mt-12 sm:gap-12 lg:grid-cols-12">
         <section className="lg:col-span-8">
           <div className="mb-10 flex flex-col gap-4 border-b border-outline-variant/35 pb-5 dark:border-primary/20 sm:flex-row sm:items-center sm:justify-between">
             <div className="font-technical-ui text-xs uppercase tracking-[0.18em] text-on-surface-variant dark:text-on-background/50">
@@ -266,7 +266,7 @@ export default async function PublicationsPage(props: PageProps) {
               </Link>
             </div>
           ) : (
-            <div className="space-y-10">
+            <div className="space-y-5 sm:space-y-10">
               {paginatedArticles.map((art) => (
                 <div key={art.slug}>
                   <ArticleCard article={art} searchTerm={query || activeTag || undefined} />
@@ -309,7 +309,7 @@ export default async function PublicationsPage(props: PageProps) {
           )}
         </section>
 
-        <aside className="lg:col-span-4">
+        <aside className="hidden lg:col-span-4 lg:block">
           <div className="sticky top-28 space-y-8 border border-outline-variant/40 bg-surface-container-low p-6 dark:border-primary/20 dark:bg-surface-container">
             <section>
               <h2 className="mb-4 flex items-center border-b border-outline-variant/50 pb-3 font-technical-ui text-xs font-bold uppercase tracking-[0.2em] text-on-background dark:border-primary/20 dark:text-on-background">

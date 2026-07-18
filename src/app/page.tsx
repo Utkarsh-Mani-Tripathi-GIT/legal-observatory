@@ -107,7 +107,7 @@ function HeroSection() {
 
 function EditorialDirective() {
   return (
-    <section className="mx-auto max-w-5xl border-4 border-double border-oxblood bg-surface-container-lowest/55 px-6 py-8 text-center dark:border-primary dark:bg-surface-container/80 sm:px-12 sm:py-12">
+    <section className="mx-auto max-w-5xl border-4 border-double border-oxblood bg-surface-container-lowest/55 px-4 py-6 text-center dark:border-primary dark:bg-surface-container/80 sm:px-12 sm:py-12">
       <div className="mx-auto flex max-w-4xl flex-col items-center gap-6">
         <div className="flex h-14 w-14 shrink-0 items-center justify-center border border-oxblood/25 bg-oxblood/10 text-oxblood dark:border-primary/30 dark:bg-primary/10 dark:text-primary">
           <Landmark className="h-8 w-8" />
@@ -138,33 +138,33 @@ function FeaturedPublicationCard({ article }: { article: ArticleData }) {
 
   return (
     <article className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-12">
-      <div className="group relative flex min-h-[430px] flex-col border border-outline-variant/45 bg-surface-container p-8 dark:border-primary/15 dark:bg-surface-container md:col-span-7 sm:p-12">
-        <div className="absolute right-0 top-0 p-4">
-          <span className="bg-oxblood px-3 py-1 font-technical-ui text-[11px] font-bold uppercase tracking-[0.16em] text-white dark:bg-primary dark:text-background">
+      <div className="group relative flex min-h-[380px] flex-col border border-outline-variant/45 bg-surface-container p-5 dark:border-primary/15 dark:bg-surface-container md:col-span-7 sm:p-12">
+        <div className="absolute right-0 top-0 p-3 sm:p-4">
+          <span className="bg-oxblood px-3 py-1 font-technical-ui text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.16em] text-white dark:bg-primary dark:text-background">
             Featured Case
           </span>
         </div>
 
-        <span className="mb-6 block font-technical-ui text-[11px] font-bold uppercase tracking-[0.22em] text-oxblood dark:text-primary">
+        <span className="mb-4 sm:mb-6 block font-technical-ui text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.22em] text-oxblood dark:text-primary">
           In-Depth Analysis
         </span>
-        <h3 className="max-w-3xl font-serif text-4xl font-bold leading-tight text-on-background transition-colors group-hover:text-oxblood dark:text-on-background dark:group-hover:text-primary sm:text-5xl lg:text-[56px]">
+        <h3 className="max-w-3xl font-serif text-2xl sm:text-4xl lg:text-[56px] font-bold leading-tight text-on-background transition-colors group-hover:text-oxblood dark:text-on-background dark:group-hover:text-primary">
           <Link href={href} className="focus:outline-none">
             {article.title}
           </Link>
         </h3>
-        <p className="mt-6 max-w-3xl font-body-md text-base leading-8 text-on-surface-variant line-clamp-4 dark:text-on-background/70">
+        <p className="mt-4 sm:mt-6 max-w-3xl font-body-md text-sm sm:text-base leading-7 sm:leading-8 text-on-surface-variant line-clamp-4 dark:text-on-background/70">
           {getExcerpt(article)}
         </p>
 
-        <div className="mt-auto flex flex-col gap-5 border-t border-outline-variant/45 pt-6 dark:border-primary/15 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mt-auto flex flex-col gap-4 border-t border-outline-variant/45 pt-4 sm:pt-6 dark:border-primary/15 sm:flex-row sm:items-end sm:justify-between">
           <div className="flex items-center gap-3">
-            <HomeAvatar article={article} className="h-10 w-10 rounded-full border border-outline-variant object-cover grayscale dark:border-primary/25" />
+            <HomeAvatar article={article} className="h-9 w-9 sm:h-10 sm:w-10 rounded-full border border-outline-variant object-cover grayscale dark:border-primary/25" />
             <div className="min-w-0">
-              <p className="font-technical-ui text-xs font-bold uppercase tracking-[0.14em] text-on-background dark:text-on-background">
+              <p className="font-technical-ui text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-on-background dark:text-on-background">
                 {article.authorDetails?.name || 'Observatory Scholar'}
               </p>
-              <p className="font-technical-ui text-[11px] text-on-surface-variant dark:text-on-background/50">
+              <p className="font-technical-ui text-[10px] sm:text-[11px] text-on-surface-variant dark:text-on-background/50">
                 {article.readingTime}
               </p>
             </div>
@@ -172,17 +172,17 @@ function FeaturedPublicationCard({ article }: { article: ArticleData }) {
 
           <Link
             href={href}
-            className="inline-flex items-center gap-2 border-b border-oxblood pb-1 font-technical-ui text-[11px] font-bold uppercase tracking-[0.2em] text-oxblood transition-all hover:pb-2 dark:border-primary dark:text-primary"
+            className="inline-flex items-center gap-2 border-b border-oxblood pb-1 font-technical-ui text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.2em] text-oxblood transition-all hover:pb-2 dark:border-primary dark:text-primary"
           >
             Read Manuscript
-            <ArrowUpRight className="h-4 w-4" />
+            <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </Link>
         </div>
       </div>
 
-      <div className="min-h-[430px] border border-outline-variant/30 bg-surface-container-high dark:border-primary/15 dark:bg-surface-container-low md:col-span-5">
+      <div className="min-h-[250px] sm:min-h-[430px] border border-outline-variant/30 bg-surface-container-high dark:border-primary/15 dark:bg-surface-container-low md:col-span-5">
         <div
-          className="h-full min-h-[430px] bg-cover bg-center grayscale contrast-125 opacity-90 transition-opacity hover:opacity-100 dark:opacity-45 dark:hover:opacity-70"
+          className="h-full min-h-[250px] sm:min-h-[430px] bg-cover bg-center grayscale contrast-125 opacity-90 transition-opacity hover:opacity-100 dark:opacity-45 dark:hover:opacity-70"
           style={{ backgroundImage: `url(${coverImage})` }}
           aria-label={article.title}
           role="img"
@@ -196,38 +196,38 @@ function SubmissionCard({ article }: { article: ArticleData }) {
   const href = getPublicationPath(article);
 
   return (
-    <article className="group flex min-h-[190px] flex-col border-b-2 border-oxblood/10 bg-surface-container-low p-6 transition-colors hover:border-oxblood dark:border-primary/15 dark:bg-surface-container-low dark:hover:border-primary">
-      <div className="flex items-center justify-between gap-3 font-technical-ui text-[11px] font-semibold uppercase tracking-[0.2em] text-oxblood dark:text-primary">
+    <article className="group flex min-h-[160px] flex-col border-b-2 border-oxblood/10 bg-surface-container-low p-5 transition-colors hover:border-oxblood dark:border-primary/15 dark:bg-surface-container-low dark:hover:border-primary">
+      <div className="flex items-center justify-between gap-3 font-technical-ui text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-oxblood dark:text-primary">
         <span>
           {getBadgeLabel(article)}
         </span>
         <span className="flex items-center gap-1">
-          <Clock className="h-3.5 w-3.5" />
+          <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
           {article.readingTime}
         </span>
       </div>
 
-      <h4 className="mt-5 max-w-2xl font-serif text-2xl font-semibold leading-tight text-on-background transition-colors group-hover:text-oxblood dark:text-on-background dark:group-hover:text-primary">
+      <h4 className="mt-4 max-w-2xl font-serif text-lg sm:text-2xl font-semibold leading-tight text-on-background transition-colors group-hover:text-oxblood dark:text-on-background dark:group-hover:text-primary">
         <Link href={href} className="focus:outline-none">
           {article.title}
         </Link>
       </h4>
 
-      <div className="mt-auto border-t border-outline-variant/35 pt-5 dark:border-primary/15">
+      <div className="mt-auto border-t border-outline-variant/35 pt-4 dark:border-primary/15">
         <div className="flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
-            <HomeAvatar article={article} className="h-7 w-7 rounded-full border border-outline-variant object-cover grayscale dark:border-primary/25" />
-            <p className="truncate font-technical-ui text-xs font-medium text-on-surface-variant dark:text-on-background/55">
+            <HomeAvatar article={article} className="h-6 w-6 sm:h-7 sm:w-7 rounded-full border border-outline-variant object-cover grayscale dark:border-primary/25" />
+            <p className="truncate font-technical-ui text-[11px] sm:text-xs font-medium text-on-surface-variant dark:text-on-background/55">
               {article.authorDetails?.name || 'Observatory Scholar'}
             </p>
           </div>
 
           <Link
             href={href}
-            className="inline-flex items-center gap-1 font-technical-ui text-xs font-bold uppercase tracking-[0.16em] text-oxblood transition hover:text-on-background dark:text-primary dark:hover:text-on-background"
+            className="inline-flex items-center gap-1 font-technical-ui text-[11px] sm:text-xs font-bold uppercase tracking-[0.16em] text-oxblood transition hover:text-on-background dark:text-primary dark:hover:text-on-background"
           >
             Read
-            <ArrowRight className="h-3.5 w-3.5" />
+            <ArrowRight className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
           </Link>
         </div>
       </div>
@@ -239,36 +239,36 @@ function ResearchDeskCard({ article }: { article: ArticleData }) {
   const href = getPublicationPath(article);
 
   return (
-    <article className="group relative overflow-hidden border border-outline-variant/40 bg-surface-container-lowest p-6 dark:border-primary/15 dark:bg-surface-container sm:p-8">
-      <div className="relative flex min-h-[360px] flex-col">
+    <article className="group relative overflow-hidden border border-outline-variant/40 bg-surface-container-lowest p-5 dark:border-primary/15 dark:bg-surface-container sm:p-8">
+      <div className="relative flex min-h-[320px] flex-col">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 border border-emerald-600/25 bg-emerald-700/10 px-3 py-1 font-technical-ui text-[10px] font-bold uppercase tracking-[0.24em] text-emerald-800 dark:text-emerald-300">
+          <span className="inline-flex items-center gap-1.5 border border-emerald-600/25 bg-emerald-700/10 px-3 py-1 font-technical-ui text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.24em] text-emerald-800 dark:text-emerald-300">
             Published Research
           </span>
-          <span className="font-technical-ui text-[10px] font-semibold uppercase tracking-[0.24em] text-on-surface-variant dark:text-on-background/45">
+          <span className="font-technical-ui text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.24em] text-on-surface-variant dark:text-on-background/45">
             Research Article
           </span>
         </div>
 
-        <div className="mt-10 max-w-4xl space-y-4">
-          <h3 className="font-serif text-4xl font-bold leading-tight text-on-background transition-colors group-hover:text-oxblood dark:text-on-background dark:group-hover:text-primary sm:text-5xl lg:text-[60px]">
+        <div className="mt-8 max-w-4xl space-y-4">
+          <h3 className="font-serif text-2xl sm:text-4xl lg:text-[60px] font-bold leading-tight text-on-background transition-colors group-hover:text-oxblood dark:text-on-background dark:group-hover:text-primary">
             <Link href={href} className="focus:outline-none">
               {article.title}
             </Link>
           </h3>
-          <p className="max-w-3xl font-body-md text-base leading-8 text-on-surface-variant dark:text-on-background/70 sm:text-lg">
+          <p className="max-w-3xl font-body-md text-sm sm:text-base leading-7 sm:leading-8 text-on-surface-variant dark:text-on-background/70">
             {getExcerpt(article)}
           </p>
         </div>
 
-        <div className="mt-auto flex flex-col gap-4 border-t border-outline-variant/35 pt-6 dark:border-primary/15 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mt-auto flex flex-col gap-4 border-t border-outline-variant/35 pt-5 dark:border-primary/15 sm:flex-row sm:items-end sm:justify-between">
           <div className="flex items-center gap-3">
             <HomeAvatar article={article} className="h-8 w-8 rounded-full border border-outline-variant object-cover grayscale dark:border-primary/25" />
             <div>
               <p className="font-technical-ui text-xs font-semibold uppercase tracking-[0.14em] text-on-background dark:text-on-background">
                 {article.authorDetails?.name || 'Observatory Scholar'}
               </p>
-              <p className="font-technical-ui text-[10px] uppercase tracking-[0.24em] text-on-surface-variant dark:text-on-background/45">
+              <p className="font-technical-ui text-[9px] sm:text-[10px] uppercase tracking-[0.24em] text-on-surface-variant dark:text-on-background/45">
                 National Legal Observatory Research Desk
               </p>
             </div>

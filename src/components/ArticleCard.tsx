@@ -21,10 +21,10 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
   const actionLabel = article.format === 'monthly-report' ? 'Open Issue' : 'Read Article';
 
   return (
-    <article className="group border-b border-outline-variant/35 pb-10 transition-colors last:border-b-0 dark:border-primary/15">
+    <article className="group border border-outline-variant/30 bg-surface-container-lowest p-5 transition-colors dark:border-primary/15 dark:bg-surface-container sm:p-8">
       <div>
         {/* Top Header Row */}
-        <div className="mb-4 flex flex-wrap items-center gap-4 font-technical-ui text-xs text-on-surface-variant dark:text-on-background/50">
+        <div className="mb-4 flex flex-wrap items-center gap-3 font-technical-ui text-xs text-on-surface-variant dark:text-on-background/50">
           <span className="bg-oxblood/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-oxblood dark:bg-primary/10 dark:text-primary">
             {article.type}
           </span>
@@ -36,7 +36,7 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
 
         {/* Title */}
         <h3 
-          className="mt-1 font-serif text-3xl font-semibold leading-tight text-on-background transition-colors group-hover:text-oxblood dark:text-on-background dark:group-hover:text-primary sm:text-4xl"
+          className="mt-1 font-serif text-2xl font-semibold leading-snug text-on-background transition-colors group-hover:text-oxblood dark:text-on-background dark:group-hover:text-primary sm:text-3xl lg:text-4xl"
           style={{ viewTransitionName: `article-title-${article.slug}` } as React.CSSProperties}
         >
           <Link href={articleUrl} className="focus:outline-none">
@@ -45,12 +45,12 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
         </h3>
 
         {/* Abstract / Summary */}
-        <p className="mt-4 font-body-md text-base leading-8 text-on-surface-variant line-clamp-3 dark:text-on-background/70 sm:text-lg">
+        <p className="mt-4 font-body-md text-sm leading-7 text-on-surface-variant line-clamp-3 dark:text-on-background/70 sm:text-base sm:leading-8">
           {article.abstract || article.caseSummary || article.policyOverview || 'Click to read full legal publication, including case summaries, legislative objectives, references, and citations.'}
         </p>
 
         {/* Categories / Tags badges */}
-        <div className="mt-5 flex flex-wrap gap-1.5">
+        <div className="mt-4 flex flex-wrap gap-1.5">
           {article.categories.map((cat) => (
             <span key={cat} className="border border-outline-variant/65 px-2 py-0.5 font-technical-ui text-[10px] font-semibold uppercase tracking-[0.12em] text-on-surface-variant dark:border-primary/20 dark:text-on-background/45">
               #{cat.replace('-', ' ')}
@@ -60,13 +60,13 @@ export default function ArticleCard({ article, searchTerm }: { article: ArticleD
       </div>
 
         {/* Footer Info Row */}
-      <div className="mt-7 space-y-3 border-t border-outline-variant/30 pt-5 dark:border-primary/15">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-6 space-y-3 border-t border-outline-variant/30 pt-4 dark:border-primary/15">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center flex-wrap gap-x-3 gap-y-1 font-technical-ui text-xs">
             <Avatar
               src={article.authorDetails?.avatar}
               alt={article.authorDetails?.name || 'Author'}
-              className="h-8 w-8 rounded-full border border-outline-variant object-cover grayscale dark:border-primary/25"
+              className="h-7 w-7 rounded-full border border-outline-variant object-cover grayscale dark:border-primary/25"
             />
             <AuthorLink
               slug={article.author}
