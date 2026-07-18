@@ -1,4 +1,4 @@
-import { google } from '@ai-sdk/google';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { streamText } from 'ai';
 import { NextResponse } from 'next/server';
 
@@ -9,8 +9,16 @@ export async function POST(req: Request) {
   try {
     const { messages } = await req.json();
 
+    const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY;
+
+    if (!apiKey) {
+      return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
+    }
+
+    const google = createGoogleGenerativeAI({ apiKey });
+
     const result = streamText({
-      model: google('gemini-2.5-flash'),
+      model: google('gemini-3.5-flash'),
       messages,
       system: `You are a helpful legal and general assistant for the National Legal Observatory.
 You help users understand legal documents, cases, procedures, and research published on the observatory.
